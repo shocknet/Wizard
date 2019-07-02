@@ -1,0 +1,62 @@
+/* eslint-disable jsx-a11y/label-has-for */
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import React, { Component } from 'react';
+import localForage from 'localforage';
+import styles from './css/index.css';
+
+export default class LndTypeStep extends Component {
+  state = {
+    networkType: 'testnet'
+  };
+
+  setOption = (key, value) => {
+    return localForage.setItem(key, value);
+  };
+
+  componentWillUnmount = () => {
+    this.setOption('networkType', this.state.networkType);
+  };
+
+  render() {
+    return (
+      <div className={styles.container}>
+        <div className={styles.wizardStepContainer}>
+          <div className={styles.lndTypeContainer}>
+            <p className={styles.stepTitle}>BITCOIN NETWORK TYPE</p>
+            <p
+              className={styles.stepDescription}
+              style={{
+                textAlign: 'left'
+              }}
+            >
+              Which network do you want your LND to run on?
+            </p>
+            <div className={styles.stepChoices}>
+              <label className={styles.stepChoice}>
+                <input
+                  type="radio"
+                  name="lnd-type"
+                  value="testnet"
+                  checked
+                  onChange={e => this.setOption('networkType', e.target.value)}
+                />
+                <span className={styles.checkmark} />
+                Testnet
+              </label>
+              <label className={styles.stepChoice}>
+                <input
+                  type="radio"
+                  name="lnd-type"
+                  value="mainnet"
+                  onChange={e => this.setOption('networkType', e.target.value)}
+                />
+                <span className={styles.checkmark} />
+                Mainnet
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
