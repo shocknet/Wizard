@@ -10,6 +10,10 @@ export default class LndTypeStep extends Component {
   };
 
   setOption = (key, value) => {
+    this.setState({
+      [key]: value
+    });
+    console.log(key, value);
     return localForage.setItem(key, value);
   };
 
@@ -18,6 +22,7 @@ export default class LndTypeStep extends Component {
   };
 
   render() {
+    const { lndType } = this.state;
     return (
       <div className={styles.container}>
         <div className={styles.wizardStepContainer}>
@@ -38,12 +43,24 @@ export default class LndTypeStep extends Component {
             </p>
             <div className={styles.stepChoices}>
               <label className={styles.stepChoice}>
-                <input type="radio" name="lnd-type" value="neutrino" checked />
+                <input
+                  type="radio"
+                  name="lnd-type"
+                  value="neutrino"
+                  onChange={e => this.setOption('lndType', e.target.value)}
+                  checked={lndType === 'neutrino'}
+                />
                 <span className={styles.checkmark} />
                 Neutrino
               </label>
               <label className={styles.stepChoice}>
-                <input type="radio" name="lnd-type" value="bitcoinCore" />
+                <input
+                  type="radio"
+                  name="lnd-type"
+                  value="bitcoind"
+                  onChange={e => this.setOption('lndType', e.target.value)}
+                  checked={lndType === 'bitcoind'}
+                />
                 <span className={styles.checkmark} />
                 Bitcoin Core
               </label>

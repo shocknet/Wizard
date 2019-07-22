@@ -172,3 +172,39 @@
 .stepControlsBar .controlsBtn i {
   font-size: 22px;
 }
+
+.stepInput {
+  width: 80%;
+  border: 0;
+  color: white;
+  background-color: transparent;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  font-family: Montserrat;
+}
+
+.stepInputContainer {
+  display: flex;
+  margin-top: 15px;
+  width: 80%;
+  margin: auto;
+  margin-top: 15px;
+  padding: 7px 10px;
+  border: 0;
+  border-radius: 100px;
+  background-color: #1f2f4c;
+  color: white;
+  font-family: Montserrat;
+}
+
+.chooseFolderBtn {
+  font-size: 10px;
+  font-weight: bold;
+  padding: 7px 15px;
+  border-radius: 100px;
+  background-color: #f5a623;
+  text-transform: uppercase;
+  flex-shrink: 0;
+  margin-left: 10px;
+}

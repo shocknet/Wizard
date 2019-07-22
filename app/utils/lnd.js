@@ -1,9 +1,12 @@
 import fs from 'fs';
 import path from 'path';
+import os from 'os';
 import { spawn } from 'child_process';
 import localForage from 'localforage';
-import { ipcRenderer, remote } from 'electron';
+import { ipcRenderer } from 'electron';
+import server from 'sw-server';
 import Downloader from './downloader';
+import { getFolderPath, getDataDir } from './os';
 
 const regexExpressions = {
   blockHeightLength: {
@@ -25,7 +28,7 @@ const regexExpressions = {
     phrases: ['Fully caught up with cfheaders at height'],
     key: 'downloadedBlocks',
     value: async () => {
-      return await localForage.getItem('downloadedBlockHeightsLength');
+      return localForage.getItem('downloadedBlockHeightsLength');
     }
   },
   walletLocked: {
@@ -40,20 +43,24 @@ const regexExpressions = {
   }
 };
 
+let child = null;
+
+const getLndDirectory = () => {
+  const platform = os.platform();
+  const homeDir = os.homedir();
+  if (platform == 'darwin') {
+    return homeDir + '/Library/Application Support/Lnd';
+  } else {
+    return path.resolve(process.env.APPDATA, '../Local/Lnd'); //Windows not impplemented yet
+  }
+};
+
+const lndDirectory = getLndDirectory();
+
 const download = async ({ version, os }) => {
+  const folderPath = await getFolderPath();
   const fileName = `lnd-${os}-amd64-${version}.zip`;
-  if (
-    !fs.existsSync(
-      path.resolve(
-        remote.process.execPath
-          .split('/')
-          .slice(0, -1)
-          .join('/'),
-        'executables',
-        'lnd'
-      )
-    )
-  ) {
+  if (!fs.existsSync(path.resolve(folderPath, 'lnd'))) {
     await Downloader.downloadRelease({
       version,
       user: 'lightningnetwork',
@@ -102,6 +109,7 @@ const incrementStatus = async (key, value) => {
 };
 
 const processLine = async line => {
+  console.log(line);
   const matches = await Promise.all(
     Object.entries(regexExpressions).map(async ([key, conditions]) => {
       const downloadedBlockHeightsLength = await localForage.getItem(
@@ -140,75 +148,88 @@ const processLine = async line => {
             (value, replaceValue) => value.replace(replaceValue, ''),
             matchedRegex[0]
           );
-          await setStatus(conditions.key, parseInt(value));
+          await setStatus(conditions.key, parseInt(value, 10));
           if (
             key === 'currentHeight' &&
             downloadedBlockHeightsLength === value
           ) {
             const walletUnlocked = await localForage.getItem('walletUnlocked');
+            // eslint-disable-next-line no-new
             new Notification('LND is synced up!', {
-              body:
-                'The LND instance is fully synced up with the bitcoin network!' +
-                (walletUnlocked
+              body: `The LND instance is fully synced up with the bitcoin network! ${
+                walletUnlocked
                   ? ''
-                  : ' Please unlock your wallet to interact with it')
+                  : 'Please unlock your wallet to interact with it'
+              }`
             });
           }
           return { key: conditions.key, value };
-        } else {
-          return false;
         }
-      } else if (conditions.value) {
+        return false;
+      }
+
+      if (conditions.value) {
         const value = await conditions.value();
         await setStatus(conditions.key, value);
         if (key === 'syncedBlocks') {
           console.log('syncedBlocks!!');
           const walletUnlocked = await localForage.getItem('walletUnlocked');
+          // eslint-disable-next-line no-new
           new Notification('LND is synced up!', {
-            body:
-              'The LND instance is fully synced up with the bitcoin network!' +
-              (walletUnlocked
+            body: `The LND instance is fully synced up with the bitcoin network! ${
+              walletUnlocked
                 ? ''
-                : ' Please unlock your wallet to interact with it')
+                : 'Please unlock your wallet to interact with it'
+            }`
           });
+          const nodeAPIEnabled = await localForage.getItem('nodeAPI');
+          if (nodeAPIEnabled && walletUnlocked) {
+            server({
+              serverhost: '0.0.0.0',
+              lndCertPath: lndDirectory + '/tls.cert'
+            });
+          }
         } else if (key === 'walletUnlocked') {
           const downloadedBlocks = await localForage.getItem(
             'downloadedBlocks'
           );
+          // eslint-disable-next-line no-new
           new Notification('Wallet is successfully unlocked!', {
-            body:
-              'The LND instance is now unlocked!' +
-              (downloadedBlocks >= downloadedBlockHeightsLength
+            body: `The LND instance is now unlocked! ${
+              downloadedBlocks >= downloadedBlockHeightsLength
                 ? ''
-                : ' Please wait until the LND instance fully syncs up')
+                : 'Please wait until the LND instance fully syncs up'
+            }`
           });
+          const nodeAPIEnabled = await localForage.getItem('nodeAPI');
+          if (downloadedBlocks >= downloadedBlockHeightsLength) {
+            server({
+              serverhost: '0.0.0.0',
+              lndCertPath: lndDirectory + '/tls.cert'
+            });
+          }
         }
         return { key: conditions.key, value };
       }
     })
   );
-
-  console.log(matches.filter(value => value !== false), line);
 };
 
 const start = async () => {
-  const lndExe = path.resolve(
-    remote.process.execPath
-      .split('/')
-      .slice(0, -1)
-      .join('/'),
-    'executables',
-    'lnd',
-    'lnd.exe'
-  );
+  const folderPath = await getFolderPath();
+  const lndExe = path.resolve(folderPath, 'lnd', 'lnd.exe');
   const networkType = await localForage.getItem('networkType');
-  const child = spawn(lndExe, [
+  const networkUrl = await localForage.getItem('networkUrl');
+  const lndType = await localForage.getItem('lndType');
+  child = spawn(lndExe, [
     '--bitcoin.active',
-    `--bitcoin.${networkType ? networkType : 'testnet'}`,
+    `--bitcoin.${networkType || 'testnet'}`,
     '--debuglevel=info',
-    '--bitcoin.node=neutrino',
-    '--neutrino.connect=faucet.lightning.community'
+    `--bitcoin.node=${lndType || 'neutrino'}`,
+    `--neutrino.connect=${networkUrl}`,
+    `--datadir=${await getDataDir()}`
   ]);
+  ipcRenderer.send('lndPID', child.pid);
   child.stdout.on('data', data => {
     const line = data.toString();
     processLine(line);
@@ -216,13 +237,21 @@ const start = async () => {
   child.stderr.on('data', data => {
     console.error(data.toString());
     const error = data.toString().split(':');
+    // eslint-disable-next-line no-new
     new Notification('LND Error', {
-      body: error.slice(1, error.length).join(':')
+      body: error.length > 1 ? error.slice(1, error.length).join(':') : error[0]
     });
   });
 };
 
+const terminate = () => {
+  if (child) {
+    child.kill();
+  }
+};
+
 export default {
   download,
-  start
+  start,
+  terminate
 };

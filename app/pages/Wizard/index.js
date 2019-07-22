@@ -1,32 +1,88 @@
 import React, { Component } from 'react';
-import { remote } from 'electron';
+import { remote, ipcRenderer } from 'electron';
 import localForage from 'localforage';
 import { Link } from 'react-router-dom';
 import AutoLaunch from 'auto-launch';
+import server from 'sw-server';
 
 import { getUserPlatform } from '../../utils/os';
 import routes from '../../constants/routes';
 import { TARGET_LND_VERSION } from '../../constants/lnd';
 import IntroStep from './IntroStep';
+import InstallLocationStep from './InstallLocationStep';
 import LndTypeStep from './LndTypeStep';
 import NetworkStep from './NetworkStep';
+import NetworkURLStep from './NetworkURLStep';
 import AutoLaunchStep from './AutoLaunchStep';
 import Lnd from '../../utils/lnd';
+import Bitcoind from '../../utils/bitcoind';
 import styles from './css/index.css';
+import NodeAPIStep from './NodeAPIStep';
 
 export default class Home extends Component {
   state = {
     step: 1,
-    maxStep: 4
+    maxStep: 7
   };
 
   componentDidMount = async () => {
+    ipcRenderer.on('lnd-start', () => {
+      console.log('lnd-start');
+      this.runLnd();
+    });
+
+    ipcRenderer.on('bitcoind-start', () => {
+      console.log('bitcoind-start');
+      this.runBitcoind();
+    });
+
+    console.log(server);
+
+    ipcRenderer.on('lnd-terminate', (event, pid) => {
+      console.log('lnd-terminate', event, pid);
+      Lnd.terminate();
+    });
+
+    ipcRenderer.on('bitcoind-terminate', (event, pid) => {
+      console.log('bitcoind-terminate', event, pid);
+      Bitcoind.terminate();
+    });
+
+    ipcRenderer.on('restart-setup', async () => {
+      localForage.setItem('setupCompleted', false);
+      this.setState({
+        step: 1
+      });
+    });
+
     const setupCompleted = await localForage.getItem('setupCompleted');
     if (setupCompleted) {
       await this.runLnd();
+      await this.runBitcoind();
     } else {
       remote.BrowserWindow.getAllWindows().map(window => window.show());
     }
+  };
+
+  componentWillUnmount = () => {
+    ipcRenderer.off('lnd-start', () => {
+      console.log('Unmounted');
+    });
+
+    ipcRenderer.off('bitcoind-start', () => {
+      console.log('Unmounted');
+    });
+
+    ipcRenderer.off('lnd-terminate', (event, pid) => {
+      console.log('Unmounted');
+    });
+
+    ipcRenderer.off('bitcoind-terminate', (event, pid) => {
+      console.log('Unmounted');
+    });
+
+    Lnd.terminate();
+    Bitcoind.terminate();
   };
 
   runLnd = async () => {
@@ -56,6 +112,23 @@ export default class Home extends Component {
     return true;
   };
 
+  runBitcoind = async () => {
+    const setupCompleted = await localForage.getItem('setupCompleted');
+    const autoStartup = await localForage.getItem('autoStartup');
+    const lndType = await localForage.getItem('lndType');
+    if (setupCompleted && lndType === 'bitcoind') {
+      await Bitcoind.download({
+        version: '0.18.0',
+        os: getUserPlatform(true)
+      });
+      await Bitcoind.start();
+      this.setState({
+        step: 1
+      });
+    }
+    return true;
+  };
+
   nextStep = async () => {
     const { step, maxStep } = this.state;
     if (step === maxStep) {
@@ -66,6 +139,7 @@ export default class Home extends Component {
       });
       await localForage.setItem('setupCompleted', true);
       await this.runLnd();
+      await this.runBitcoind();
     } else {
       this.setState({
         step: step + 1
@@ -90,9 +164,15 @@ export default class Home extends Component {
         {step === 1 ? (
           <IntroStep />
         ) : step === 2 ? (
-          <LndTypeStep />
+          <InstallLocationStep />
         ) : step === 3 ? (
+          <LndTypeStep />
+        ) : step === 4 ? (
           <NetworkStep />
+        ) : step === 5 ? (
+          <NetworkURLStep />
+        ) : step === 6 ? (
+          <NodeAPIStep />
         ) : (
           <AutoLaunchStep />
         )}

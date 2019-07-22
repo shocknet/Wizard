@@ -1,11 +1,129 @@
 // @flow
-import { app, Menu, shell, BrowserWindow } from 'electron';
+import {
+  app,
+  Menu,
+  shell,
+  BrowserWindow,
+  ipcMain,
+  Notification
+} from 'electron';
+import localForage from 'localforage';
+import internalIP from 'internal-ip';
+import publicIP from 'public-ip';
+import ps from 'ps-node';
+import lnd from './utils/lnd';
 
 export default class MenuBuilder {
   mainWindow: BrowserWindow;
 
   constructor(mainWindow: BrowserWindow) {
     this.mainWindow = mainWindow;
+    this.contextMenu = [];
+    this.progress = null;
+    this.status = null;
+    this.getUserIP();
+    ipcMain.on('lndPID', (event, pid) => {
+      console.log('LND PID:', pid);
+      this.lndPID = pid;
+    });
+  }
+
+  async getUserIP() {
+    this.externalIP = await publicIP.v4();
+    this.internalIP = await internalIP.v4();
+  }
+
+  buildContextMenu({
+    progress = this.progress,
+    status = this.status,
+    bitcoindStatus = this.bitcoindStatus
+  } = {}) {
+    if (progress) {
+      this.progress = progress;
+    } else if (progress === 100) {
+      this.progress = null;
+    }
+    this.status = status;
+    this.bitcoindStatus = bitcoindStatus;
+    return Menu.buildFromTemplate(
+      [
+        this.internalIP
+          ? {
+              label: `Internal IP: ${this.internalIP}`,
+              enabled: false
+            }
+          : null,
+        this.externalIP
+          ? {
+              label: `External IP: ${this.externalIP}`,
+              enabled: false
+            }
+          : null,
+        status
+          ? {
+              label: status,
+              enabled: false
+            }
+          : null,
+        bitcoindStatus
+          ? {
+              label: bitcoindStatus,
+              enabled: false
+            }
+          : null,
+        progress !== null
+          ? {
+              label: `Downloading LND: ${progress}%`,
+              enabled: false
+            }
+          : null,
+        {
+          label: 'Reminder: Setup firewall/forwarding for ShockWizard',
+          enabled: false
+        },
+        {
+          label: 'Re-run LND Setup',
+          click: async () => {
+            await this.mainWindow.webContents.send(
+              'lnd-terminate',
+              this.lndPID
+            );
+            await this.mainWindow.webContents.send('bitcoind-terminate');
+            await this.mainWindow.webContents.send('restart-setup');
+            this.mainWindow.show();
+            this.mainWindow.focus();
+          }
+        },
+        this.lndPID
+          ? {
+              label: 'Restart Services',
+              click: async () => {
+                await this.mainWindow.webContents.send(
+                  'lnd-terminate',
+                  this.lndPID
+                );
+                this.lndPID = null;
+                await this.mainWindow.webContents.send('lnd-start');
+                console.log({
+                  title: 'Services Restarted',
+                  body: 'LND has been restarted successfully!'
+                });
+                // eslint-disable-next-line no-new
+                new Notification({
+                  title: 'Services Restarted',
+                  body: 'LND has been restarted successfully!'
+                });
+              }
+            }
+          : null,
+        {
+          label: 'Quit',
+          click: () => {
+            app.quit();
+          }
+        }
+      ].filter(item => !!item)
+    );
   }
 
   buildMenu() {

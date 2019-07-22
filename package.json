@@ -1,7 +1,7 @@
 {
   "name": "lnd-wizard",
   "productName": "ShockWallet LND Wizard",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Setup LND automatically!",
   "scripts": {
     "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
@@ -21,7 +21,7 @@
     "package-ci": "yarn postinstall && yarn build && electron-builder --publish always",
     "package-linux": "yarn build && electron-builder build --linux",
     "package-win": "yarn build && electron-builder build --win --x64",
-    "postinstall": "yarn flow-typed && electron-builder install-app-deps package.json && yarn build-dll && opencollective-postinstall",
+    "postinstall": "yarn flow-typed && electron-builder install-app-deps package.json && yarn build-dll",
     "postlint-fix": "prettier --ignore-path .eslintignore --single-quote --write '**/*.{*{js,jsx,json},babelrc,eslintrc,prettierrc,stylelintrc}'",
     "postlint-styles-fix": "prettier --ignore-path .eslintignore --single-quote --write '**/*.{css,scss}'",
     "prestart": "yarn build",
@@ -196,7 +196,6 @@
     "jest": "^23.6.0",
     "lint-staged": "^8.1.0",
     "mini-css-extract-plugin": "^0.4.4",
-    "opencollective-postinstall": "^2.0.1",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "prettier": "^1.15.2",
     "react-test-renderer": "^16.6.3",
@@ -234,7 +233,11 @@
     "electron-updater": "^3.2.3",
     "fs-extra": "^8.1.0",
     "history": "^4.7.2",
+    "internal-ip": "^4.3.0",
     "localforage": "^1.7.3",
+    "ps": "^1.0.0",
+    "ps-node": "^0.1.6",
+    "public-ip": "^3.1.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-hot-loader": "^4.3.12",
@@ -244,15 +247,13 @@
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "source-map-support": "^0.5.9",
+    "sw-server": "jhizzle84/api#feature/wizard_changes",
     "unzip": "^0.1.11"
   },
   "devEngines": {
     "node": ">=7.x",
     "npm": ">=4.x",
     "yarn": ">=0.21.3"
-  },
-  "collective": {
-    "url": "https://opencollective.com/electron-react-boilerplate-594"
   },
   "browserslist": "electron 1.6"
 }

@@ -11,7 +11,6 @@
  * @flow
  */
 import { app, BrowserWindow, Tray, Menu, ipcMain } from 'electron';
-import localForage from 'localforage';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
@@ -55,13 +54,21 @@ const getLndStatus = data => {
     data.downloadedBlocks !== data.downloadedBlockHeightsLength &&
     data.downloadedBlockHeightsLength !== 0
   ) {
-    return `${Math.trunc(
-      (data.downloadedBlockHeightsLength / data.downloadedBlocks) * 100
-    )}% Blocks Processed`;
-  } else if (!data.walletUnlocked) {
+    const downloadProgress = Math.trunc(
+      (data.downloadedBlocks / data.downloadedBlockHeightsLength) * 100
+    );
+    return `LND: ${downloadProgress}% Blocks Processed`;
+  }
+  if (!data.walletUnlocked) {
     return 'LND wallet locked, please unlock it with `lncli unlock`';
-  } else {
-    return 'LND wallet is unlocked and fully synced up with the network!';
+  }
+
+  return 'LND wallet is unlocked and fully synced up with the network!';
+};
+
+const getBitcoindStatus = data => {
+  if (data.bitcoind_progress > 0) {
+    return `Bitcoind: ${data.bitcoind_progress}% Blocks Synced`;
   }
 };
 
@@ -89,72 +96,6 @@ app.on('ready', async () => {
 
   tray = new Tray(path.join(__dirname, 'img/app.png'));
 
-  tray.setContextMenu(
-    Menu.buildFromTemplate([
-      {
-        label: 'Re-run LND Setup',
-        click: () => {
-          mainWindow.show();
-          mainWindow.focus();
-        }
-      },
-      {
-        label: 'Quit',
-        click: () => {
-          app.quit();
-        }
-      }
-    ])
-  );
-
-  ipcMain.on('statusUpdate', async (event, data) => {
-    tray.setContextMenu(
-      Menu.buildFromTemplate([
-        {
-          label: getLndStatus(data),
-          enabled: false
-        },
-        {
-          label: 'Re-run LND Setup',
-          click: () => {
-            mainWindow.show();
-            mainWindow.focus();
-          }
-        },
-        {
-          label: 'Quit',
-          click: () => {
-            app.quit();
-          }
-        }
-      ])
-    );
-  });
-
-  ipcMain.on('lndProgress', (event, data) => {
-    tray.setContextMenu(
-      Menu.buildFromTemplate([
-        {
-          label: `Downloading LND: ${data}%`,
-          enabled: false
-        },
-        {
-          label: 'Re-run LND Setup',
-          click: () => {
-            mainWindow.show();
-            mainWindow.focus();
-          }
-        },
-        {
-          label: 'Quit',
-          click: () => {
-            app.quit();
-          }
-        }
-      ])
-    );
-  });
-
   mainWindow = new BrowserWindow({
     show: false,
     width: 800,
@@ -170,13 +111,12 @@ app.on('ready', async () => {
     if (!mainWindow) {
       throw new Error('"mainWindow" is not defined');
     }
-    const setupCompleted = await localForage.getItem('setupCompleted');
-    if (setupCompleted) {
-      mainWindow.hide();
-    } else {
-      mainWindow.show();
-      mainWindow.focus();
-    }
+    // if (setupCompleted) {
+    //   mainWindow.hide();
+    // } else {
+    //   mainWindow.show();
+    //   mainWindow.focus();
+    // }
   });
 
   mainWindow.on('closed', () => {
@@ -185,6 +125,24 @@ app.on('ready', async () => {
 
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
+
+  tray.setContextMenu(menuBuilder.buildContextMenu());
+
+  ipcMain.on('statusUpdate', async (event, data) => {
+    tray.setContextMenu(
+      menuBuilder.buildContextMenu({ status: getLndStatus(data) })
+    );
+  });
+
+  ipcMain.on('bitcoindStatusUpdate', async (event, data) => {
+    tray.setContextMenu(
+      menuBuilder.buildContextMenu({ bitcoindStatus: getBitcoindStatus(data) })
+    );
+  });
+
+  ipcMain.on('lndProgress', (event, data) => {
+    tray.setContextMenu(menuBuilder.buildContextMenu({ progress: data }));
+  });
 
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
