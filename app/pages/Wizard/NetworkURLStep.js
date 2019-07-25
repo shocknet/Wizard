@@ -7,12 +7,16 @@ import styles from './css/index.css';
 
 export default class NetworkURLStep extends Component {
   state = {
-    networkUrl: 'neutrino.shock.network'
+    networkUrl: ''
   };
 
-  componentDidMount = () => {
-    const { networkUrl } = this.state;
-    this.setOption('networkUrl', networkUrl);
+  componentDidMount = async () => {
+    const networkType = await localForage.getItem('networkType');
+    if (networkType === 'testnet') {
+      this.setOption('networkUrl', 'faucet.lightning.community');
+    } else {
+      this.setOption('networkUrl', 'neutrino.shock.network');
+    }
   };
 
   setOption = (key, value) => {

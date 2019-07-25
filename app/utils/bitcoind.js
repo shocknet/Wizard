@@ -69,7 +69,6 @@ const incrementStatus = async (key, value) => {
 };
 
 const processLine = async line => {
-  console.log(line);
   const matches = await Promise.all(
     Object.entries(regexExpressions).map(async ([key, conditions]) => {
       const downloadedBlockHeightsLength = await localForage.getItem(
@@ -102,7 +101,6 @@ const processLine = async line => {
         const value = await conditions.value();
         await setStatus(conditions.key, value);
         if (key === 'syncedBlocks') {
-          console.log('syncedBlocks!!');
           const walletUnlocked = await localForage.getItem(
             'bitcoind_walletUnlocked'
           );
@@ -143,13 +141,19 @@ const start = async () => {
   );
   const dataDir = path.resolve(folderPath, 'bitcoind', 'data');
   const lndType = await localForage.getItem('lndType');
+  const rpcUser = await localForage.getItem('rpcUser');
+  const rpcPass = await localForage.getItem('rpcPass');
   if (lndType !== 'bitcoind') {
     return;
   }
   if (!fs.existsSync(dataDir)) {
     fs.mkdirSync(dataDir, { recursive: true });
   }
-  child = spawn(bitcoindExe, [`--datadir=${dataDir}`]);
+  child = spawn(bitcoindExe, [
+    `--datadir=${dataDir}`,
+    `--rpcuser=${rpcUser}`,
+    `--rpcpassword=${rpcPass}`
+  ]);
   ipcRenderer.send('bitcoindPID', child.pid);
   child.stdout.on('data', data => {
     const line = data.toString();

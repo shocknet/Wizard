@@ -43,14 +43,15 @@ export default class InstallLocationStep extends Component {
       <div className={styles.container}>
         <div className={styles.wizardStepContainer}>
           <div className={styles.lndTypeContainer}>
-            <p className={styles.stepTitle}>BITCOIN NETWORK TYPE</p>
+            <p className={styles.stepTitle}>BITCOIN DATA LOCATION</p>
             <p
               className={styles.stepDescription}
               style={{
                 textAlign: 'left'
               }}
             >
-              Please specify the network url you wish to run the lnd wizard on:
+              Please specify the folder which you would like to download/process
+              the bitcoin chaindata on (leave blank to install on default path):
             </p>
             <div className={styles.stepInputContainer}>
               <input

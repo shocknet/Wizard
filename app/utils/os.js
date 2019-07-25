@@ -38,11 +38,11 @@ export const getDataDir = async () => {
   if (lndType === 'bitcoind') {
     const dataDir = path.resolve(folderPath, 'bitcoind', 'data');
     return dataDir;
-  } else {
-    const dataDir = path.resolve(folderPath, 'lnd', 'data');
-    if (!fs.existsSync(dataDir)) {
-      fs.mkdirSync(dataDir, { recursive: true });
-    }
-    return dataDir;
   }
+
+  const dataDir = path.resolve(folderPath, 'lnd', 'data');
+  if (!fs.existsSync(dataDir)) {
+    fs.mkdirSync(dataDir, { recursive: true });
+  }
+  return dataDir;
 };

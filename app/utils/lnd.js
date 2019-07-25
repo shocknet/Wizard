@@ -109,7 +109,6 @@ const incrementStatus = async (key, value) => {
 };
 
 const processLine = async line => {
-  console.log(line);
   const matches = await Promise.all(
     Object.entries(regexExpressions).map(async ([key, conditions]) => {
       const downloadedBlockHeightsLength = await localForage.getItem(
@@ -133,7 +132,6 @@ const processLine = async line => {
             downloadedBlocks,
             downloadedBlockHeightsLength
           );
-          console.log(`${downloadedBlocks}/${downloadedBlockHeightsLength}`);
           if (!matched) {
             return false;
           }
@@ -172,7 +170,6 @@ const processLine = async line => {
         const value = await conditions.value();
         await setStatus(conditions.key, value);
         if (key === 'syncedBlocks') {
-          console.log('syncedBlocks!!');
           const walletUnlocked = await localForage.getItem('walletUnlocked');
           // eslint-disable-next-line no-new
           new Notification('LND is synced up!', {
@@ -220,14 +217,20 @@ const start = async () => {
   const lndExe = path.resolve(folderPath, 'lnd', 'lnd.exe');
   const networkType = await localForage.getItem('networkType');
   const networkUrl = await localForage.getItem('networkUrl');
-  const lndType = await localForage.getItem('lndType');
+  const rpcUser = await localForage.getItem('rpcUser');
+  const rpcPass = await localForage.getItem('rpcPass');
+  const lndType = (await localForage.getItem('lndType')) || 'neutrino';
+  const dataDir = await getDataDir();
   child = spawn(lndExe, [
     '--bitcoin.active',
     `--bitcoin.${networkType || 'testnet'}`,
     '--debuglevel=info',
-    `--bitcoin.node=${lndType || 'neutrino'}`,
-    `--neutrino.connect=${networkUrl}`,
-    `--datadir=${await getDataDir()}`
+    `--bitcoin.node=${lndType}`,
+    lndType === 'neutrino'
+      ? `--neutrino.connect=${networkUrl}`
+      : `bitcoin.rpcuser=${rpcUser} --bitcoin.rpcpass=${rpcPass}`,
+    `--datadir=${dataDir}`,
+    lndType === 'bitcoind' ? `--bitcoind.dir=${dataDir}` : null
   ]);
   ipcRenderer.send('lndPID', child.pid);
   child.stdout.on('data', data => {

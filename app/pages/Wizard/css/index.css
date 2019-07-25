@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 .container {
   width: 100%;
   height: calc(100vh - 30px);
@@ -187,7 +191,7 @@
 .stepInputContainer {
   display: flex;
   margin-top: 15px;
-  width: 80%;
+  width: 60%;
   margin: auto;
   margin-top: 15px;
   padding: 7px 10px;
@@ -207,4 +211,5 @@
   text-transform: uppercase;
   flex-shrink: 0;
   margin-left: 10px;
+  cursor: pointer;
 }

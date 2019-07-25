@@ -6,10 +6,18 @@ import styles from './css/index.css';
 
 export default class LndTypeStep extends Component {
   state = {
-    networkType: 'testnet'
+    networkType: ''
+  };
+
+  componentDidMount = async () => {
+    const networkType = await localForage.getItem('networkType');
+    this.setOption('networkType', networkType);
   };
 
   setOption = (key, value) => {
+    this.setState({
+      [key]: value
+    });
     return localForage.setItem(key, value);
   };
 
@@ -18,6 +26,7 @@ export default class LndTypeStep extends Component {
   };
 
   render() {
+    const { networkType } = this.state;
     return (
       <div className={styles.container}>
         <div className={styles.wizardStepContainer}>
@@ -37,7 +46,7 @@ export default class LndTypeStep extends Component {
                   type="radio"
                   name="lnd-type"
                   value="testnet"
-                  checked
+                  checked={networkType === 'testnet'}
                   onChange={e => this.setOption('networkType', e.target.value)}
                 />
                 <span className={styles.checkmark} />
@@ -48,6 +57,7 @@ export default class LndTypeStep extends Component {
                   type="radio"
                   name="lnd-type"
                   value="mainnet"
+                  checked={networkType === 'mainnet'}
                   onChange={e => this.setOption('networkType', e.target.value)}
                 />
                 <span className={styles.checkmark} />

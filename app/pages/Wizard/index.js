@@ -13,16 +13,18 @@ import InstallLocationStep from './InstallLocationStep';
 import LndTypeStep from './LndTypeStep';
 import NetworkStep from './NetworkStep';
 import NetworkURLStep from './NetworkURLStep';
+import RPCStep from './RPCStep';
+import NodeAPIStep from './NodeAPIStep';
 import AutoLaunchStep from './AutoLaunchStep';
 import Lnd from '../../utils/lnd';
 import Bitcoind from '../../utils/bitcoind';
 import styles from './css/index.css';
-import NodeAPIStep from './NodeAPIStep';
 
 export default class Home extends Component {
   state = {
     step: 1,
-    maxStep: 7
+    maxStep: 7,
+    lndType: 'neutrino'
   };
 
   componentDidMount = async () => {
@@ -131,6 +133,7 @@ export default class Home extends Component {
 
   nextStep = async () => {
     const { step, maxStep } = this.state;
+    console.log('nextStep', step, step === 3);
     if (step === maxStep) {
       remote.BrowserWindow.getFocusedWindow().hide();
       new Notification('LND Server Setup', {
@@ -140,6 +143,14 @@ export default class Home extends Component {
       await localForage.setItem('setupCompleted', true);
       await this.runLnd();
       await this.runBitcoind();
+    } else if (step === 3) {
+      console.log(step);
+      const lndType = await localForage.getItem('lndType');
+      console.log('Lnd Type');
+      this.setState({
+        lndType,
+        step: step + 1
+      });
     } else {
       this.setState({
         step: step + 1
@@ -155,7 +166,7 @@ export default class Home extends Component {
   };
 
   render() {
-    const { step, maxStep } = this.state;
+    const { step, maxStep, lndType } = this.state;
     return (
       <div className={styles.container}>
         <p className={styles.shockLogo}>
@@ -169,8 +180,10 @@ export default class Home extends Component {
           <LndTypeStep />
         ) : step === 4 ? (
           <NetworkStep />
-        ) : step === 5 ? (
+        ) : step === 5 && lndType === 'neutrino' ? (
           <NetworkURLStep />
+        ) : step === 5 && lndType === 'bitcoind' ? (
+          <RPCStep />
         ) : step === 6 ? (
           <NodeAPIStep />
         ) : (
