@@ -55,14 +55,12 @@ export default class Home extends Component {
 
     ipcRenderer.on('restart-setup', async () => {
       localForage.setItem('setupCompleted', false);
-
       this.setState({
         step: 1
       });
     });
 
     const setupCompleted = await localForage.getItem('setupCompleted');
-
     if (setupCompleted) {
       await this.runLnd();
       await this.runBitcoind();
@@ -116,14 +114,12 @@ export default class Home extends Component {
         });
         const startupEnabled = await startup.isEnabled();
         console.log('Startup Enabled:', startupEnabled);
-
         if (!startupEnabled) {
           await startup.enable();
           console.log('Startup Enabled');
         }
       }
     }
-
     return true;
   };
 
@@ -131,19 +127,16 @@ export default class Home extends Component {
     const setupCompleted = await localForage.getItem('setupCompleted');
     const autoStartup = await localForage.getItem('autoStartup');
     const lndType = await localForage.getItem('lndType');
-
     if (setupCompleted && lndType === 'bitcoind') {
       await Bitcoind.download({
         version: '0.18.0',
         os: getUserPlatform(true)
       });
       await Bitcoind.start();
-
       this.setState({
         step: 1
       });
     }
-
     return true;
   };
 
@@ -165,7 +158,6 @@ export default class Home extends Component {
       console.log(step);
       const lndType = await localForage.getItem('lndType');
       console.log('Lnd Type');
-
       this.setState({
         lndType,
         step: step + 1
@@ -179,7 +171,6 @@ export default class Home extends Component {
 
   prevStep = () => {
     const { step } = this.state;
-
     this.setState({
       step: step - 1
     });
