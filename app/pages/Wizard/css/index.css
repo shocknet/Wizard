@@ -1,0 +1,313 @@
+* {
+  box-sizing: border-box;
+}
+
+.warning {
+  color: white;
+  font-weight: bold;
+  background-color: #ec3a3a;
+  display: block;
+  padding: 13px 65px;
+  border-radius: 10px;
+  width: 100%;
+
+  /* margin-top: 15px; */
+  position: fixed;
+  top: 100px;
+  border-radius: 0;
+  text-align: center;
+}
+
+.container {
+  width: 100%;
+  height: calc(100vh - 30px);
+}
+
+.wizardStepContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background-image: url("../../../img/wizard-bg.svg");
+  background-size: cover;
+}
+
+.wizardStepContainer a {
+  color: white;
+}
+
+.shockLogo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 30px;
+  padding: 15px;
+  width: 100%;
+  font-weight: 600;
+  font-size: 40px;
+  margin: 0;
+  color: #fefefe;
+  text-align: center;
+  background-color: #1F3D74;
+}
+
+.logo {
+  height: 40px;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.shockLogo .bold {
+  color: #f5a623;
+}
+
+.stepTitle {
+  font-weight: bold;
+  font-size: 23px;
+  text-align: center;
+  color: white;
+  margin-bottom: 0;
+  padding: 15px 10px;
+  margin-top: 0;
+  position: fixed;
+  top: 100px;
+  left: 0;
+  width: 100%;
+  background-color: #F5A623;
+}
+
+.divider {
+  border-color: #dadada;
+  width: 50%;
+  border-style: solid;
+}
+
+.stepDescription {
+  color: #ffffffa3;
+  width: 60%;
+  text-align: center;
+  margin: auto;
+  margin-bottom: 0;
+  margin-top: 10px;
+  font-weight: 500;
+}
+
+.stepChoices {
+  width: 60%;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.walletInfo {
+  display: flex;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.64);
+}
+
+.walletQRCode {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.QRCodeDesc {
+  margin-top: 0;
+  font-weight: bold;
+  opacity: 0.64;
+}
+
+/* Customize the label (the container) */
+.stepChoice {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  margin-bottom: 15px;
+  font-weight: 500;
+  color: #ffffffed;
+  cursor: pointer;
+  font-size: 16px;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.stepChoice input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.radioDesc {
+  margin: 0;
+  font-size: 13px;
+  opacity: 0.7;
+  margin-top: 5px;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: relative;
+  display: block;
+  flex-shrink: 0;
+  top: 0;
+  left: 0;
+  height: 22px;
+  width: 22px;
+  margin-right: 8px;
+  background-color: #0f1827;
+  border-radius: 50%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* On mouse-over, add a grey background color */
+.stepChoice:hover input~.checkmark {
+  background-color: #0f1827;
+}
+
+/* When the radio button is checked, add a blue background */
+.stepChoice input:checked~.checkmark {
+  background-color: #fff;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark::after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.stepChoice input:checked~.checkmark::after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.stepChoice .checkmark::after {
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: #F5A623;
+}
+
+.stepControlsBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px 30px;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.stepControlsBar .controlsBtn {
+  font-weight: bold;
+  padding: 0 30px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  border-radius: 50px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: #f5a623;
+  color: #efefef;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.stepControlsBar .controlsBtn.prev {
+  background-color: rgba(63, 169, 245, 1);
+  color: white;
+}
+
+.stepControlsBar .controlsBtn i {
+  font-size: 22px;
+}
+
+.stepInput {
+  width: 80%;
+  border: 0;
+  color: white;
+  background-color: transparent;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  font-family: Montserrat;
+}
+
+.stepInputContainer {
+  display: flex;
+  margin-top: 15px;
+  width: 60%;
+  margin: auto;
+  margin-top: 15px;
+  padding: 7px 10px;
+  border: 0;
+  border-radius: 100px;
+  background-color: #1F3D74;
+  color: white;
+  font-family: Montserrat;
+}
+
+.stepInputDesc {
+  opacity: 0.7;
+  width: 80%;
+  margin: auto;
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.chooseFolderBtn {
+  font-size: 10px;
+  font-weight: bold;
+  padding: 7px 15px;
+  border-radius: 100px;
+  background-color: #f5a623;
+  text-transform: uppercase;
+  flex-shrink: 0;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.controlsBtn.prev {
+  position: relative;
+  padding-left: 50px;
+}
+
+.controlsBtn.next {
+  position: relative;
+  padding-right: 50px;
+}
+
+.controlsBtn.prev i {
+  margin-right: 10px;
+  position: absolute;
+  left: 0;
+  padding: 6px 15px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 100px 0 0 100px;
+  top: 0;
+  height: 100%;
+}
+
+.controlsBtn.next i {
+  margin-left: 10px;
+
+  /* margin-right: 10px; */
+  position: absolute;
+  right: 0;
+  padding: 6px 15px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 0 100px 100px 0;
+  top: 0;
+  height: 100%;
+}
