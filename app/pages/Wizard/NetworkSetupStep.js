@@ -17,18 +17,19 @@ export default class LndTypeStep extends Component {
     this.setOption('externalIP', externalIP);
   };
 
-  setOption = (key, value) => {
-    this.setState({
-      [key]: value
-    });
-    return localForage.setItem(key, value);
-  };
-
   componentWillUnmount = () => {
     const { externalIP, walletPort, lightningPort } = this.state;
     this.setOption('externalIP', externalIP);
     this.setOption('walletPort', walletPort);
     this.setOption('lightningPort', lightningPort);
+  };
+
+  setOption = async (key, value) => {
+    await localForage.setItem(key, value);
+    console.log(key, value);
+    this.setState({
+      [key]: value
+    });
   };
 
   render() {

@@ -109,6 +109,12 @@ const incrementStatus = async (key, value) => {
 };
 
 const processLine = async line => {
+  // if (
+  //   process.env.NODE_ENV === 'development' ||
+  //   process.env.DEBUG_PROD === 'true'
+  // ) {
+  //   console.log(line);
+  // }
   const matches = await Promise.all(
     Object.entries(regexExpressions).map(async ([key, conditions]) => {
       const downloadedBlockHeightsLength = await localForage.getItem(
@@ -172,6 +178,7 @@ const processLine = async line => {
         if (key === 'syncedBlocks') {
           const walletUnlocked = await localForage.getItem('walletUnlocked');
           const networkType = await localForage.getItem('networkType');
+          const dataDir = await getDataDir();
           // eslint-disable-next-line no-new
           new Notification('LND is synced up!', {
             body: `The LND instance is fully synced up with the bitcoin network! ${
@@ -183,9 +190,12 @@ const processLine = async line => {
           const shockAPI = await server({
             serverhost: '0.0.0.0',
             lndCertPath: `${lndDirectory}/tls.cert`,
-            macaroonPath: `${lndDirectory}/data/chain/bitcoin/${networkType}/admin.macaroon`
+            macaroonPath: `${dataDir}/chain/bitcoin/${networkType}/admin.macaroon`
           });
-          console.log(shockAPI);
+          console.log(
+            'ShockAPI Macaroon Path:',
+            `${dataDir}/chain/bitcoin/${networkType}/admin.macaroon`
+          );
         } else if (key === 'walletUnlocked') {
           const downloadedBlocks = await localForage.getItem(
             'downloadedBlocks'
@@ -225,20 +235,15 @@ const start = async () => {
     `--bitcoin.${networkType || 'testnet'}`,
     '--debuglevel=info',
     `--bitcoin.node=${lndType}`,
-    lndType === 'neutrino'
-      ? `--neutrino.connect=${networkUrl}`
-      : `bitcoin.rpcuser=${rpcUser} --bitcoin.rpcpass=${rpcPass}`,
     `--datadir=${dataDir}`,
     ...(lndType === 'bitcoind'
       ? [
           `--bitcoind.dir=${dataDir}`,
           `--bitcoind.zmqpubrawtx=tcp://127.0.0.1:28333`,
           `--bitcoind.zmqpubrawblock=tcp://127.0.0.1:28332`,
-          `--bitcoind.rpchost=localhost`,
-          `--bitcoind.rpcuser=*whatevervalue*`,
-          `--bitcoind.rpcpass=*whatevervalue*`
+          `--bitcoind.rpchost=localhost`
         ]
-      : [])
+      : [`--neutrino.connect=${networkUrl}`])
   ]);
   ipcRenderer.send('lndPID', child.pid);
   child.stdout.on('data', data => {
@@ -257,7 +262,7 @@ const start = async () => {
 
 const terminate = () => {
   if (child) {
-    child.kill();
+    child.kill('SIGINT');
   }
 };
 

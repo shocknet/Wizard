@@ -19,15 +19,16 @@ export default class NetworkURLStep extends Component {
     }
   };
 
-  setOption = (key, value) => {
+  componentWillUnmount = () => {
+    this.setOption('networkUrl', this.state.networkUrl);
+  };
+
+  setOption = async (key, value) => {
+    await localForage.setItem(key, value);
+    console.log(key, value);
     this.setState({
       [key]: value
     });
-    return localForage.setItem(key, value);
-  };
-
-  componentWillUnmount = () => {
-    this.setOption('networkUrl', this.state.networkUrl);
   };
 
   render() {

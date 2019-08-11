@@ -10,19 +10,19 @@ export default class LndTypeStep extends Component {
   };
 
   componentDidMount = async () => {
-    const networkType = await localForage.getItem('networkType');
-    this.setOption('networkType', networkType);
-  };
-
-  setOption = (key, value) => {
-    this.setState({
-      [key]: value
-    });
-    return localForage.setItem(key, value);
+    this.setOption('networkType', 'testnet');
   };
 
   componentWillUnmount = () => {
     this.setOption('networkType', this.state.networkType);
+  };
+
+  setOption = async (key, value) => {
+    await localForage.setItem(key, value);
+    console.log(key, value);
+    this.setState({
+      [key]: value
+    });
   };
 
   render() {

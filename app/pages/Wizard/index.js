@@ -157,7 +157,7 @@ export default class Home extends Component {
     } else if (step === 3) {
       console.log(step);
       const lndType = await localForage.getItem('lndType');
-      console.log('Lnd Type');
+      console.log('Lnd Type', lndType);
       this.setState({
         lndType,
         step: step + 1

@@ -14,10 +14,11 @@ export default class NodeAPIStep extends Component {
     this.setStatus('nodeAPI', nodeAPI);
   };
 
-  setStatus = (status, value) => {
-    localForage.setItem(status, value === 'yes');
+  setStatus = async (status, value) => {
+    await localForage.setItem(status, value);
+    console.log(status, value);
     this.setState({
-      [status]: value === 'yes'
+      [status]: value
     });
   };
 

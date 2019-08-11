@@ -9,15 +9,16 @@ export default class LndTypeStep extends Component {
     autoStartup: 'yes'
   };
 
-  setStatus = (status, value) => {
-    localForage.setItem(status, value === 'yes');
-    this.setState({
-      [status]: value === 'yes'
-    });
-  };
-
   componentWillUnmount = () => {
     this.setStatus('autoStartup', this.state.autoStartup);
+  };
+
+  setStatus = async (key, value) => {
+    await localForage.setItem(key, value);
+    console.log(key, value);
+    this.setState({
+      [key]: value
+    });
   };
 
   render() {

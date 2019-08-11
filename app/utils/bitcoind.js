@@ -140,9 +140,8 @@ const start = async () => {
     'bitcoind.exe'
   );
   const dataDir = path.resolve(folderPath, 'bitcoind', 'data');
+  const networkType = await localForage.getItem('networkType');
   const lndType = await localForage.getItem('lndType');
-  const rpcUser = await localForage.getItem('rpcUser');
-  const rpcPass = await localForage.getItem('rpcPass');
   if (lndType !== 'bitcoind') {
     return;
   }
@@ -150,9 +149,8 @@ const start = async () => {
     fs.mkdirSync(dataDir, { recursive: true });
   }
   child = spawn(bitcoindExe, [
-    `--datadir=${dataDir}`,
-    `--rpcuser=${rpcUser}`,
-    `--rpcpassword=${rpcPass}`
+    `--testnet=${networkType === 'mainnet' ? 0 : 1}`,
+    `--datadir=${dataDir}`
   ]);
   ipcRenderer.send('bitcoindPID', child.pid);
   child.stdout.on('data', data => {
@@ -171,7 +169,7 @@ const start = async () => {
 
 const terminate = () => {
   if (child) {
-    child.kill();
+    child.kill('SIGINT');
   }
 };
 

@@ -21,11 +21,12 @@ export default class InstallLocationStep extends Component {
     this.setOption('installLocation', installLocation);
   };
 
-  setOption = (key, value) => {
+  setOption = async (key, value) => {
+    await localForage.setItem(key, value);
+    console.log(key, value);
     this.setState({
       [key]: value
     });
-    return localForage.setItem(key, value);
   };
 
   chooseFolder = () => {
