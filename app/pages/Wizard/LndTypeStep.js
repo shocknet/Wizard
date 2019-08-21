@@ -9,20 +9,21 @@ export default class LndTypeStep extends Component {
     lndType: 'neutrino'
   };
 
+  componentDidMount = () => {
+    this.setOption('lndType', 'neutrino');
+  };
+
+  componentWillUnmount = () => {
+    const { lndType } = this.state;
+    this.setOption('lndType', lndType);
+  };
+
   setOption = async (key, value) => {
     await localForage.setItem(key, value);
     console.log(key, value);
     this.setState({
       [key]: value
     });
-  };
-
-  componentDidMount = () => {
-    this.setOption('lndType', 'neutrino');
-  };
-
-  componentWillUnmount = () => {
-    this.setOption('lndType', this.state.lndType);
   };
 
   render() {

@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 import { remote } from 'electron';
 import localForage from 'localforage';
-import path from 'path';
 import styles from './css/index.css';
 
 export default class InstallLocationStep extends Component {
@@ -66,6 +65,8 @@ export default class InstallLocationStep extends Component {
               <div
                 className={styles.chooseFolderBtn}
                 onClick={this.chooseFolder}
+                role="button"
+                tabIndex={0}
               >
                 Choose Folder
               </div>

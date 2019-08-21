@@ -10,11 +10,10 @@
  *
  * @flow
  */
-import { app, BrowserWindow, Tray, Menu, ipcMain } from 'electron';
-import log from 'electron-log';
-import MenuBuilder from './menu';
+import { app, BrowserWindow, Tray, ipcMain } from 'electron';
 import unhandled from 'electron-unhandled';
 import path from 'path';
+import MenuBuilder from './menu';
 
 unhandled();
 

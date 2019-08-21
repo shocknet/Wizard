@@ -39,22 +39,12 @@ const getStatuses = async () => {
     }))
   );
   return statuses.reduce(
-    (keys, status) => ({
-      ...keys,
+    (collectedStatuses, status) => ({
+      ...collectedStatuses,
       ...status
     }),
     {}
   );
-};
-
-const resetStatus = async () => {
-  await Promise.all([
-    localForage.setItem('bitcoind_downloadedBlockHeightsLength', 0),
-    localForage.setItem('bitcoind_downloadedBlocks', 0),
-    localForage.setItem('bitcoind_syncedBlocks', 0),
-    localForage.setItem('bitcoind_walletUnlocked', null)
-  ]);
-  return true;
 };
 
 const setStatus = async (key, value) => {
@@ -63,13 +53,8 @@ const setStatus = async (key, value) => {
   return value;
 };
 
-const incrementStatus = async (key, value) => {
-  const status = await localForage.getItem(`bitcoind_${key}`);
-  await setStatus(`bitcoind_${key}`, parseFloat(status) + parseFloat(value));
-};
-
 const processLine = async line => {
-  const matches = await Promise.all(
+  await Promise.all(
     Object.entries(regexExpressions).map(async ([key, conditions]) => {
       const downloadedBlockHeightsLength = await localForage.getItem(
         'bitcoind_downloadedBlockHeightsLength'
@@ -88,7 +73,8 @@ const processLine = async line => {
 
         if (matchedRegex && matchedRegex.length > 0) {
           const value = conditions.replace.reduce(
-            (value, replaceValue) => value.replace(replaceValue, ''),
+            (conditionValue, replaceValue) =>
+              conditionValue.replace(replaceValue, ''),
             matchedRegex[0]
           );
           await setStatus(conditions.key, parseFloat(value, 10));

@@ -3,11 +3,9 @@ import React, { Component } from 'react';
 import { remote, ipcRenderer } from 'electron';
 import localForage from 'localforage';
 
-import { Link } from 'react-router-dom';
 import AutoLaunch from 'auto-launch';
 
 import { getUserPlatform } from '../../utils/os';
-import routes from '../../constants/routes';
 
 import { TARGET_LND_VERSION } from '../../constants/lnd';
 import IntroStep from './IntroStep';
@@ -16,8 +14,6 @@ import LndTypeStep from './LndTypeStep';
 import NetworkSetupStep from './NetworkSetupStep';
 import NetworkStep from './NetworkStep';
 import NetworkURLStep from './NetworkURLStep';
-import RPCStep from './RPCStep';
-import NodeAPIStep from './NodeAPIStep';
 import WalletQRStep from './WalletQRStep';
 import AutoLaunchStep from './AutoLaunchStep';
 import Lnd from '../../utils/lnd';
@@ -78,11 +74,11 @@ export default class Home extends Component {
       console.log('Unmounted');
     });
 
-    ipcRenderer.off('lnd-terminate', (event, pid) => {
+    ipcRenderer.off('lnd-terminate', () => {
       console.log('Unmounted');
     });
 
-    ipcRenderer.off('bitcoind-terminate', (event, pid) => {
+    ipcRenderer.off('bitcoind-terminate', () => {
       console.log('Unmounted');
     });
 
@@ -125,7 +121,6 @@ export default class Home extends Component {
 
   runBitcoind = async () => {
     const setupCompleted = await localForage.getItem('setupCompleted');
-    const autoStartup = await localForage.getItem('autoStartup');
     const lndType = await localForage.getItem('lndType');
     if (setupCompleted && lndType === 'bitcoind') {
       await Bitcoind.download({
@@ -147,6 +142,7 @@ export default class Home extends Component {
     if (step === maxStep) {
       remote.BrowserWindow.getFocusedWindow().hide();
 
+      // eslint-disable-next-line no-new
       new Notification('LND Server Setup', {
         body:
           'The setup will now run in the background and download all the required files and notify you once everything is done!'
@@ -176,39 +172,101 @@ export default class Home extends Component {
     });
   };
 
+  renderStep = () => {
+    const { step, lndType } = this.state;
+
+    if (step === 1) {
+      return <IntroStep />;
+    }
+
+    if (step === 2) {
+      return <NetworkStep />;
+    }
+
+    if (step === 3) {
+      return <LndTypeStep />;
+    }
+
+    if (step === 4 && lndType === 'neutrino') {
+      return <NetworkURLStep />;
+    }
+
+    if (step === 4 && lndType === 'bitcoind') {
+      return <InstallLocationStep />;
+    }
+
+    if (step === 5) {
+      return <AutoLaunchStep />;
+    }
+
+    if (step === 6) {
+      return <NetworkSetupStep />;
+    }
+
+    if (step === 7) {
+      return <WalletQRStep />;
+    }
+
+    return <AutoLaunchStep />;
+  };
+
+  renderNavButtons = () => {
+    const { step, maxStep } = this.state;
+    if (step < maxStep) {
+      return (
+        <div
+          className={[styles.controlsBtn, styles.next].join(' ')}
+          onClick={this.nextStep}
+          role="button"
+          tabIndex={0}
+        >
+          Next
+          <i
+            className="icon ion-ios-arrow-forward"
+            style={{
+              marginLeft: 10
+            }}
+          />
+        </div>
+      );
+    }
+
+    if (step === maxStep) {
+      return (
+        <div
+          className={[styles.controlsBtn, styles.next].join(' ')}
+          onClick={this.nextStep}
+          role="button"
+          tabIndex={0}
+        >
+          Done
+          <i
+            className="icon ion-ios-arrow-forward"
+            style={{
+              marginLeft: 10
+            }}
+          />
+        </div>
+      );
+    }
+  };
+
   render() {
-    const { step, maxStep, lndType } = this.state;
+    const { step } = this.state;
 
     return (
       <div className={styles.container}>
         <div className={styles.shockLogo}>
-          <img src={shockLogo} className={styles.logo} />
+          <img src={shockLogo} className={styles.logo} alt="ShockWizard Logo" />
         </div>
-        {step === 1 ? (
-          <IntroStep />
-        ) : step === 2 ? (
-          <NetworkStep />
-        ) : step === 3 ? (
-          <LndTypeStep />
-        ) : step === 4 && lndType === 'neutrino' ? (
-          <NetworkURLStep />
-        ) : step === 4 && lndType === 'bitcoind' ? (
-          // <RPCStep />
-          <InstallLocationStep />
-        ) : step === 5 ? (
-          <AutoLaunchStep />
-        ) : step === 6 ? (
-          <NetworkSetupStep />
-        ) : step === 7 ? (
-          <WalletQRStep />
-        ) : (
-          <AutoLaunchStep />
-        )}
+        {this.renderStep()}
         <div className={styles.stepControlsBar}>
           {step > 1 ? (
             <div
               className={[styles.controlsBtn, styles.prev].join(' ')}
               onClick={this.prevStep}
+              role="button"
+              tabIndex={0}
             >
               <i
                 className="icon ion-ios-arrow-back"
@@ -221,33 +279,7 @@ export default class Home extends Component {
           ) : (
             <div />
           )}
-          {step < maxStep ? (
-            <div
-              className={[styles.controlsBtn, styles.next].join(' ')}
-              onClick={this.nextStep}
-            >
-              Next
-              <i
-                className="icon ion-ios-arrow-forward"
-                style={{
-                  marginLeft: 10
-                }}
-              />
-            </div>
-          ) : step === maxStep ? (
-            <div
-              className={[styles.controlsBtn, styles.next].join(' ')}
-              onClick={this.nextStep}
-            >
-              Done
-              <i
-                className="icon ion-ios-arrow-forward"
-                style={{
-                  marginLeft: 10
-                }}
-              />
-            </div>
-          ) : null}
+          {this.renderNavButtons()}
         </div>
       </div>
     );
