@@ -40,10 +40,7 @@ export default class RPCStep extends Component {
               Please input the credentials for your Bitcoin Core RPC
             </p>
             <div className={styles.stepChoices} style={{ width: '100%' }}>
-              <div
-                className={styles.stepInputContainer}
-                style={{ width: '100%' }}
-              >
+              <div className={styles.stepInputContainer} style={{ width: '100%' }}>
                 <input
                   type="text"
                   style={{ width: '100%' }}
@@ -53,10 +50,7 @@ export default class RPCStep extends Component {
                   value={rpcUser}
                 />
               </div>
-              <div
-                className={styles.stepInputContainer}
-                style={{ width: '100%' }}
-              >
+              <div className={styles.stepInputContainer} style={{ width: '100%' }}>
                 <input
                   type="password"
                   style={{ width: '100%' }}

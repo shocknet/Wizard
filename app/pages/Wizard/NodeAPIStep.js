@@ -34,8 +34,7 @@ export default class NodeAPIStep extends Component {
                 textAlign: 'left'
               }}
             >
-              Do you want to expose your LND Server over the ShockAPI? (Running
-              at port 9835)
+              Do you want to expose your LND Server over the ShockAPI? (Running at port 9835)
             </p>
             <div className={styles.stepChoices}>
               <label className={styles.stepChoice}>

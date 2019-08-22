@@ -16,13 +16,7 @@ export default class Counter extends Component<Props> {
   props: Props;
 
   render() {
-    const {
-      increment,
-      incrementIfOdd,
-      incrementAsync,
-      decrement,
-      counter
-    } = this.props;
+    const { increment, incrementIfOdd, incrementAsync, decrement, counter } = this.props;
     return (
       <div>
         <div className={styles.backButton} data-tid="backButton">
@@ -34,28 +28,13 @@ export default class Counter extends Component<Props> {
           {counter}
         </div>
         <div className={styles.btnGroup}>
-          <button
-            className={styles.btn}
-            onClick={increment}
-            data-tclass="btn"
-            type="button"
-          >
+          <button className={styles.btn} onClick={increment} data-tclass="btn" type="button">
             <i className="fa fa-plus" />
           </button>
-          <button
-            className={styles.btn}
-            onClick={decrement}
-            data-tclass="btn"
-            type="button"
-          >
+          <button className={styles.btn} onClick={decrement} data-tclass="btn" type="button">
             <i className="fa fa-minus" />
           </button>
-          <button
-            className={styles.btn}
-            onClick={incrementIfOdd}
-            data-tclass="btn"
-            type="button"
-          >
+          <button className={styles.btn} onClick={incrementIfOdd} data-tclass="btn" type="button">
             odd
           </button>
           <button

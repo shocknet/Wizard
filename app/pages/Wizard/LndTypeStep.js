@@ -46,10 +46,9 @@ export default class LndTypeStep extends Component {
                 <div className={styles.choiceInfoContainer}>
                   <b>Neutrino</b>
                   <p className={styles.radioDesc}>
-                    A privacy preserving protocol for reading the blockchain
-                    data through trusted servers. Shock Network provides
-                    Neutrino servers for public use on Mainnet or Testnet.
-                    Alternatively, you can specify different servers. (default)
+                    A privacy preserving protocol for reading the blockchain data through trusted
+                    servers. Shock Network provides Neutrino servers for public use on Mainnet or
+                    Testnet. Alternatively, you can specify different servers. (default)
                   </p>
                 </div>
               </label>
@@ -65,10 +64,9 @@ export default class LndTypeStep extends Component {
                 <div className={styles.choiceInfoContainer}>
                   <b>Bitcoin Core</b>
                   <p className={styles.radioDesc}>
-                    Discerning users that require a fully-validating, trustless
-                    node, should opt to install Bitcoin Core. This currently
-                    requires at minimum 300GB of disk space, and may require
-                    from 8-24 hours to fully synchronize.
+                    Discerning users that require a fully-validating, trustless node, should opt to
+                    install Bitcoin Core. This currently requires at minimum 300GB of disk space,
+                    and may require from 8-24 hours to fully synchronize.
                   </p>
                 </div>
               </label>
