@@ -127,10 +127,9 @@ export default class LndTypeStep extends Component {
               />
             </div>
             <p className={styles.stepInputDesc}>
-              If you are on a residential or cellular connection, your IP likely
-              changes regularly. Consider a Dynamic DNS service like no-ip.org
-              if you encounter this issue. If you are already using a DNS name,
-              enter it here in place of your external IP.
+              If you are on a residential or cellular connection, your IP likely changes regularly.
+              Consider a Dynamic DNS service like no-ip.org if you encounter this issue. If you are
+              already using a DNS name, enter it here in place of your external IP.
             </p>
           </div>
         </div>
