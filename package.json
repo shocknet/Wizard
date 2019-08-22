@@ -102,14 +102,14 @@
     },
     "publish": {
       "provider": "github",
-      "owner": "Emad-Salah",
+      "owner": "shocknet",
       "repo": "Wizard",
       "private": false
     }
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Emad-Salah/Wizard.git"
+    "url": "git+https://github.com/shocknet/Wizard.git"
   },
   "author": {
     "name": "Shock Wallet",
@@ -130,7 +130,7 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Emad-Salah/Wizard/issues"
+    "url": "https://github.com/shocknet/Wizard/issues"
   },
   "keywords": [
     "electron",
@@ -143,7 +143,7 @@
     "hot",
     "reload"
   ],
-  "homepage": "https://github.com/Emad-Salah/Wizard#readme",
+  "homepage": "https://github.com/shocknet/Wizard#readme",
   "jest": {
     "testURL": "http://localhost/",
     "moduleNameMapper": {
@@ -207,7 +207,7 @@
     "enzyme-to-json": "^3.3.4",
     "eslint": "^5.9.0",
     "eslint-config-airbnb": "^17.1.0",
-    "eslint-config-prettier": "^3.3.0",
+    "eslint-config-prettier": "^3.6.0",
     "eslint-formatter-pretty": "^2.0.0",
     "eslint-import-resolver-webpack": "^0.10.1",
     "eslint-plugin-compat": "^2.6.3",
@@ -232,6 +232,7 @@
     "opencollective-postinstall": "^2.0.1",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "prettier": "^1.15.2",
+    "prettier-eslint": "^9.0.0",
     "react-test-renderer": "^16.6.3",
     "redux-logger": "^3.0.6",
     "rimraf": "^2.6.2",
@@ -266,6 +267,7 @@
     "electron-log": "^2.2.17",
     "electron-unhandled": "^1.1.0",
     "electron-updater": "^3.2.3",
+    "eslint-plugin-prettier": "^3.1.0",
     "fs-extra": "^8.1.0",
     "history": "^4.7.2",
     "internal-ip": "^4.3.0",
