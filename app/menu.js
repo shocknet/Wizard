@@ -7,12 +7,9 @@ import {
   ipcMain,
   Notification
 } from 'electron';
-import localForage from 'localforage';
 import internalIP from 'internal-ip';
 import publicIP from 'public-ip';
-import ps from 'ps-node';
 import { isIPAddress } from './utils/os';
-import lnd from './utils/lnd';
 
 export default class MenuBuilder {
   mainWindow: BrowserWindow;

@@ -1,33 +1,10 @@
 import Http from 'axios';
-import { remote, ipcRenderer } from 'electron';
+import { ipcRenderer } from 'electron';
 import { Buffer } from 'buffer';
-import localForage from 'localForage';
 import fs from 'fs-extra';
 import path from 'path';
 import Unzip from 'unzip';
 import { getFolderPath } from './os';
-
-const getStatuses = async () => {
-  const keys = await localForage.keys();
-  const statuses = await Promise.all(
-    keys.map(async key => ({
-      [key]: await localForage.getItem(key)
-    }))
-  );
-  return statuses.reduce(
-    (keys, status) => ({
-      ...keys,
-      ...status
-    }),
-    {}
-  );
-};
-
-const setStatus = async (key, value) => {
-  await localForage.setItem(key, value);
-  ipcRenderer.send('statusUpdate', await getStatuses());
-  return value;
-};
 
 const downloadRelease = ({ user, repo, version, fileName }) =>
   new Promise(async (resolve, reject) => {
@@ -112,8 +89,8 @@ const extractFile = (filePath, destination, folderName, extractedFolderName) =>
       await Promise.all([fs.remove(sourceFolderPath), fs.remove(filePath)]);
       resolve(true);
     });
-    readStream.on('error', () => {
-      reject(false);
+    readStream.on('error', err => {
+      reject(err);
     });
   });
 

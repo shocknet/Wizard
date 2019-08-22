@@ -14,7 +14,8 @@ export default class LndTypeStep extends Component {
   };
 
   componentWillUnmount = () => {
-    this.setOption('networkType', this.state.networkType);
+    const { networkType } = this.state;
+    this.setOption('networkType', networkType);
   };
 
   setOption = async (key, value) => {

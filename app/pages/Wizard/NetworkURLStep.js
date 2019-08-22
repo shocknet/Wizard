@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-for */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { Component } from 'react';
-import { remote } from 'electron';
 import localForage from 'localforage';
 import styles from './css/index.css';
 
@@ -20,7 +19,8 @@ export default class NetworkURLStep extends Component {
   };
 
   componentWillUnmount = () => {
-    this.setOption('networkUrl', this.state.networkUrl);
+    const { networkUrl } = this.state;
+    this.setOption('networkUrl', networkUrl);
   };
 
   setOption = async (key, value) => {

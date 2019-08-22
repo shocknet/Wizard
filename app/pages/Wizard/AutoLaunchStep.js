@@ -10,7 +10,8 @@ export default class LndTypeStep extends Component {
   };
 
   componentWillUnmount = () => {
-    this.setStatus('autoStartup', this.state.autoStartup);
+    const { autoStartup } = this.state;
+    this.setStatus('autoStartup', autoStartup);
   };
 
   setStatus = async (key, value) => {

@@ -1,7 +1,6 @@
 // @flow
 import React, { Component } from 'react';
 import { remote } from 'electron';
-import { Link } from 'react-router-dom';
 import styles from './css/Nav.css';
 
 type Props = {};
@@ -18,6 +17,8 @@ export default class Nav extends Component<Props> {
           onClick={() => {
             remote.getCurrentWindow().minimize();
           }}
+          role="button"
+          tabIndex={0}
         >
           <div className={[styles.navControl, styles.navMinimize].join(' ')}>
             <i className="icon ion-md-remove" />
@@ -27,6 +28,8 @@ export default class Nav extends Component<Props> {
             onClick={() => {
               remote.app.quit();
             }}
+            role="button"
+            tabIndex={0}
           >
             <i className={['icon ion-md-close', styles.navClose].join(' ')} />
           </div>

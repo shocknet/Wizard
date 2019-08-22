@@ -2,15 +2,12 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { Component } from 'react';
 import localForage from 'localforage';
-import publicIP from 'public-ip';
 import localIP from 'internal-ip';
 import { QRCode } from 'react-qrcode-logo';
-import shockIcon from '../../img/shockIcon.png';
 import styles from './css/index.css';
 
 export default class LndTypeStep extends Component {
   state = {
-    lightningPort: 9735,
     internalIP: '',
     externalIP: '',
     walletPort: ''
@@ -74,8 +71,8 @@ export default class LndTypeStep extends Component {
                 External IP: {externalIP}
               </label>
             </div>
-            <div className={styles['walletQRCode']}>
-              <p className={styles['QRCodeDesc']}>
+            <div className={styles.walletQRCode}>
+              <p className={styles.QRCodeDesc}>
                 Scan QR Code with ShockWallet:
               </p>
               <QRCode

@@ -27,9 +27,7 @@ const regexExpressions = {
   syncedBlocks: {
     phrases: ['Fully caught up with cfheaders at height'],
     key: 'downloadedBlocks',
-    value: async () => {
-      return localForage.getItem('downloadedBlockHeightsLength');
-    }
+    value: async () => localForage.getItem('downloadedBlockHeightsLength')
   },
   walletLocked: {
     phrases: ['Waiting for wallet encryption password'],
@@ -48,18 +46,17 @@ let child = null;
 const getLndDirectory = () => {
   const platform = os.platform();
   const homeDir = os.homedir();
-  if (platform == 'darwin') {
-    return homeDir + '/Library/Application Support/Lnd';
-  } else {
-    return path.resolve(process.env.APPDATA, '../Local/Lnd'); //Windows not implemented yet
+  if (platform.toLowerCase() === 'darwin') {
+    return `${homeDir}/Library/Application Support/Lnd`;
   }
+  return path.resolve(process.env.APPDATA, '../Local/Lnd'); // Windows not implemented yet
 };
 
 const lndDirectory = getLndDirectory();
 
-const download = async ({ version, os }) => {
+const download = async ({ version, os: operatingSystem }) => {
   const folderPath = await getFolderPath();
-  const fileName = `lnd-${os}-amd64-${version}.zip`;
+  const fileName = `lnd-${operatingSystem}-amd64-${version}.zip`;
   if (!fs.existsSync(path.resolve(folderPath, 'lnd'))) {
     await Downloader.downloadRelease({
       version,
@@ -79,22 +76,12 @@ const getStatuses = async () => {
     }))
   );
   return statuses.reduce(
-    (keys, status) => ({
-      ...keys,
+    (collectedStatuses, status) => ({
+      ...collectedStatuses,
       ...status
     }),
     {}
   );
-};
-
-const resetStatus = async () => {
-  await Promise.all([
-    localForage.setItem('downloadedBlockHeightsLength', 0),
-    localForage.setItem('downloadedBlocks', 0),
-    localForage.setItem('syncedBlocks', 0),
-    localForage.setItem('walletUnlocked', null)
-  ]);
-  return true;
 };
 
 const setStatus = async (key, value) => {
@@ -103,19 +90,8 @@ const setStatus = async (key, value) => {
   return value;
 };
 
-const incrementStatus = async (key, value) => {
-  const status = await localForage.getItem(key);
-  await setStatus(key, parseFloat(status) + parseFloat(value));
-};
-
 const processLine = async line => {
-  // if (
-  //   process.env.NODE_ENV === 'development' ||
-  //   process.env.DEBUG_PROD === 'true'
-  // ) {
-  //   console.log(line);
-  // }
-  const matches = await Promise.all(
+  await Promise.all(
     Object.entries(regexExpressions).map(async ([key, conditions]) => {
       const downloadedBlockHeightsLength = await localForage.getItem(
         'downloadedBlockHeightsLength'
@@ -149,7 +125,8 @@ const processLine = async line => {
 
         if (matchedRegex && matchedRegex.length > 0) {
           const value = conditions.replace.reduce(
-            (value, replaceValue) => value.replace(replaceValue, ''),
+            (conditionValue, replaceValue) =>
+              conditionValue.replace(replaceValue, ''),
             matchedRegex[0]
           );
           await setStatus(conditions.key, parseInt(value, 10));
@@ -187,7 +164,7 @@ const processLine = async line => {
                 : 'Please unlock your wallet to interact with it'
             }`
           });
-          const shockAPI = await server({
+          await server({
             serverhost: '0.0.0.0',
             lndCertPath: `${lndDirectory}/tls.cert`,
             macaroonPath: `${dataDir}/chain/bitcoin/${networkType}/admin.macaroon`
@@ -226,8 +203,6 @@ const start = async () => {
   const lndExe = path.resolve(folderPath, 'lnd', 'lnd.exe');
   const networkType = await localForage.getItem('networkType');
   const networkUrl = await localForage.getItem('networkUrl');
-  const rpcUser = await localForage.getItem('rpcUser');
-  const rpcPass = await localForage.getItem('rpcPass');
   const lndType = (await localForage.getItem('lndType')) || 'neutrino';
   const dataDir = await getDataDir();
   child = spawn(lndExe, [
