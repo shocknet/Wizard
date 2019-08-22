@@ -25,10 +25,7 @@ if (process.env.NODE_ENV === 'production') {
   sourceMapSupport.install();
 }
 
-if (
-  process.env.NODE_ENV === 'development' ||
-  process.env.DEBUG_PROD === 'true'
-) {
+if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
   require('electron-debug')();
 }
 
@@ -80,10 +77,7 @@ app.on('window-all-closed', () => {
 });
 
 app.on('ready', async () => {
-  if (
-    process.env.NODE_ENV === 'development' ||
-    process.env.DEBUG_PROD === 'true'
-  ) {
+  if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
     await installExtensions();
   }
 
@@ -122,15 +116,11 @@ app.on('ready', async () => {
   tray.setContextMenu(menuBuilder.buildContextMenu());
 
   ipcMain.on('statusUpdate', async (event, data) => {
-    tray.setContextMenu(
-      menuBuilder.buildContextMenu({ status: getLndStatus(data) })
-    );
+    tray.setContextMenu(menuBuilder.buildContextMenu({ status: getLndStatus(data) }));
   });
 
   ipcMain.on('bitcoindStatusUpdate', async (event, data) => {
-    tray.setContextMenu(
-      menuBuilder.buildContextMenu({ bitcoindStatus: getBitcoindStatus(data) })
-    );
+    tray.setContextMenu(menuBuilder.buildContextMenu({ bitcoindStatus: getBitcoindStatus(data) }));
   });
 
   ipcMain.on('lndProgress', (event, data) => {

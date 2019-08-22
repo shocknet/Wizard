@@ -54,19 +54,11 @@ const downloadFile = ({ fileName, downloadUrl, extractedFolderName }) =>
     downloadedRelease.data.on('data', buffer => {
       const total = downloadedRelease.headers['content-length'];
       loaded += buffer.length;
-      ipcRenderer.send(
-        `${fileName}Progress`,
-        Math.round((loaded * 100) / total)
-      );
+      ipcRenderer.send(`${fileName}Progress`, Math.round((loaded * 100) / total));
     });
     writer.on('finish', async () => {
       console.log(Buffer.isBuffer(writer));
-      await extractFile(
-        fileLocation,
-        downloadLocation,
-        fileName,
-        extractedFolderName
-      );
+      await extractFile(fileLocation, downloadLocation, fileName, extractedFolderName);
       resolve(true);
     });
     writer.on('error', reject);

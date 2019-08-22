@@ -60,9 +60,7 @@ const processLine = async line => {
         'bitcoind_downloadedBlockHeightsLength'
       );
       if (conditions.phrases) {
-        const unmatchedPhrases = conditions.phrases.filter(
-          phrase => !line.includes(phrase)
-        )[0];
+        const unmatchedPhrases = conditions.phrases.filter(phrase => !line.includes(phrase))[0];
         if (unmatchedPhrases) {
           return false;
         }
@@ -73,8 +71,7 @@ const processLine = async line => {
 
         if (matchedRegex && matchedRegex.length > 0) {
           const value = conditions.replace.reduce(
-            (conditionValue, replaceValue) =>
-              conditionValue.replace(replaceValue, ''),
+            (conditionValue, replaceValue) => conditionValue.replace(replaceValue, ''),
             matchedRegex[0]
           );
           await setStatus(conditions.key, parseFloat(value, 10));
@@ -87,21 +84,15 @@ const processLine = async line => {
         const value = await conditions.value();
         await setStatus(conditions.key, value);
         if (key === 'syncedBlocks') {
-          const walletUnlocked = await localForage.getItem(
-            'bitcoind_walletUnlocked'
-          );
+          const walletUnlocked = await localForage.getItem('bitcoind_walletUnlocked');
           // eslint-disable-next-line no-new
           new Notification('LND is synced up!', {
             body: `The LND instance is fully synced up with the bitcoin network! ${
-              walletUnlocked
-                ? ''
-                : 'Please unlock your wallet to interact with it'
+              walletUnlocked ? '' : 'Please unlock your wallet to interact with it'
             }`
           });
         } else if (key === 'walletUnlocked') {
-          const downloadedBlocks = await localForage.getItem(
-            'bitcoind_downloadedBlocks'
-          );
+          const downloadedBlocks = await localForage.getItem('bitcoind_downloadedBlocks');
           // eslint-disable-next-line no-new
           new Notification('Wallet is successfully unlocked!', {
             body: `The LND instance is now unlocked! ${
@@ -119,12 +110,7 @@ const processLine = async line => {
 
 const start = async () => {
   const folderPath = await getFolderPath();
-  const bitcoindExe = path.resolve(
-    folderPath,
-    'bitcoind',
-    'bin',
-    'bitcoind.exe'
-  );
+  const bitcoindExe = path.resolve(folderPath, 'bitcoind', 'bin', 'bitcoind.exe');
   const dataDir = path.resolve(folderPath, 'bitcoind', 'data');
   const networkType = await localForage.getItem('networkType');
   const lndType = await localForage.getItem('lndType');

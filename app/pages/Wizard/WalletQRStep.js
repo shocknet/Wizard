@@ -40,12 +40,8 @@ export default class LndTypeStep extends Component {
         <div className={styles.wizardStepContainer}>
           <div className={styles.lndTypeContainer} style={{ width: '60%' }}>
             <p className={styles.stepTitle}>NETWORK SETUP</p>
-            <p
-              className={styles.stepDescription}
-              style={{ width: '80%', marginBottom: 20 }}
-            >
-              Instructions for user to connect wallet to wizard api instance
-              (Work in Progress)
+            <p className={styles.stepDescription} style={{ width: '80%', marginBottom: 20 }}>
+              Instructions for user to connect wallet to wizard api instance (Work in Progress)
             </p>
             <div className={styles.walletInfo}>
               <label
@@ -72,9 +68,7 @@ export default class LndTypeStep extends Component {
               </label>
             </div>
             <div className={styles.walletQRCode}>
-              <p className={styles.QRCodeDesc}>
-                Scan QR Code with ShockWallet:
-              </p>
+              <p className={styles.QRCodeDesc}>Scan QR Code with ShockWallet:</p>
               <QRCode
                 bgColor="#F5A623"
                 fgColor="#21355a"

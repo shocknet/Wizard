@@ -21,8 +21,7 @@ const regexExpressions = {
     replace: ['(height '],
     key: 'downloadedBlocks',
     condition: (downloadedBlocks, downloadedBlockHeightsLength) =>
-      downloadedBlocks !== downloadedBlockHeightsLength ||
-      downloadedBlocks === 0
+      downloadedBlocks !== downloadedBlockHeightsLength || downloadedBlocks === 0
   },
   syncedBlocks: {
     phrases: ['Fully caught up with cfheaders at height'],
@@ -97,9 +96,7 @@ const processLine = async line => {
         'downloadedBlockHeightsLength'
       );
       if (conditions.phrases) {
-        const unmatchedPhrases = conditions.phrases.filter(
-          phrase => !line.includes(phrase)
-        )[0];
+        const unmatchedPhrases = conditions.phrases.filter(phrase => !line.includes(phrase))[0];
         if (unmatchedPhrases) {
           return false;
         }
@@ -107,13 +104,8 @@ const processLine = async line => {
 
       if (conditions.condition) {
         if (key === 'currentHeight') {
-          const downloadedBlocks = await localForage.getItem(
-            'downloadedBlocks'
-          );
-          const matched = conditions.condition(
-            downloadedBlocks,
-            downloadedBlockHeightsLength
-          );
+          const downloadedBlocks = await localForage.getItem('downloadedBlocks');
+          const matched = conditions.condition(downloadedBlocks, downloadedBlockHeightsLength);
           if (!matched) {
             return false;
           }
@@ -125,22 +117,16 @@ const processLine = async line => {
 
         if (matchedRegex && matchedRegex.length > 0) {
           const value = conditions.replace.reduce(
-            (conditionValue, replaceValue) =>
-              conditionValue.replace(replaceValue, ''),
+            (conditionValue, replaceValue) => conditionValue.replace(replaceValue, ''),
             matchedRegex[0]
           );
           await setStatus(conditions.key, parseInt(value, 10));
-          if (
-            key === 'currentHeight' &&
-            downloadedBlockHeightsLength === value
-          ) {
+          if (key === 'currentHeight' && downloadedBlockHeightsLength === value) {
             const walletUnlocked = await localForage.getItem('walletUnlocked');
             // eslint-disable-next-line no-new
             new Notification('LND is synced up!', {
               body: `The LND instance is fully synced up with the bitcoin network! ${
-                walletUnlocked
-                  ? ''
-                  : 'Please unlock your wallet to interact with it'
+                walletUnlocked ? '' : 'Please unlock your wallet to interact with it'
               }`
             });
           }
@@ -159,9 +145,7 @@ const processLine = async line => {
           // eslint-disable-next-line no-new
           new Notification('LND is synced up!', {
             body: `The LND instance is fully synced up with the bitcoin network! ${
-              walletUnlocked
-                ? ''
-                : 'Please unlock your wallet to interact with it'
+              walletUnlocked ? '' : 'Please unlock your wallet to interact with it'
             }`
           });
           await server({
@@ -174,9 +158,7 @@ const processLine = async line => {
             `${dataDir}/chain/bitcoin/${networkType}/admin.macaroon`
           );
         } else if (key === 'walletUnlocked') {
-          const downloadedBlocks = await localForage.getItem(
-            'downloadedBlocks'
-          );
+          const downloadedBlocks = await localForage.getItem('downloadedBlocks');
           // eslint-disable-next-line no-new
           new Notification('Wallet is successfully unlocked!', {
             body: `The LND instance is now unlocked! ${
@@ -214,9 +196,9 @@ const start = async () => {
     ...(lndType === 'bitcoind'
       ? [
           `--bitcoind.dir=${dataDir}`,
-          `--bitcoind.zmqpubrawtx=tcp://127.0.0.1:28333`,
-          `--bitcoind.zmqpubrawblock=tcp://127.0.0.1:28332`,
-          `--bitcoind.rpchost=localhost`
+          '--bitcoind.zmqpubrawtx=tcp://127.0.0.1:28333',
+          '--bitcoind.zmqpubrawblock=tcp://127.0.0.1:28332',
+          '--bitcoind.rpchost=localhost'
         ]
       : [`--neutrino.connect=${networkUrl}`])
   ]);

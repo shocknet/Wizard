@@ -50,16 +50,14 @@ export default class InstallLocationStep extends Component {
                 textAlign: 'left'
               }}
             >
-              Please specify the folder which you would like to download/process
-              the bitcoin chaindata on (leave blank to install on default path):
+              Please specify the folder which you would like to download/process the bitcoin
+              chaindata on (leave blank to install on default path):
             </p>
             <div className={styles.stepInputContainer}>
               <input
                 type="text"
                 className={styles.stepInput}
-                onChange={e =>
-                  this.setOption('installLocation', e.target.value)
-                }
+                onChange={e => this.setOption('installLocation', e.target.value)}
                 value={installLocation}
               />
               <div
