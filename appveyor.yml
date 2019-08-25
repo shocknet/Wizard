@@ -29,7 +29,8 @@ shallow_clone: true
 clone_depth: 1
 
 install:
-  - ps: Install-Product node $env:nodejs_version x64
+  - cmd: powershell Install-Product node $env:nodejs_version x64
+  - sh: nvm install $nodejs_version
   - set CI=true
   - yarn
 
