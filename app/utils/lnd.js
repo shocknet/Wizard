@@ -48,6 +48,11 @@ const getLndDirectory = () => {
   if (platform.toLowerCase() === 'darwin') {
     return `${homeDir}/Library/Application Support/Lnd`;
   }
+
+  if (platform.toLowerCase() === 'linux') {
+    return `${homeDir}/.lnd`;
+  }
+
   return path.resolve(process.env.APPDATA, '../Local/Lnd'); // Windows not implemented yet
 };
 
