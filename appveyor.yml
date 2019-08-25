@@ -31,7 +31,7 @@ clone_depth: 1
 install:
   - cmd: powershell Install-Product node $env:nodejs_version x64
   - sh: nvm install $nodejs_version
-  - sh: sudo apt-get install alien
+  - sh: sudo apt-get install alien -y
   - set CI=true
   - yarn
 
