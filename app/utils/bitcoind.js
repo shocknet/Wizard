@@ -4,7 +4,7 @@ import { spawn } from 'child_process';
 import localForage from 'localforage';
 import { ipcRenderer } from 'electron';
 import Downloader from './downloader';
-import { getFolderPath } from './os';
+import { getFolderPath, getUserPlatform } from './os';
 
 const regexExpressions = {
   progress: {
@@ -18,9 +18,9 @@ const regexExpressions = {
 
 let child = null;
 
-const download = async ({ version, os }) => {
+const download = async ({ version, os, osArchitecture }) => {
   const folderPath = await getFolderPath();
-  const fileName = `bitcoin-${version}-${os}.zip`;
+  const fileName = `bitcoin-${version}-${osArchitecture}.${os === 'linux' ? 'tar.gz' : 'zip'}`;
   if (!fs.existsSync(path.resolve(folderPath, 'bitcoind'))) {
     await Downloader.downloadFile({
       downloadUrl: `https://bitcoincore.org/bin/bitcoin-core-${version}/${fileName}`,
@@ -110,7 +110,13 @@ const processLine = async line => {
 
 const start = async () => {
   const folderPath = await getFolderPath();
-  const bitcoindExe = path.resolve(folderPath, 'bitcoind', 'bin', 'bitcoind.exe');
+  const os = getUserPlatform();
+  const bitcoindExe = path.resolve(
+    folderPath,
+    'bitcoind',
+    'bin',
+    `bitcoind${os === 'windows' ? '.exe' : ''}`
+  );
   const dataDir = path.resolve(folderPath, 'bitcoind', 'data');
   const networkType = await localForage.getItem('networkType');
   const lndType = await localForage.getItem('lndType');

@@ -14,6 +14,10 @@ export const getUserPlatform = (shortNames = false) => {
     return 'win64';
   }
 
+  if (platform === 'linux' && shortNames) {
+    return 'x86_64-linux-gnu';
+  }
+
   return platform;
 };
 

@@ -4,9 +4,10 @@ import { Buffer } from 'buffer';
 import fs from 'fs-extra';
 import path from 'path';
 import Unzip from 'unzip';
-import { getFolderPath } from './os';
+import Tar from 'tar';
+import { getFolderPath, getUserPlatform } from './os';
 
-const downloadRelease = ({ user, repo, version, fileName }) =>
+const downloadRelease = ({ user, repo, version, fileName, os }) =>
   new Promise(async (resolve, reject) => {
     let loaded = 0;
     const downloadLocation = await getFolderPath();
@@ -66,15 +67,22 @@ const downloadFile = ({ fileName, downloadUrl, extractedFolderName }) =>
 
 const extractFile = (filePath, destination, folderName, extractedFolderName) =>
   new Promise((resolve, reject) => {
+    const os = getUserPlatform();
+    const archiveFormatIndex = os === 'linux' ? -2 : -1;
+    const directoryIdentifier = os === 'windows' ? '\\' : '/';
     const sourceFolderPath = extractedFolderName
-      ? [...filePath.split('\\').slice(0, -1), extractedFolderName].join('/')
+      ? [...filePath.split(directoryIdentifier).slice(0, -1), extractedFolderName].join('/')
       : filePath
           .split('.')
-          .slice(0, -1)
+          .slice(0, archiveFormatIndex)
           .join('.');
     const readStream = fs.createReadStream(filePath);
     console.log(filePath, sourceFolderPath, destination);
-    readStream.pipe(Unzip.Extract({ path: destination }));
+    if (os !== 'linux') {
+      readStream.pipe(Unzip.Extract({ path: destination }));
+    } else {
+      readStream.pipe(Tar.x({ cwd: destination }));
+    }
     readStream.on('close', async () => {
       const location = await getFolderPath();
       await fs.copy(sourceFolderPath, path.resolve(location, folderName));

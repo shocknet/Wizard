@@ -287,6 +287,7 @@
     "redux-thunk": "^2.3.0",
     "source-map-support": "^0.5.9",
     "sw-server": "jhizzle84/api#feature/wizard_changes",
+    "tar": "^4.4.10",
     "unzip": "^0.1.11"
   },
   "devEngines": {

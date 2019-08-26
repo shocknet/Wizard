@@ -6,7 +6,7 @@ import localForage from 'localforage';
 import { ipcRenderer } from 'electron';
 import server from 'sw-server';
 import Downloader from './downloader';
-import { getFolderPath, getDataDir } from './os';
+import { getFolderPath, getDataDir, getUserPlatform } from './os';
 
 const regexExpressions = {
   blockHeightLength: {
@@ -60,7 +60,9 @@ const lndDirectory = getLndDirectory();
 
 const download = async ({ version, os: operatingSystem }) => {
   const folderPath = await getFolderPath();
-  const fileName = `lnd-${operatingSystem}-amd64-${version}.zip`;
+  const fileName = `lnd-${operatingSystem}-amd64-${version}.${
+    operatingSystem === 'linux' ? 'tar.gz' : 'zip'
+  }`;
   if (!fs.existsSync(path.resolve(folderPath, 'lnd'))) {
     await Downloader.downloadRelease({
       version,
@@ -187,7 +189,8 @@ const processLine = async line => {
 
 const start = async () => {
   const folderPath = await getFolderPath();
-  const lndExe = path.resolve(folderPath, 'lnd', 'lnd.exe');
+  const os = getUserPlatform();
+  const lndExe = path.resolve(folderPath, 'lnd', `lnd${os !== 'linux' ? '.exe' : ''}`);
   const networkType = await localForage.getItem('networkType');
   const networkUrl = await localForage.getItem('networkUrl');
   const lndType = (await localForage.getItem('lndType')) || 'neutrino';
