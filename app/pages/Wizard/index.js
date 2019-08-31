@@ -58,8 +58,8 @@ export default class Home extends Component {
 
     const setupCompleted = await localForage.getItem('setupCompleted');
     if (setupCompleted) {
-      await this.runLnd();
       await this.runBitcoind();
+      await this.runLnd();
     } else {
       remote.BrowserWindow.getAllWindows().map(window => window.show());
     }

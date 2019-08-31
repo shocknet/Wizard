@@ -38,8 +38,12 @@ const downloadRelease = ({ user, repo, version, fileName, os }) =>
 const downloadFile = ({ fileName, downloadUrl, extractedFolderName }) =>
   new Promise(async (resolve, reject) => {
     let loaded = 0;
+    const userPlatform = getUserPlatform();
     const downloadLocation = await getFolderPath();
-    const downloadedFileExtension = downloadUrl.split('.').slice(-1)[0];
+    const downloadedFileExtension = downloadUrl
+      .split('.')
+      .slice(userPlatform === 'linux' ? -2 : -1)
+      .join('.');
     const downloadedFileName = `${fileName}.${downloadedFileExtension}`;
     const fileLocation = path.resolve(downloadLocation, downloadedFileName);
     if (!fs.existsSync(fileLocation) && !fs.existsSync(downloadLocation)) {

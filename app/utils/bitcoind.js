@@ -18,6 +18,15 @@ const regexExpressions = {
 
 let child = null;
 
+const saveBitcoindConfig = ({ config, bitcoindPath }) =>
+  new Promise((resolve, reject) => {
+    const configText = Object.entries(config)
+      .map(([key, value]) => `${key}=${value}`)
+      .join('\n');
+
+    fs.writeFile(bitcoindPath, configText, (err, data) => (err ? reject(err) : resolve(data)));
+  });
+
 const download = async ({ version, os, osArchitecture }) => {
   const folderPath = await getFolderPath();
   const fileName = `bitcoin-${version}-${osArchitecture}.${os === 'linux' ? 'tar.gz' : 'zip'}`;
@@ -131,6 +140,23 @@ const start = async () => {
     `--datadir=${dataDir}`
   ]);
   ipcRenderer.send('bitcoindPID', child.pid);
+  await saveBitcoindConfig({
+    config: {
+      testnet: networkType === 'mainnet' ? 0 : 1,
+      datadir: dataDir,
+      blocksonly: 1,
+      server: 1,
+      listen: 0,
+      prune: 1000,
+      dbcache: 16000,
+      rpcallowip: '0.0.0.0/0',
+      zmqpubrawtx: 'tcp://127.0.0.1:28333',
+      zmqpubrawblock: 'tcp://127.0.0.1:28332',
+      rpcuser: 'test',
+      rpcpass: 'test'
+    },
+    bitcoindPath: path.resolve(folderPath, 'bitcoind', 'data', 'bitcoin.conf')
+  });
   child.stdout.on('data', data => {
     const line = data.toString();
     processLine(line);
