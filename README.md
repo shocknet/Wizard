@@ -1,8 +1,30 @@
-<div align="center">
-<br>
-<img src="https://user-images.githubusercontent.com/12294525/44203609-77d50800-a147-11e8-98f0-f2403527abdc.png" width="600px" />
-
+<div align="center" style="display: flex; width: 100%; align-items: center; justify-content: center; flex-direction: column">
+  <img src="./app/img/D7B5290A.png" width="80px" style="margin-bottom: 5px" />
+  <span style="font-size: 24px;font-weight: bold;">S H O C K W I Z A R D</span>
+  <div style="margin-top: 10px;">
+    <a href="https://ci.appveyor.com/project/Emad-salah/wizard-q98nu">
+      <img src="https://ci.appveyor.com/api/projects/status/xede0f6xagl1bjf6?svg=true" />
+    </a>
+  </div>
 </div>
+
+# Introduction
+
+<span style="color: #f5a623;">**NOTE: This project is still beta work and is not intended for use on Mainnet as of yet!**</span>
+
+ShockWizard is a project that aims to simplify the process of deploying a Private Bitcoin Node and exposing its API for use in a server (The source code for that lives in a separate repo: [ShockAPI](https://github.com/jhizzle84/api)). This is all done simply by answering a few questions about how you want your Bitcoin Node to work like and that's it!
+
+## Versioning System
+
+We are using the [SemVer](https://semver.org/) versioning system and the [GitFlow](https://nvie.com/posts/a-successful-git-branching-model/) branching model. So we'll always have both the `master` and `develop` branches but new features and hotfixes will be in a separate branch that should be named in the following format respectively: `feature/<feature-name>` and `hotfix/<feature-name>`. So version bumps will occur for the Beta releases every time the develop branch is merged with master.
+
+## Continuous Integration and Deployment
+
+We're using AppVeyor for CI/CD. You can view the build history and the current build's progress [here](https://ci.appveyor.com/project/Emad-salah/wizard-q98nu). Builds will occur automatically only once the version has been bumped and pushed to the master branch.
+
+Also after every commit, in order to ensure code consistency and to avoid having build failures, there are pre-commit hooks that run to first check whether there are any ESLint warnings/errors and if there aren't any, it will also format the code using [Prettier](https://github.com/prettier/prettier).
+
+# Contributing to ShockWizard
 
 ## Install
 
@@ -91,14 +113,6 @@ If you want to import global css libraries (like `bootstrap`), you can just writ
 @import '~bootstrap/dist/css/bootstrap.css';
 ```
 
-## SASS support
-
-If you want to use Sass in your app, you only need to import `.sass` files instead of `.css` once:
-
-```js
-import './app.global.scss';
-```
-
 ## Static Type Checking
 
 This project comes with Flow support out of the box! You can annotate your code with types, [get Flow errors as ESLint errors](https://github.com/amilajack/eslint-plugin-flowtype-errors), and get [type errors during runtime](https://github.com/codemix/flow-runtime) during development. Types are completely optional.
@@ -106,17 +120,3 @@ This project comes with Flow support out of the box! You can annotate your code 
 ## Dispatching redux actions from main process
 
 See [#118](https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues/118) and [#108](https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues/108)
-
-## How to keep your project updated with the boilerplate
-
-If your application is a fork from this repo, you can add this repo to another git remote:
-
-```sh
-git remote add upstream https://github.com/electron-react-boilerplate/electron-react-boilerplate.git
-```
-
-Then, use git to merge some latest commits:
-
-```sh
-git pull upstream master
-```
