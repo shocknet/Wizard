@@ -228,7 +228,6 @@
     "jest": "^23.6.0",
     "lint-staged": "^8.1.0",
     "mini-css-extract-plugin": "^0.4.4",
-    "node-sass": "^4.10.0",
     "opencollective-postinstall": "^2.0.1",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "prettier": "^1.15.2",
@@ -286,7 +285,7 @@
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "source-map-support": "^0.5.9",
-    "sw-server": "jhizzle84/api#feature/wizard_changes",
+    "sw-server": "jhizzle84/api",
     "tar": "^4.4.10",
     "unzip": "^0.1.11"
   },
