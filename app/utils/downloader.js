@@ -3,7 +3,7 @@ import { ipcRenderer } from 'electron';
 import { Buffer } from 'buffer';
 import fs from 'fs-extra';
 import path from 'path';
-import Unzip from 'unzip';
+import Unzip from 'unzipper';
 import Tar from 'tar';
 import { getFolderPath, getUserPlatform } from './os';
 

@@ -14,6 +14,7 @@ import { app, BrowserWindow, Tray, ipcMain } from 'electron';
 import unhandled from 'electron-unhandled';
 import path from 'path';
 import MenuBuilder from './menu';
+import server from 'sw-server';
 
 unhandled();
 
@@ -87,7 +88,10 @@ app.on('ready', async () => {
 
   mainWindow = new BrowserWindow({
     show: false,
-    frame: false
+    frame: false,
+    webPreferences: {
+      nodeIntegration: true
+    }
   });
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
@@ -125,6 +129,15 @@ app.on('ready', async () => {
 
   ipcMain.on('lndProgress', (event, data) => {
     tray.setContextMenu(menuBuilder.buildContextMenu({ progress: data }));
+  });
+
+  ipcMain.on('startServer', (event, data) => {
+    try {
+      console.log(event, data);
+      server(data);
+    } catch (err) {
+      console.error(err);
+    }
   });
 
   // Remove this if your app does not use auto updates

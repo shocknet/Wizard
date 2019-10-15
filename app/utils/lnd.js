@@ -155,11 +155,16 @@ const processLine = async line => {
               walletUnlocked ? '' : 'Please unlock your wallet to interact with it'
             }`
           });
-          await server({
+          ipcRenderer.send('startServer', {
             serverhost: '0.0.0.0',
             lndCertPath: `${lndDirectory}/tls.cert`,
             macaroonPath: `${dataDir}/chain/bitcoin/${networkType}/admin.macaroon`
           });
+          // await server({
+          //   serverhost: '0.0.0.0',
+          //   lndCertPath: `${lndDirectory}/tls.cert`,
+          //   macaroonPath: `${dataDir}/chain/bitcoin/${networkType}/admin.macaroon`
+          // });
           console.log(
             'ShockAPI Macaroon Path:',
             `${dataDir}/chain/bitcoin/${networkType}/admin.macaroon`
