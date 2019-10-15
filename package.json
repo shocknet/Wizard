@@ -1,7 +1,7 @@
 {
   "name": "lnd-wizard",
   "productName": "ShockWizard",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Setup LND automatically!",
   "scripts": {
     "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
