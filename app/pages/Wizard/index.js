@@ -25,7 +25,8 @@ export default class Home extends Component {
   state = {
     step: 1,
     maxStep: 7,
-    lndType: 'neutrino'
+    lndType: 'neutrino',
+    loadingServer: true
   };
 
   componentDidMount = async () => {
@@ -140,17 +141,19 @@ export default class Home extends Component {
     const { step, maxStep } = this.state;
     console.log('nextStep', step, step === 3);
 
-    if (step === maxStep) {
-      remote.BrowserWindow.getFocusedWindow().hide();
-
+    if (step === 6) {
       // eslint-disable-next-line no-new
-      new Notification('LND Server Setup', {
-        body:
-          'The setup will now run in the background and download all the required files and notify you once everything is done!'
-      });
+      console.log('Step 6');
       await localForage.setItem('setupCompleted', true);
+      this.setState({
+        loadingServer: true,
+        step: step + 1
+      });
       await this.runLnd();
       await this.runBitcoind();
+      this.setState({
+        loadingServer: false
+      });
     } else if (step === 3) {
       console.log(step);
       const lndType = await localForage.getItem('lndType');
@@ -158,6 +161,13 @@ export default class Home extends Component {
       this.setState({
         lndType,
         step: step + 1
+      });
+    } else if (step === maxStep) {
+      console.log('Step 7');
+      remote.BrowserWindow.getFocusedWindow().hide();
+      new Notification('LND Server Setup', {
+        body:
+          'The setup will now run in the background and download all the required files and notify you once everything is done!'
       });
     } else {
       this.setState({
@@ -174,7 +184,7 @@ export default class Home extends Component {
   };
 
   renderStep = () => {
-    const { step, lndType } = this.state;
+    const { step, lndType, loadingServer } = this.state;
 
     if (step === 1) {
       return <IntroStep />;
@@ -205,7 +215,8 @@ export default class Home extends Component {
     }
 
     if (step === 7) {
-      return <WalletQRStep />;
+      console.log('loadingServer', loadingServer);
+      return <WalletQRStep loadingServer={loadingServer} />;
     }
 
     return <AutoLaunchStep />;

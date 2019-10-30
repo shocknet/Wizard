@@ -12502,7 +12502,7 @@ svgo@^1.0.0:
 
 sw-server@jhizzle84/api:
   version "1.0.0"
-  resolved "https://codeload.github.com/jhizzle84/api/tar.gz/7faa3a1a43e7798428a9bed6fa61435c09fd9554"
+  resolved "https://codeload.github.com/jhizzle84/api/tar.gz/14f4c861506adaef3c724b21df90d4532c1acd62"
   dependencies:
     "@grpc/proto-loader" "^0.5.1"
     axios "^0.19.0"

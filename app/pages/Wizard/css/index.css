@@ -8,7 +8,6 @@
   background-color: #ec3a3a;
   display: block;
   padding: 13px 65px;
-  border-radius: 10px;
   width: 100%;
 
   /* margin-top: 15px; */
@@ -29,7 +28,7 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  background-image: url("../../../img/wizard-bg.svg");
+  background-image: url('../../../img/wizard-bg.svg');
   background-size: cover;
 }
 
@@ -50,7 +49,7 @@
   margin: 0;
   color: #fefefe;
   text-align: center;
-  background-color: #1F3D74;
+  background-color: #1f3d74;
 }
 
 .logo {
@@ -77,7 +76,7 @@
   top: 100px;
   left: 0;
   width: 100%;
-  background-color: #F5A623;
+  background-color: #f5a623;
 }
 
 .divider {
@@ -113,6 +112,7 @@
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
+  text-align: center;
 }
 
 .QRCodeDesc {
@@ -166,25 +166,20 @@
 }
 
 /* On mouse-over, add a grey background color */
-.stepChoice:hover input~.checkmark {
+.stepChoice:hover input ~ .checkmark {
   background-color: #0f1827;
 }
 
 /* When the radio button is checked, add a blue background */
-.stepChoice input:checked~.checkmark {
+.stepChoice input:checked ~ .checkmark {
   background-color: #fff;
 }
 
 /* Create the indicator (the dot/circle - hidden when not checked) */
 .checkmark::after {
-  content: "";
+  content: '';
   position: absolute;
   display: none;
-}
-
-/* Show the indicator (dot/circle) when checked */
-.stepChoice input:checked~.checkmark::after {
-  display: block;
 }
 
 /* Style the indicator (dot/circle) */
@@ -195,7 +190,12 @@
   height: 12px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  background: #F5A623;
+  background: #f5a623;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.stepChoice input:checked ~ .checkmark::after {
+  display: block;
 }
 
 .stepControlsBar {
@@ -225,6 +225,8 @@
 }
 
 .stepControlsBar .controlsBtn.prev {
+  position: relative;
+  padding-left: 50px;
   background-color: rgba(63, 169, 245, 1);
   color: white;
 }
@@ -241,21 +243,20 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  font-family: Montserrat;
+  font-family: Montserrat, sans-serif;
 }
 
 .stepInputContainer {
   display: flex;
-  margin-top: 15px;
   width: 60%;
   margin: auto;
   margin-top: 15px;
   padding: 7px 10px;
   border: 0;
   border-radius: 100px;
-  background-color: #1F3D74;
+  background-color: #1f3d74;
   color: white;
-  font-family: Montserrat;
+  font-family: Montserrat, sans-serif;
 }
 
 .stepInputDesc {
@@ -276,11 +277,6 @@
   flex-shrink: 0;
   margin-left: 10px;
   cursor: pointer;
-}
-
-.controlsBtn.prev {
-  position: relative;
-  padding-left: 50px;
 }
 
 .controlsBtn.next {

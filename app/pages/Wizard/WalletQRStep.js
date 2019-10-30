@@ -10,7 +10,7 @@ export default class LndTypeStep extends Component {
   state = {
     internalIP: '',
     externalIP: '',
-    walletPort: ''
+    walletPort: '9835'
   };
 
   componentDidMount = async () => {
@@ -35,6 +35,7 @@ export default class LndTypeStep extends Component {
 
   render() {
     const { internalIP, walletPort, externalIP } = this.state;
+    const { loadingServer } = this.props;
     return (
       <div className={styles.container}>
         <div className={styles.wizardStepContainer}>
@@ -69,12 +70,16 @@ export default class LndTypeStep extends Component {
             </div>
             <div className={styles.walletQRCode}>
               <p className={styles.QRCodeDesc}>Scan QR Code with ShockWallet:</p>
-              <QRCode
-                bgColor="#F5A623"
-                fgColor="#21355a"
-                value={`shockwallet://scan_wallet_code/${internalIP}/${externalIP}/${walletPort}`}
-                ecLevel="M"
-              />
+              {loadingServer ? (
+                "Please wait while we're downloading the LND and/or Bitcoind clients..."
+              ) : (
+                <QRCode
+                  bgColor="#F5A623"
+                  fgColor="#21355a"
+                  value={`{ "externalIP": "${externalIP}", "internalIP": "${internalIP}", "walletPort": "${walletPort}" }`}
+                  ecLevel="M"
+                />
+              )}
             </div>
           </div>
         </div>
