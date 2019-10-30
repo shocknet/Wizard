@@ -114,6 +114,8 @@ app.on('ready', async () => {
     mainWindow = null;
   });
 
+  let serverInstance = null;
+
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
 
@@ -134,7 +136,9 @@ app.on('ready', async () => {
   ipcMain.on('startServer', (event, data) => {
     try {
       console.log(event, data);
-      server(data);
+      if (!serverInstance) {
+        serverInstance = server(data);
+      }
     } catch (err) {
       console.error(err);
     }

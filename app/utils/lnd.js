@@ -155,11 +155,11 @@ const processLine = async line => {
               walletUnlocked ? '' : 'Please unlock your wallet to interact with it'
             }`
           });
-          ipcRenderer.send('startServer', {
-            serverhost: '0.0.0.0',
-            lndCertPath: `${lndDirectory}/tls.cert`,
-            macaroonPath: `${dataDir}/chain/bitcoin/${networkType}/admin.macaroon`
-          });
+          // ipcRenderer.send('startServer', {
+          //   serverhost: '0.0.0.0',
+          //   lndCertPath: `${lndDirectory}/tls.cert`,
+          //   macaroonPath: `${dataDir}/chain/bitcoin/${networkType}/admin.macaroon`
+          // });
           // await server({
           //   serverhost: '0.0.0.0',
           //   lndCertPath: `${lndDirectory}/tls.cert`,
@@ -218,6 +218,11 @@ const start = async () => {
       : [`--neutrino.connect=${networkUrl}`])
   ]);
   ipcRenderer.send('lndPID', child.pid);
+  ipcRenderer.send('startServer', {
+    serverhost: '0.0.0.0',
+    lndCertPath: `${lndDirectory}/tls.cert`,
+    macaroonPath: `${dataDir}/chain/bitcoin/${networkType}/admin.macaroon`
+  });
   child.stdout.on('data', data => {
     const line = data.toString();
     processLine(line);
