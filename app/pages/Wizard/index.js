@@ -26,6 +26,8 @@ export default class Home extends Component {
     step: 1,
     maxStep: 7,
     lndType: 'neutrino',
+    lndProgress: 0,
+    bitcoindProgress: 0,
     showNodeInfo: false,
     loadingServer: true
   };
@@ -113,10 +115,17 @@ export default class Home extends Component {
     ipcRenderer.send('externalIP', externalIP);
 
     if (setupCompleted) {
-      await Lnd.download({
-        version: TARGET_LND_VERSION,
-        os: getUserPlatform()
-      });
+      await Lnd.download(
+        {
+          version: TARGET_LND_VERSION,
+          os: getUserPlatform()
+        },
+        ({ app, progress }) => {
+          this.setState({
+            [app + 'Progress']: progress
+          });
+        }
+      );
       await Lnd.start();
 
       // this.setState({
@@ -202,7 +211,7 @@ export default class Home extends Component {
   };
 
   renderStep = () => {
-    const { step, lndType, loadingServer, showNodeInfo } = this.state;
+    const { step, lndType, loadingServer, showNodeInfo, lndProgress } = this.state;
 
     if (step === 1) {
       return <IntroStep />;
@@ -234,7 +243,13 @@ export default class Home extends Component {
 
     if (step === 7) {
       console.log('loadingServer', loadingServer);
-      return <WalletQRStep loadingServer={loadingServer} showNodeInfo={showNodeInfo} />;
+      return (
+        <WalletQRStep
+          loadingServer={loadingServer}
+          showNodeInfo={showNodeInfo}
+          lndProgress={lndProgress}
+        />
+      );
     }
 
     return <AutoLaunchStep />;

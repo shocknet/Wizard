@@ -59,20 +59,27 @@ const getLndDirectory = () => {
 
 const lndDirectory = getLndDirectory();
 
-const download = async ({ version, os: operatingSystem }) => {
+const download = async ({ version, os: operatingSystem }, progressCallback) => {
   const folderPath = await getFolderPath();
   const fileName = `lnd-${operatingSystem}-amd64-${version}.${
     operatingSystem === 'linux' ? 'tar.gz' : 'zip'
   }`;
   if (!fs.existsSync(path.resolve(folderPath, 'lnd'))) {
-    await Downloader.downloadRelease({
-      version,
-      user: 'lightningnetwork',
-      repo: 'lnd',
-      fileName
-    });
+    await Downloader.downloadRelease(
+      {
+        version,
+        user: 'lightningnetwork',
+        repo: 'lnd',
+        fileName
+      },
+      progressCallback
+    );
     return true;
   }
+  progressCallback({
+    app: 'lnd',
+    progress: 100
+  });
 };
 
 const getStatuses = async () => {

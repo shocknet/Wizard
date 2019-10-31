@@ -87,7 +87,7 @@ export default class WalletQRStep extends Component {
 
   renderQRCode = () => {
     const { internalIP, walletPort, externalIP, activeTab } = this.state;
-    const { loadingServer, showNodeInfo } = this.props;
+    const { loadingServer, showNodeInfo, lndProgress } = this.props;
     return (
       <Fragment>
         <p className={styles.stepDescription} style={{ marginBottom: 20 }}>
@@ -120,7 +120,11 @@ export default class WalletQRStep extends Component {
         <div className={styles.walletQRCode}>
           <p className={styles.QRCodeDesc}>Scan QR Code with ShockWallet:</p>
           {loadingServer ? (
-            "Please wait while we're downloading the LND and/or Bitcoind clients..."
+            <span>
+              Please wait while we're downloading the LND and/or Bitcoind clients...
+              <br />
+              {lndProgress}%
+            </span>
           ) : (
             <QRCode
               bgColor="#F5A623"
