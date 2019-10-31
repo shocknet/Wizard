@@ -26,10 +26,12 @@ export default class Home extends Component {
     step: 1,
     maxStep: 7,
     lndType: 'neutrino',
+    showNodeInfo: false,
     loadingServer: true
   };
 
   componentDidMount = async () => {
+    const { maxStep } = this.state;
     ipcRenderer.on('lnd-start', () => {
       console.log('lnd-start');
       this.runLnd();
@@ -52,8 +54,17 @@ export default class Home extends Component {
 
     ipcRenderer.on('restart-setup', async () => {
       localForage.setItem('setupCompleted', false);
+      ipcRenderer.send('lndPID', null);
       this.setState({
+        showNodeInfo: false,
         step: 1
+      });
+    });
+
+    ipcRenderer.on('node-info', () => {
+      this.setState({
+        showNodeInfo: true,
+        step: 7
       });
     });
 
@@ -80,6 +91,13 @@ export default class Home extends Component {
     });
 
     ipcRenderer.off('bitcoind-terminate', () => {
+      console.log('Unmounted');
+    });
+
+    ipcRenderer.off('restart-setup', () => {
+      console.log('Unmounted');
+    });
+    ipcRenderer.off('node-info', () => {
       console.log('Unmounted');
     });
 
@@ -184,7 +202,7 @@ export default class Home extends Component {
   };
 
   renderStep = () => {
-    const { step, lndType, loadingServer } = this.state;
+    const { step, lndType, loadingServer, showNodeInfo } = this.state;
 
     if (step === 1) {
       return <IntroStep />;
@@ -216,14 +234,19 @@ export default class Home extends Component {
 
     if (step === 7) {
       console.log('loadingServer', loadingServer);
-      return <WalletQRStep loadingServer={loadingServer} />;
+      return <WalletQRStep loadingServer={loadingServer} showNodeInfo={showNodeInfo} />;
     }
 
     return <AutoLaunchStep />;
   };
 
   renderNavButtons = () => {
-    const { step, maxStep } = this.state;
+    const { step, maxStep, showNodeInfo } = this.state;
+
+    if (showNodeInfo) {
+      return null;
+    }
+
     if (step < maxStep) {
       return (
         <div
@@ -264,7 +287,7 @@ export default class Home extends Component {
   };
 
   render() {
-    const { step } = this.state;
+    const { step, showNodeInfo } = this.state;
 
     return (
       <div className={styles.container}>
@@ -273,24 +296,26 @@ export default class Home extends Component {
         </div>
         {this.renderStep()}
         <div className={styles.stepControlsBar}>
-          {step > 1 ? (
-            <div
-              className={[styles.controlsBtn, styles.prev].join(' ')}
-              onClick={this.prevStep}
-              role="button"
-              tabIndex={0}
-            >
-              <i
-                className="icon ion-ios-arrow-back"
-                style={{
-                  marginRight: 10
-                }}
-              />
-              Previous
-            </div>
-          ) : (
-            <div />
-          )}
+          {!showNodeInfo ? (
+            step > 1 ? (
+              <div
+                className={[styles.controlsBtn, styles.prev].join(' ')}
+                onClick={this.prevStep}
+                role="button"
+                tabIndex={0}
+              >
+                <i
+                  className="icon ion-ios-arrow-back"
+                  style={{
+                    marginRight: 10
+                  }}
+                />
+                Previous
+              </div>
+            ) : (
+              <div />
+            )
+          ) : null}
           {this.renderNavButtons()}
         </div>
       </div>

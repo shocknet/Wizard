@@ -89,6 +89,16 @@ export default class MenuBuilder {
         },
         this.lndPID
           ? {
+              label: 'Node Information',
+              click: async () => {
+                await this.mainWindow.webContents.send('node-info');
+                this.mainWindow.show();
+                this.mainWindow.focus();
+              }
+            }
+          : null,
+        this.lndPID
+          ? {
               label: 'Restart Services',
               click: async () => {
                 await this.mainWindow.webContents.send('lnd-terminate', this.lndPID);
