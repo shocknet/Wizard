@@ -74,10 +74,6 @@ export default class MenuBuilder {
             }
           : null,
         {
-          label: 'Reminder: Setup firewall/forwarding for ShockWizard',
-          enabled: false
-        },
-        {
           label: 'Re-run LND Setup',
           click: async () => {
             await this.mainWindow.webContents.send('lnd-terminate', this.lndPID);
@@ -87,6 +83,16 @@ export default class MenuBuilder {
             this.mainWindow.focus();
           }
         },
+        this.lndPID
+          ? {
+              label: 'Node Information',
+              click: async () => {
+                await this.mainWindow.webContents.send('node-info');
+                this.mainWindow.show();
+                this.mainWindow.focus();
+              }
+            }
+          : null,
         this.lndPID
           ? {
               label: 'Restart Services',

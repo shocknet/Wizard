@@ -2,6 +2,20 @@
   box-sizing: border-box;
 }
 
+::-webkit-scrollbar {
+  width: 9px;
+  padding: 0 2px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #efefef3b;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #ccc;
+}
+
 .warning {
   color: white;
   font-weight: bold;
@@ -28,6 +42,7 @@
   align-items: center;
   justify-content: center;
   height: 100%;
+  padding-top: 47px;
   background-image: url('../../../img/wizard-bg.svg');
   background-size: cover;
 }
@@ -64,6 +79,60 @@
   color: #f5a623;
 }
 
+.lndTypeContainer.nodeInfo {
+  width: 100%;
+  margin-top: 81px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.lndLogsContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 209px);
+}
+
+.logsBox {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #00000047;
+  padding: 20px;
+  backdrop-filter: blur(30px);
+  overflow: auto;
+  scroll-behavior: smooth;
+}
+
+.logsBox p {
+  margin: 0;
+  margin-top: 5px;
+  font-size: 11px;
+  margin-top: 8px;
+  word-break: break-word;
+  font-family: monospace;
+}
+
+.stepTabs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: #294f93;
+}
+
+.stepTab {
+  width: 50%;
+  text-align: center;
+  font-weight: bold;
+  background-color: #294f93;
+  cursor: pointer;
+}
+
 .stepTitle {
   font-weight: bold;
   font-size: 23px;
@@ -91,7 +160,7 @@
   text-align: center;
   margin: auto;
   margin-bottom: 0;
-  margin-top: 10px;
+  margin-top: 30px;
   font-weight: 500;
 }
 
@@ -105,6 +174,7 @@
   display: flex;
   justify-content: center;
   color: rgba(255, 255, 255, 0.64);
+  width: 60%;
 }
 
 .walletQRCode {

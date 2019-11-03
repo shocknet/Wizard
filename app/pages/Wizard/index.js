@@ -26,10 +26,14 @@ export default class Home extends Component {
     step: 1,
     maxStep: 7,
     lndType: 'neutrino',
+    lndProgress: 0,
+    bitcoindProgress: 0,
+    showNodeInfo: false,
     loadingServer: true
   };
 
   componentDidMount = async () => {
+    const { maxStep } = this.state;
     ipcRenderer.on('lnd-start', () => {
       console.log('lnd-start');
       this.runLnd();
@@ -52,8 +56,17 @@ export default class Home extends Component {
 
     ipcRenderer.on('restart-setup', async () => {
       localForage.setItem('setupCompleted', false);
+      ipcRenderer.send('lndPID', null);
       this.setState({
+        showNodeInfo: false,
         step: 1
+      });
+    });
+
+    ipcRenderer.on('node-info', () => {
+      this.setState({
+        showNodeInfo: true,
+        step: 7
       });
     });
 
@@ -61,6 +74,9 @@ export default class Home extends Component {
     if (setupCompleted) {
       await this.runBitcoind();
       await this.runLnd();
+      this.setState({
+        loadingServer: false
+      });
     } else {
       remote.BrowserWindow.getAllWindows().map(window => window.show());
     }
@@ -83,6 +99,13 @@ export default class Home extends Component {
       console.log('Unmounted');
     });
 
+    ipcRenderer.off('restart-setup', () => {
+      console.log('Unmounted');
+    });
+    ipcRenderer.off('node-info', () => {
+      console.log('Unmounted');
+    });
+
     Lnd.terminate();
     Bitcoind.terminate();
   };
@@ -95,10 +118,17 @@ export default class Home extends Component {
     ipcRenderer.send('externalIP', externalIP);
 
     if (setupCompleted) {
-      await Lnd.download({
-        version: TARGET_LND_VERSION,
-        os: getUserPlatform()
-      });
+      await Lnd.download(
+        {
+          version: TARGET_LND_VERSION,
+          os: getUserPlatform()
+        },
+        ({ app, progress }) => {
+          this.setState({
+            [app + 'Progress']: progress
+          });
+        }
+      );
       await Lnd.start();
 
       // this.setState({
@@ -123,15 +153,23 @@ export default class Home extends Component {
   runBitcoind = async () => {
     const setupCompleted = await localForage.getItem('setupCompleted');
     const lndType = await localForage.getItem('lndType');
+    console.log('lndType', lndType);
     if (setupCompleted && lndType === 'bitcoind') {
-      await Bitcoind.download({
-        version: '0.18.0',
-        os: getUserPlatform(),
-        osArchitecture: getUserPlatform(true)
-      });
+      await Bitcoind.download(
+        {
+          version: '0.18.0',
+          os: getUserPlatform(),
+          osArchitecture: getUserPlatform(true)
+        },
+        ({ app, progress }) => {
+          this.setState({
+            [app + 'Progress']: progress
+          });
+        }
+      );
       await Bitcoind.start();
       this.setState({
-        step: 1
+        lndType: 'bitcoind'
       });
     }
     return true;
@@ -149,8 +187,11 @@ export default class Home extends Component {
         loadingServer: true,
         step: step + 1
       });
+      console.log('Running LND...');
       await this.runLnd();
+      console.log('Running Bitcoind...');
       await this.runBitcoind();
+      console.log('Server is no longer loading!');
       this.setState({
         loadingServer: false
       });
@@ -184,7 +225,7 @@ export default class Home extends Component {
   };
 
   renderStep = () => {
-    const { step, lndType, loadingServer } = this.state;
+    const { step, lndType, loadingServer, showNodeInfo, lndProgress } = this.state;
 
     if (step === 1) {
       return <IntroStep />;
@@ -215,15 +256,29 @@ export default class Home extends Component {
     }
 
     if (step === 7) {
-      console.log('loadingServer', loadingServer);
-      return <WalletQRStep loadingServer={loadingServer} />;
+      const { lndType, bitcoindProgress } = this.state;
+      console.log('loadingServer', loadingServer, lndType);
+      return (
+        <WalletQRStep
+          lndType={lndType}
+          loadingServer={loadingServer}
+          showNodeInfo={showNodeInfo}
+          lndProgress={lndProgress}
+          bitcoindProgress={bitcoindProgress}
+        />
+      );
     }
 
     return <AutoLaunchStep />;
   };
 
   renderNavButtons = () => {
-    const { step, maxStep } = this.state;
+    const { step, maxStep, showNodeInfo } = this.state;
+
+    if (showNodeInfo) {
+      return null;
+    }
+
     if (step < maxStep) {
       return (
         <div
@@ -264,7 +319,7 @@ export default class Home extends Component {
   };
 
   render() {
-    const { step } = this.state;
+    const { step, showNodeInfo } = this.state;
 
     return (
       <div className={styles.container}>
@@ -273,24 +328,26 @@ export default class Home extends Component {
         </div>
         {this.renderStep()}
         <div className={styles.stepControlsBar}>
-          {step > 1 ? (
-            <div
-              className={[styles.controlsBtn, styles.prev].join(' ')}
-              onClick={this.prevStep}
-              role="button"
-              tabIndex={0}
-            >
-              <i
-                className="icon ion-ios-arrow-back"
-                style={{
-                  marginRight: 10
-                }}
-              />
-              Previous
-            </div>
-          ) : (
-            <div />
-          )}
+          {!showNodeInfo ? (
+            step > 1 ? (
+              <div
+                className={[styles.controlsBtn, styles.prev].join(' ')}
+                onClick={this.prevStep}
+                role="button"
+                tabIndex={0}
+              >
+                <i
+                  className="icon ion-ios-arrow-back"
+                  style={{
+                    marginRight: 10
+                  }}
+                />
+                Previous
+              </div>
+            ) : (
+              <div />
+            )
+          ) : null}
           {this.renderNavButtons()}
         </div>
       </div>

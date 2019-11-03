@@ -7,7 +7,7 @@ import Unzip from 'unzipper';
 import Tar from 'tar';
 import { getFolderPath, getUserPlatform } from './os';
 
-const downloadRelease = ({ user, repo, version, fileName, os }) =>
+const downloadRelease = ({ user, repo, version, fileName, os }, progressCallback) =>
   new Promise(async (resolve, reject) => {
     let loaded = 0;
     const downloadLocation = await getFolderPath();
@@ -26,6 +26,12 @@ const downloadRelease = ({ user, repo, version, fileName, os }) =>
       const total = downloadedRelease.headers['content-length'];
       loaded += buffer.length;
       ipcRenderer.send(`${repo}Progress`, Math.round((loaded * 100) / total));
+      if (progressCallback) {
+        progressCallback({
+          app: repo,
+          progress: Math.round((loaded * 100) / total)
+        });
+      }
     });
     writer.on('finish', async () => {
       console.log(Buffer.isBuffer(writer));
@@ -35,7 +41,7 @@ const downloadRelease = ({ user, repo, version, fileName, os }) =>
     writer.on('error', reject);
   });
 
-const downloadFile = ({ fileName, downloadUrl, extractedFolderName }) =>
+const downloadFile = ({ fileName, downloadUrl, extractedFolderName }, progressCallback) =>
   new Promise(async (resolve, reject) => {
     let loaded = 0;
     const userPlatform = getUserPlatform();
@@ -60,6 +66,12 @@ const downloadFile = ({ fileName, downloadUrl, extractedFolderName }) =>
       const total = downloadedRelease.headers['content-length'];
       loaded += buffer.length;
       ipcRenderer.send(`${fileName}Progress`, Math.round((loaded * 100) / total));
+      if (progressCallback) {
+        progressCallback({
+          app: fileName,
+          progress: Math.round((loaded * 100) / total)
+        });
+      }
     });
     writer.on('finish', async () => {
       console.log(Buffer.isBuffer(writer));
