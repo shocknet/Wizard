@@ -5,6 +5,7 @@ import localForage from 'localforage';
 import localIP from 'internal-ip';
 import { QRCode } from 'react-qrcode-logo';
 import Lnd from '../../utils/lnd';
+import Bitcoind from '../../utils/bitcoind';
 import styles from './css/index.css';
 
 export default class WalletQRStep extends Component {
@@ -13,7 +14,10 @@ export default class WalletQRStep extends Component {
     internalIP: '',
     externalIP: '',
     walletPort: '9835',
-    logLines: []
+    lndLogLines: [],
+    bitcoindProgress: 0,
+    lndProgress: 0,
+    bitcoindLogLines: []
   };
 
   logBox = React.createRef();
@@ -24,10 +28,24 @@ export default class WalletQRStep extends Component {
     this.setOption('internalIP', internalIP);
     this.setOption('externalIP', externalIP);
     Lnd.onData(data => {
-      const { logLines } = this.state;
+      const { lndLogLines } = this.state;
       this.setState(
         {
-          logLines: [...logLines, data]
+          lndLogLines: [...lndLogLines, data]
+        },
+        () => {
+          if (this.logBox.current) {
+            this.logBox.current.scrollTo(0, this.logBox.current.scrollHeight);
+          }
+        }
+      );
+    });
+
+    Bitcoind.onData(data => {
+      const { bitcoindLogLines } = this.state;
+      this.setState(
+        {
+          bitcoindLogLines: [...bitcoindLogLines, data]
         },
         () => {
           if (this.logBox.current) {
@@ -42,6 +60,7 @@ export default class WalletQRStep extends Component {
     const { networkType } = this.state;
     this.setOption('networkType', networkType);
     Lnd.offData();
+    Bitcoind.offData();
   };
 
   setOption = async (key, value) => {
@@ -59,7 +78,7 @@ export default class WalletQRStep extends Component {
   };
 
   renderTabs = () => {
-    const { showNodeInfo } = this.props;
+    const { showNodeInfo, lndType } = this.props;
     const { activeTab } = this.state;
     if (!showNodeInfo) {
       return null;
@@ -76,22 +95,34 @@ export default class WalletQRStep extends Component {
         </div>
         <div
           className={styles.stepTab}
-          style={activeTab === 'logs' ? { backgroundColor: '#d08a15' } : {}}
-          onClick={() => this.setActiveTab('logs')}
+          style={activeTab === 'lnd' ? { backgroundColor: '#d08a15' } : {}}
+          onClick={() => this.setActiveTab('lnd')}
         >
           <p>LND Logs</p>
         </div>
+        {lndType === 'bitcoind' ? (
+          <div
+            className={styles.stepTab}
+            style={activeTab === 'bitcoind' ? { backgroundColor: '#d08a15' } : {}}
+            onClick={() => this.setActiveTab('bitcoind')}
+          >
+            <p>Bitcoind Logs</p>
+          </div>
+        ) : null}
       </div>
     );
   };
 
   renderQRCode = () => {
     const { internalIP, walletPort, externalIP, activeTab } = this.state;
-    const { loadingServer, showNodeInfo, lndProgress } = this.props;
+    const { loadingServer, showNodeInfo, lndProgress, bitcoindProgress, lndType } = this.props;
     return (
       <Fragment>
         <p className={styles.stepDescription} style={{ marginBottom: 20 }}>
           Instructions for user to connect wallet to wizard api instance (Work in Progress)
+          <br />
+          <br />
+          Reminder: Setup firewall/forwarding for ShockWizard
         </p>
         <div className={styles.walletInfo}>
           <label
@@ -123,7 +154,7 @@ export default class WalletQRStep extends Component {
             <span>
               Please wait while we're downloading the LND and/or Bitcoind clients...
               <br />
-              {lndProgress}%
+              {lndType === 'bitcoind' ? (lndProgress + bitcoindProgress) / 2 : lndProgress}%
             </span>
           ) : (
             <QRCode
@@ -139,12 +170,26 @@ export default class WalletQRStep extends Component {
   };
 
   renderLNDLogs = () => {
-    console.log('logLines', Lnd);
-    const { logLines } = this.state;
+    console.log('lndLogLines', Lnd);
+    const { lndLogLines } = this.state;
     return (
       <div className={styles.lndLogsContainer}>
         <div className={styles.logsBox} ref={this.logBox}>
-          {logLines ? logLines.map(line => <p className={styles.logEntry}>{line}</p>) : null}
+          {lndLogLines ? lndLogLines.map(line => <p className={styles.logEntry}>{line}</p>) : null}
+        </div>
+      </div>
+    );
+  };
+
+  renderBitcoindLogs = () => {
+    const { bitcoindLogLines } = this.state;
+    console.log('bitcoindLogLines', bitcoindLogLines);
+    return (
+      <div className={styles.lndLogsContainer}>
+        <div className={styles.logsBox} ref={this.logBox}>
+          {bitcoindLogLines
+            ? bitcoindLogLines.map(line => <p className={styles.logEntry}>{line}</p>)
+            : null}
         </div>
       </div>
     );
@@ -167,7 +212,11 @@ export default class WalletQRStep extends Component {
               {showNodeInfo ? 'NODE INFORMATION' : 'NETWORK SETUP'}
             </p>
             {this.renderTabs()}
-            {activeTab === 'info' ? this.renderQRCode() : this.renderLNDLogs()}
+            {activeTab === 'info'
+              ? this.renderQRCode()
+              : activeTab === 'lnd'
+              ? this.renderLNDLogs()
+              : this.renderBitcoindLogs()}
           </div>
         </div>
       </div>

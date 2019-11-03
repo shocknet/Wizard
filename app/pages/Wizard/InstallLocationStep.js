@@ -28,13 +28,13 @@ export default class InstallLocationStep extends Component {
     });
   };
 
-  chooseFolder = () => {
-    const folder = remote.dialog.showOpenDialog({
+  chooseFolder = async () => {
+    const folder = await remote.dialog.showOpenDialog({
       properties: ['openDirectory']
-    })[0];
+    });
 
-    console.log(folder);
-    this.setOption('installLocation', folder);
+    console.log('installLocation', folder.filePaths);
+    this.setOption('installLocation', folder.filePaths[0]);
   };
 
   render() {

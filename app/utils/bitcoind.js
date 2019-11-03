@@ -17,6 +17,7 @@ const regexExpressions = {
 };
 
 let child = null;
+let dataListener = null;
 
 const saveBitcoindConfig = ({ config, bitcoindPath }) =>
   new Promise((resolve, reject) => {
@@ -27,17 +28,24 @@ const saveBitcoindConfig = ({ config, bitcoindPath }) =>
     fs.writeFile(bitcoindPath, configText, (err, data) => (err ? reject(err) : resolve(data)));
   });
 
-const download = async ({ version, os, osArchitecture }) => {
+const download = async ({ version, os, osArchitecture }, progressCallback) => {
   const folderPath = await getFolderPath();
   const fileName = `bitcoin-${version}-${osArchitecture}.${os === 'linux' ? 'tar.gz' : 'zip'}`;
   if (!fs.existsSync(path.resolve(folderPath, 'bitcoind'))) {
-    await Downloader.downloadFile({
-      downloadUrl: `https://bitcoincore.org/bin/bitcoin-core-${version}/${fileName}`,
-      fileName: 'bitcoind',
-      extractedFolderName: `bitcoin-${version}`
-    });
+    await Downloader.downloadFile(
+      {
+        downloadUrl: `https://bitcoincore.org/bin/bitcoin-core-${version}/${fileName}`,
+        fileName: 'bitcoind',
+        extractedFolderName: `bitcoin-${version}`
+      },
+      progressCallback
+    );
     return true;
   }
+  progressCallback({
+    app: 'bitcoind',
+    progress: 100
+  });
 };
 
 const getStatuses = async () => {
@@ -63,6 +71,9 @@ const setStatus = async (key, value) => {
 };
 
 const processLine = async line => {
+  if (dataListener) {
+    dataListener(line);
+  }
   await Promise.all(
     Object.entries(regexExpressions).map(async ([key, conditions]) => {
       const downloadedBlockHeightsLength = await localForage.getItem(
@@ -144,10 +155,8 @@ const start = async () => {
     config: {
       testnet: networkType === 'mainnet' ? 0 : 1,
       datadir: dataDir,
-      blocksonly: 1,
       server: 1,
       listen: 0,
-      prune: 1000,
       dbcache: 16000,
       rpcallowip: '0.0.0.0/0',
       zmqpubrawtx: 'tcp://127.0.0.1:28333',
@@ -177,8 +186,18 @@ const terminate = () => {
   }
 };
 
+const onData = callback => {
+  dataListener = callback;
+};
+
+const offData = () => {
+  dataListener = null;
+};
+
 export default {
   download,
   start,
-  terminate
+  terminate,
+  onData,
+  offData
 };

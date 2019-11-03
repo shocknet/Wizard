@@ -2,6 +2,20 @@
   box-sizing: border-box;
 }
 
+::-webkit-scrollbar {
+  width: 9px;
+  padding: 0 2px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #efefef3b;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #ccc;
+}
+
 .warning {
   color: white;
   font-weight: bold;
@@ -28,6 +42,7 @@
   align-items: center;
   justify-content: center;
   height: 100%;
+  padding-top: 47px;
   background-image: url('../../../img/wizard-bg.svg');
   background-size: cover;
 }
@@ -66,7 +81,7 @@
 
 .lndTypeContainer.nodeInfo {
   width: 100%;
-  margin-top: 128px;
+  margin-top: 81px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -88,24 +103,9 @@
   height: 100%;
   background-color: #00000047;
   padding: 20px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(30px);
   overflow: auto;
   scroll-behavior: smooth;
-}
-
-::-webkit-scrollbar {
-  width: 9px;
-  padding: 0 2px;
-}
-
-::-webkit-scrollbar-track {
-  background-color: #efefef3b;
-}
-
-::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  background-color: #ccc;
 }
 
 .logsBox p {

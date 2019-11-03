@@ -74,6 +74,9 @@ export default class Home extends Component {
     if (setupCompleted) {
       await this.runBitcoind();
       await this.runLnd();
+      this.setState({
+        loadingServer: false
+      });
     } else {
       remote.BrowserWindow.getAllWindows().map(window => window.show());
     }
@@ -150,15 +153,23 @@ export default class Home extends Component {
   runBitcoind = async () => {
     const setupCompleted = await localForage.getItem('setupCompleted');
     const lndType = await localForage.getItem('lndType');
+    console.log('lndType', lndType);
     if (setupCompleted && lndType === 'bitcoind') {
-      await Bitcoind.download({
-        version: '0.18.0',
-        os: getUserPlatform(),
-        osArchitecture: getUserPlatform(true)
-      });
+      await Bitcoind.download(
+        {
+          version: '0.18.0',
+          os: getUserPlatform(),
+          osArchitecture: getUserPlatform(true)
+        },
+        ({ app, progress }) => {
+          this.setState({
+            [app + 'Progress']: progress
+          });
+        }
+      );
       await Bitcoind.start();
       this.setState({
-        step: 1
+        lndType: 'bitcoind'
       });
     }
     return true;
@@ -176,8 +187,11 @@ export default class Home extends Component {
         loadingServer: true,
         step: step + 1
       });
+      console.log('Running LND...');
       await this.runLnd();
+      console.log('Running Bitcoind...');
       await this.runBitcoind();
+      console.log('Server is no longer loading!');
       this.setState({
         loadingServer: false
       });
@@ -242,12 +256,15 @@ export default class Home extends Component {
     }
 
     if (step === 7) {
-      console.log('loadingServer', loadingServer);
+      const { lndType, bitcoindProgress } = this.state;
+      console.log('loadingServer', loadingServer, lndType);
       return (
         <WalletQRStep
+          lndType={lndType}
           loadingServer={loadingServer}
           showNodeInfo={showNodeInfo}
           lndProgress={lndProgress}
+          bitcoindProgress={bitcoindProgress}
         />
       );
     }

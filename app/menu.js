@@ -74,10 +74,6 @@ export default class MenuBuilder {
             }
           : null,
         {
-          label: 'Reminder: Setup firewall/forwarding for ShockWizard',
-          enabled: false
-        },
-        {
           label: 'Re-run LND Setup',
           click: async () => {
             await this.mainWindow.webContents.send('lnd-terminate', this.lndPID);
