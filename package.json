@@ -1,5 +1,5 @@
 {
-  "name": "lnd-wizard",
+  "name": "ShockWizard",
   "productName": "ShockWizard",
   "version": "0.0.13",
   "description": "Setup LND automatically!",
@@ -108,7 +108,10 @@
       "provider": "github",
       "owner": "shocknet",
       "repo": "Wizard",
-      "private": false
+      "private": false,
+      "vPrefixedTagName": true,
+      "publishAutoUpdate": true,
+      "releaseType": "prerelease"
     }
   },
   "repository": {
