@@ -1,5 +1,5 @@
 <div align="center" style="display: flex; width: 100%; align-items: center; justify-content: center; flex-direction: column">
-  <img src="./app/img/D7B5290A.png" width="80px" style="margin-bottom: 5px" />
+  <img src="https://github.com/shocknet/Wizard/blob/master/app/img/D7B5290A.png" width="80px" style="margin-bottom: 5px" /><br>
   <span style="font-size: 24px;font-weight: bold;">S H O C K W I Z A R D</span>
   <div style="margin-top: 10px;">
     <a href="https://ci.appveyor.com/project/Emad-salah/wizard-q98nu">
@@ -10,54 +10,32 @@
 
 # Introduction
 
-<span style="color: #f5a623;">**NOTE: This project is still beta work and is not intended for use on Mainnet as of yet!**</span>
+<span style="color: #f5a623;">**NOTE: This project is in alpha, and is not intended for use on Mainnet**</span>
 
-ShockWizard is a project that aims to simplify the process of deploying a Private Bitcoin Node and exposing its API for use in a server (The source code for that lives in a separate repo: [ShockAPI](https://github.com/jhizzle84/api)). This is all done simply by answering a few questions about how you want your Bitcoin Node to work like and that's it!
+ShockWizard is a Desktop Installer that makes deploying and managing your own Bitcoin+LND node, and configuring as your [ShockWallet](https://github.com/shocknet/wallet) server, as simple as a few clicks. 
 
-## Versioning System
+There are automatic builds for most operating systems:
+- [MacOS](https://github.com/shocknet/Wizard/releases)
+- [Windows](https://github.com/shocknet/Wizard/releases)
+- [Linux](https://github.com/shocknet/Wizard/releases) (*headless systems should follow the API readme*)
 
-We are using the [SemVer](https://semver.org/) versioning system and the [GitFlow](https://nvie.com/posts/a-successful-git-branching-model/) branching model. So we'll always have both the `master` and `develop` branches but new features and hotfixes will be in a separate branch that should be named in the following format respectively: `feature/<feature-name>` and `hotfix/<feature-name>`. So version bumps will occur for the Beta releases every time the develop branch is merged with master.
+ShockWallet utilizes [ShockAPI](https://github.com/jhizzle84/api) which comes configured with this package. The wizard supports both Neutrino and Bitcoin Core.
 
-## Continuous Integration and Deployment
 
-We're using AppVeyor for CI/CD. You can view the build history and the current build's progress [here](https://ci.appveyor.com/project/Emad-salah/wizard-q98nu). Builds will occur automatically only once the version has been bumped and pushed to the master branch.
 
-Also after every commit, in order to ensure code consistency and to avoid having build failures, there are pre-commit hooks that run to first check whether there are any ESLint warnings/errors and if there aren't any, it will also format the code using [Prettier](https://github.com/prettier/prettier).
+# Install
 
-# Contributing to ShockWizard
+Browse to [Releases](https://github.com/shocknet/Wizard/releases) and download->run the correct file for your operating system. 
 
-## Install
+*Full Bitcoin Core installations should budget at least 400GB of disk space*
 
-- **If you have installation or compilation issues with this project, please see [our debugging guide](https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues/400)**
 
-First, clone the repo via git:
+# Using with ShockWallet
+The end of the wizard will provide you with a scan-able QR code. Scan with ShockWallet to automatically connect, this method will configure the app to automatically switch between your internal and external* IP addresses when you leave your home network.
 
-```bash
-git clone --depth 1 --single-branch --branch master https://github.com/electron-react-boilerplate/electron-react-boilerplate.git your-project-name
-```
+**Port `9835` is used by default and may require a Firewall/NAT Forwarding Rule to be set on your router.*
 
-And then install the dependencies with yarn.
-
-```bash
-$ cd your-project-name
-$ yarn
-```
-
-## Run
-
-Start the app in the `dev` environment. This starts the renderer process in [**hot-module-replacement**](https://webpack.js.org/guides/hmr-react/) mode and starts a webpack dev server that sends hot updates to the renderer process:
-
-```bash
-$ yarn dev
-```
-
-If you don't need autofocus when your files was changed, then run `dev` with env `START_MINIMIZED=true`:
-
-```bash
-$ START_MINIMIZED=true yarn dev
-```
-
-## Packaging
+## Packaging from Source
 
 To package apps for the local platform:
 
@@ -75,48 +53,9 @@ Then,
 $ yarn package-all
 ```
 
-To package apps with options:
+<hr></hr>
 
-```bash
-$ yarn package --[option]
-```
+**If you find any issues with this project, or would like to suggest an enhancement, please [tell us](https://github.com/shocknet/Wizard/issues).**
 
-To run End-to-End Test
-
-```bash
-$ yarn build-e2e
-$ yarn test-e2e
-
-# Running e2e tests in a minimized window
-$ START_MINIMIZED=true yarn build-e2e
-$ yarn test-e2e
-```
-
-:bulb: You can debug your production build with devtools by simply setting the `DEBUG_PROD` env variable:
-
-```bash
-DEBUG_PROD=true yarn package
-```
-
-## CSS Modules
-
-This boilerplate is configured to use [css-modules](https://github.com/css-modules/css-modules) out of the box.
-
-All `.css` file extensions will use css-modules unless it has `.global.css`.
-
-If you need global styles, stylesheets with `.global.css` will not go through the
-css-modules loader. e.g. `app.global.css`
-
-If you want to import global css libraries (like `bootstrap`), you can just write the following code in `.global.css`:
-
-```css
-@import '~bootstrap/dist/css/bootstrap.css';
-```
-
-## Static Type Checking
-
-This project comes with Flow support out of the box! You can annotate your code with types, [get Flow errors as ESLint errors](https://github.com/amilajack/eslint-plugin-flowtype-errors), and get [type errors during runtime](https://github.com/codemix/flow-runtime) during development. Types are completely optional.
-
-## Dispatching redux actions from main process
-
-See [#118](https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues/118) and [#108](https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues/108)
+[ISC License](https://opensource.org/licenses/ISC)
+© 2019 [Shock Network, Inc.](http://shock.network)
