@@ -15,7 +15,6 @@
   "javascript.format.enable": true,
   "typescript.validate.enable": true,
   "typescript.format.enable": true,
-  "prettier.eslintIntegration": true,
 
   "flow.useNPMPackagedFlow": true,
   "search.exclude": {

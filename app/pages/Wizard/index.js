@@ -56,6 +56,7 @@ export default class Home extends Component {
 
     ipcRenderer.on('restart-setup', async () => {
       localForage.setItem('setupCompleted', false);
+      localForage.clear();
       ipcRenderer.send('lndPID', null);
       this.setState({
         showNodeInfo: false,
