@@ -5,6 +5,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import Unzip from 'unzipper';
 import Tar from 'tar';
+import logger from 'electron-log';
 import { getFolderPath, getUserPlatform } from './os';
 
 const downloadRelease = ({ user, repo, version, fileName, os }, progressCallback) =>
@@ -17,7 +18,7 @@ const downloadRelease = ({ user, repo, version, fileName, os }, progressCallback
     }
     const writer = fs.createWriteStream(fileLocation);
     const releaseLink = `https://github.com/${user}/${repo}/releases/download/${version}/${fileName}`;
-    console.log('Release Link:', releaseLink);
+    logger.info('Release Link:', releaseLink);
     const downloadedRelease = await Http.get(releaseLink, {
       responseType: 'stream'
     });
@@ -34,7 +35,7 @@ const downloadRelease = ({ user, repo, version, fileName, os }, progressCallback
       }
     });
     writer.on('finish', async () => {
-      console.log(Buffer.isBuffer(writer));
+      logger.info(Buffer.isBuffer(writer));
       await extractFile(fileLocation, downloadLocation, repo);
       resolve(true);
     });
@@ -57,7 +58,7 @@ const downloadFile = ({ fileName, downloadUrl, extractedFolderName }, progressCa
     }
     const writer = fs.createWriteStream(fileLocation);
     const releaseLink = downloadUrl;
-    console.log('Release Link:', releaseLink);
+    logger.info('Release Link:', releaseLink);
     const downloadedRelease = await Http.get(releaseLink, {
       responseType: 'stream'
     });
@@ -74,7 +75,7 @@ const downloadFile = ({ fileName, downloadUrl, extractedFolderName }, progressCa
       }
     });
     writer.on('finish', async () => {
-      console.log(Buffer.isBuffer(writer));
+      logger.info(Buffer.isBuffer(writer));
       await extractFile(fileLocation, downloadLocation, fileName, extractedFolderName);
       resolve(true);
     });
@@ -93,7 +94,7 @@ const extractFile = (filePath, destination, folderName, extractedFolderName) =>
           .slice(0, archiveFormatIndex)
           .join('.');
     const readStream = fs.createReadStream(filePath);
-    console.log(filePath, sourceFolderPath, destination);
+    logger.info(filePath, sourceFolderPath, destination);
     if (os !== 'linux') {
       readStream.pipe(Unzip.Extract({ path: destination }));
     } else {

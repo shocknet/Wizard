@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import localForage from 'localforage';
 import publicIP from 'public-ip';
+import logger from 'electron-log';
 import styles from './css/index.css';
 
 export default class LndTypeStep extends Component {
@@ -26,7 +27,7 @@ export default class LndTypeStep extends Component {
 
   setOption = async (key, value) => {
     await localForage.setItem(key, value);
-    console.log(key, value);
+    logger.info(key, value);
     this.setState({
       [key]: value
     });

@@ -4,6 +4,7 @@ import { remote, ipcRenderer } from 'electron';
 import localForage from 'localforage';
 
 import AutoLaunch from 'auto-launch';
+import logger from 'electron-log';
 
 import { getUserPlatform } from '../../utils/os';
 
@@ -35,22 +36,22 @@ export default class Home extends Component {
   componentDidMount = async () => {
     const { maxStep } = this.state;
     ipcRenderer.on('lnd-start', () => {
-      console.log('lnd-start');
+      logger.info('lnd-start');
       this.runLnd();
     });
 
     ipcRenderer.on('bitcoind-start', () => {
-      console.log('bitcoind-start');
+      logger.info('bitcoind-start');
       this.runBitcoind();
     });
 
     ipcRenderer.on('lnd-terminate', (event, pid) => {
-      console.log('lnd-terminate', event, pid);
+      logger.info('lnd-terminate', event, pid);
       Lnd.terminate();
     });
 
     ipcRenderer.on('bitcoind-terminate', (event, pid) => {
-      console.log('bitcoind-terminate', event, pid);
+      logger.info('bitcoind-terminate', event, pid);
       Bitcoind.terminate();
     });
 
@@ -85,26 +86,26 @@ export default class Home extends Component {
 
   componentWillUnmount = () => {
     ipcRenderer.off('lnd-start', () => {
-      console.log('Unmounted');
+      logger.info('Unmounted');
     });
 
     ipcRenderer.off('bitcoind-start', () => {
-      console.log('Unmounted');
+      logger.info('Unmounted');
     });
 
     ipcRenderer.off('lnd-terminate', () => {
-      console.log('Unmounted');
+      logger.info('Unmounted');
     });
 
     ipcRenderer.off('bitcoind-terminate', () => {
-      console.log('Unmounted');
+      logger.info('Unmounted');
     });
 
     ipcRenderer.off('restart-setup', () => {
-      console.log('Unmounted');
+      logger.info('Unmounted');
     });
     ipcRenderer.off('node-info', () => {
-      console.log('Unmounted');
+      logger.info('Unmounted');
     });
 
     Lnd.terminate();
@@ -141,10 +142,10 @@ export default class Home extends Component {
           name: 'LNDServer'
         });
         const startupEnabled = await startup.isEnabled();
-        console.log('Startup Enabled:', startupEnabled);
+        logger.info('Startup Enabled:', startupEnabled);
         if (!startupEnabled) {
           await startup.enable();
-          console.log('Startup Enabled');
+          logger.info('Startup Enabled');
         }
       }
     }
@@ -154,7 +155,7 @@ export default class Home extends Component {
   runBitcoind = async () => {
     const setupCompleted = await localForage.getItem('setupCompleted');
     const lndType = await localForage.getItem('lndType');
-    console.log('lndType', lndType);
+    logger.info('lndType', lndType);
     if (setupCompleted && lndType === 'bitcoind') {
       await Bitcoind.download(
         {
@@ -178,34 +179,34 @@ export default class Home extends Component {
 
   nextStep = async () => {
     const { step, maxStep } = this.state;
-    console.log('nextStep', step, step === 3);
+    logger.info('nextStep', step, step === 3);
 
     if (step === 6) {
       // eslint-disable-next-line no-new
-      console.log('Step 6');
+      logger.info('Step 6');
       await localForage.setItem('setupCompleted', true);
       this.setState({
         loadingServer: true,
         step: step + 1
       });
-      console.log('Running LND...');
+      logger.info('Running LND...');
       await this.runLnd();
-      console.log('Running Bitcoind...');
+      logger.info('Running Bitcoind...');
       await this.runBitcoind();
-      console.log('Server is no longer loading!');
+      logger.info('Server is no longer loading!');
       this.setState({
         loadingServer: false
       });
     } else if (step === 3) {
-      console.log(step);
+      logger.info(step);
       const lndType = await localForage.getItem('lndType');
-      console.log('Lnd Type', lndType);
+      logger.info('Lnd Type', lndType);
       this.setState({
         lndType,
         step: step + 1
       });
     } else if (step === maxStep) {
-      console.log('Step 7');
+      logger.info('Step 7');
       remote.BrowserWindow.getFocusedWindow().hide();
       new Notification('LND Server Setup', {
         body:
@@ -258,7 +259,7 @@ export default class Home extends Component {
 
     if (step === 7) {
       const { lndType, bitcoindProgress } = this.state;
-      console.log('loadingServer', loadingServer, lndType);
+      logger.info('loadingServer', loadingServer, lndType);
       return (
         <WalletQRStep
           lndType={lndType}

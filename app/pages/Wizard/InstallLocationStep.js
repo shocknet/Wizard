@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { remote } from 'electron';
 import localForage from 'localforage';
+import logger from 'electron-log';
 import styles from './css/index.css';
 
 export default class InstallLocationStep extends Component {
@@ -22,7 +23,7 @@ export default class InstallLocationStep extends Component {
 
   setOption = async (key, value) => {
     await localForage.setItem(key, value);
-    console.log(key, value);
+    logger.info(key, value);
     this.setState({
       [key]: value
     });
@@ -33,7 +34,7 @@ export default class InstallLocationStep extends Component {
       properties: ['openDirectory']
     });
 
-    console.log('installLocation', folder.filePaths);
+    logger.info('installLocation', folder.filePaths);
     this.setOption('installLocation', folder.filePaths[0]);
   };
 

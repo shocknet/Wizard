@@ -2,6 +2,7 @@ import os from 'os';
 import path from 'path';
 import fs from 'fs';
 import { remote } from 'electron';
+import logger from 'electron-log';
 import localForage from 'localforage';
 
 export const getUserPlatform = (shortNames = false) => {
@@ -23,7 +24,7 @@ export const getUserPlatform = (shortNames = false) => {
 
 export const getFolderPath = async () => {
   const folderPath = await localForage.getItem('installLocation');
-  console.log(folderPath);
+  logger.info(folderPath);
   return (
     folderPath ||
     path.resolve(

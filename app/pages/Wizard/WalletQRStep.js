@@ -4,6 +4,7 @@ import React, { Component, Fragment } from 'react';
 import localForage from 'localforage';
 import localIP from 'internal-ip';
 import { QRCode } from 'react-qrcode-logo';
+import logger from 'electron-log';
 import Lnd from '../../utils/lnd';
 import Bitcoind from '../../utils/bitcoind';
 import styles from './css/index.css';
@@ -65,7 +66,7 @@ export default class WalletQRStep extends Component {
 
   setOption = async (key, value) => {
     await localForage.setItem(key, value);
-    console.log(key, value);
+    logger.info(key, value);
     this.setState({
       [key]: value
     });
@@ -170,7 +171,7 @@ export default class WalletQRStep extends Component {
   };
 
   renderLNDLogs = () => {
-    console.log('lndLogLines', Lnd);
+    logger.info('lndLogLines', Lnd);
     const { lndLogLines } = this.state;
     return (
       <div className={styles.lndLogsContainer}>
@@ -183,7 +184,7 @@ export default class WalletQRStep extends Component {
 
   renderBitcoindLogs = () => {
     const { bitcoindLogLines } = this.state;
-    console.log('bitcoindLogLines', bitcoindLogLines);
+    logger.info('bitcoindLogLines', bitcoindLogLines);
     return (
       <div className={styles.lndLogsContainer}>
         <div className={styles.logsBox} ref={this.logBox}>

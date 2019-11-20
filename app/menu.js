@@ -2,6 +2,7 @@
 import { app, Menu, shell, BrowserWindow, ipcMain, Notification } from 'electron';
 import internalIP from 'internal-ip';
 import publicIP from 'public-ip';
+import logger from 'electron-log';
 import { isIPAddress } from './utils/os';
 
 export default class MenuBuilder {
@@ -14,7 +15,7 @@ export default class MenuBuilder {
     this.status = null;
     this.getUserIP();
     ipcMain.on('lndPID', (event, pid) => {
-      console.log('LND PID:', pid);
+      logger.info('LND PID:', pid);
       this.lndPID = pid;
     });
     ipcMain.on('externalIP', (event, ip) => {
@@ -100,7 +101,7 @@ export default class MenuBuilder {
                 await this.mainWindow.webContents.send('lnd-terminate', this.lndPID);
                 this.lndPID = null;
                 await this.mainWindow.webContents.send('lnd-start');
-                console.log({
+                logger.info({
                   title: 'Services Restarted',
                   body: 'LND has been restarted successfully!'
                 });

@@ -1,5 +1,6 @@
 // @flow
 import chalk from 'chalk';
+import logger from 'electron-log';
 
 export default function CheckNodeEnv(expectedEnv: string) {
   if (!expectedEnv) {
@@ -7,7 +8,7 @@ export default function CheckNodeEnv(expectedEnv: string) {
   }
 
   if (process.env.NODE_ENV !== expectedEnv) {
-    console.log(
+    logger.info(
       chalk.whiteBright.bgRed.bold(
         `"process.env.NODE_ENV" must be "${expectedEnv}" to use this webpack config`
       )

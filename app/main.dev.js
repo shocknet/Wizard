@@ -10,6 +10,7 @@
  *
  */
 import { app, BrowserWindow, Tray, ipcMain } from 'electron';
+import logger from 'electron-log';
 import unhandled from 'electron-unhandled';
 import path from 'path';
 import MenuBuilder from './menu';
@@ -36,7 +37,7 @@ const installExtensions = async () => {
 
   return Promise.all(
     extensions.map(name => installer.default(installer[name], forceDownload))
-  ).catch(console.log);
+  ).catch(logger.info);
 };
 
 const getLndStatus = data => {
@@ -81,7 +82,7 @@ app.on('ready', async () => {
     await installExtensions();
   }
 
-  console.log(__dirname);
+  logger.info(__dirname);
 
   tray = new Tray(path.join(__dirname, 'img/app.png'));
 
@@ -134,7 +135,6 @@ app.on('ready', async () => {
 
   ipcMain.on('startServer', (event, data) => {
     try {
-      console.log(event, data);
       if (!serverInstance) {
         serverInstance = server(data);
       }

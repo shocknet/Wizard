@@ -5,6 +5,7 @@ import { spawn } from 'child_process';
 import localForage from 'localforage';
 import { ipcRenderer } from 'electron';
 import server from 'sw-server';
+import logger from 'electron-log';
 import Downloader from './downloader';
 import { getFolderPath, getDataDir, getUserPlatform } from './os';
 
@@ -64,7 +65,10 @@ const download = async ({ version, os: operatingSystem }, progressCallback) => {
   const fileName = `lnd-${operatingSystem}-amd64-${version}.${
     operatingSystem === 'linux' ? 'tar.gz' : 'zip'
   }`;
-  if (!fs.existsSync(path.resolve(folderPath, 'lnd'))) {
+  const LNDExists =
+    fs.existsSync(path.resolve(folderPath, 'lnd', 'lnd.exe')) ||
+    fs.existsSync(path.resolve(folderPath, 'lnd', 'lnd'));
+  if (!LNDExists) {
     await Downloader.downloadRelease(
       {
         version,
@@ -180,7 +184,7 @@ const processLine = async line => {
           //   lndCertPath: `${lndDirectory}/tls.cert`,
           //   macaroonPath: `${dataDir}/chain/bitcoin/${networkType}/admin.macaroon`
           // });
-          console.log(
+          logger.info(
             'ShockAPI Macaroon Path:',
             `${dataDir}/chain/bitcoin/${networkType}/admin.macaroon`
           );

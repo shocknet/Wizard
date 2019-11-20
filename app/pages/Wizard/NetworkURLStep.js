@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { Component } from 'react';
 import localForage from 'localforage';
+import logger from 'electron-log';
 import styles from './css/index.css';
 
 export default class NetworkURLStep extends Component {
@@ -25,7 +26,7 @@ export default class NetworkURLStep extends Component {
 
   setOption = async (key, value) => {
     await localForage.setItem(key, value);
-    console.log(key, value);
+    logger.info(key, value);
     this.setState({
       [key]: value
     });

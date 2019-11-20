@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { Component } from 'react';
 import localForage from 'localforage';
+import logger from 'electron-log';
 import styles from './css/index.css';
 
 export default class NodeAPIStep extends Component {
@@ -16,7 +17,7 @@ export default class NodeAPIStep extends Component {
 
   setStatus = async (status, value) => {
     await localForage.setItem(status, value);
-    console.log(status, value);
+    logger.info(status, value);
     this.setState({
       [status]: value
     });

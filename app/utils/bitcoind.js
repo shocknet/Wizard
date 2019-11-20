@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { spawn } from 'child_process';
 import localForage from 'localforage';
+import logger from 'electron-log';
 import { ipcRenderer } from 'electron';
 import Downloader from './downloader';
 import { getFolderPath, getUserPlatform } from './os';
@@ -129,7 +130,11 @@ const processLine = async line => {
 };
 
 const start = async () => {
-  const folderPath = await getFolderPath();
+  const [folderPath, networkType, lndType] = await Promise.all([
+    getFolderPath(),
+    localForage.getItem('networkType'),
+    localForage.getItem('lndType')
+  ]);
   const os = getUserPlatform();
   const bitcoindExe = path.resolve(
     folderPath,
@@ -138,8 +143,6 @@ const start = async () => {
     `bitcoind${os === 'windows' ? '.exe' : ''}`
   );
   const dataDir = path.resolve(folderPath, 'bitcoind', 'data');
-  const networkType = await localForage.getItem('networkType');
-  const lndType = await localForage.getItem('lndType');
   if (lndType !== 'bitcoind') {
     return;
   }
