@@ -160,8 +160,6 @@ const start = async () => {
       datadir: dataDir,
       server: 1,
       listen: 0,
-      dbcache: 16000,
-      rpcallowip: '0.0.0.0/0',
       zmqpubrawtx: 'tcp://127.0.0.1:28333',
       zmqpubrawblock: 'tcp://127.0.0.1:28332',
       rpcuser: 'test',
