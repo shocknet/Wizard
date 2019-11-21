@@ -2,7 +2,7 @@
   "name": "ShockWizard",
   "productName": "ShockWizard",
   "version": "0.0.17",
-  "description": "Setup LND automatically!",
+  "description": "Setup a Lightning Node Automatically!",
   "scripts": {
     "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
     "build-dll": "cross-env NODE_ENV=development webpack --config ./configs/webpack.config.renderer.dev.dll.babel.js --colors",
@@ -62,7 +62,7 @@
   "main": "./app/main.prod.js",
   "build": {
     "productName": "ShockWizard",
-    "appId": "org.shockwallet.LNDWizard",
+    "appId": "org.shockwallet.ShockWiz",
     "files": [
       "app/img/",
       "app/dist/",
@@ -119,8 +119,8 @@
     "url": "git+https://github.com/shocknet/Wizard.git"
   },
   "author": {
-    "name": "Shock Wallet",
-    "email": "info@shockwallet.com",
+    "name": "ShockWallet",
+    "email": "info@shock.network",
     "url": "https://shocknet.github.io"
   },
   "contributors": [
