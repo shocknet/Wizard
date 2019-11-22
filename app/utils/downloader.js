@@ -53,7 +53,10 @@ const downloadFile = ({ fileName, downloadUrl, extractedFolderName }, progressCa
       .join('.');
     const downloadedFileName = `${fileName}.${downloadedFileExtension}`;
     const fileLocation = path.resolve(downloadLocation, downloadedFileName);
+    logger.info('File Location:', fileLocation);
+    logger.info('Downloaded File Name:', downloadedFileName);
     if (!fs.existsSync(fileLocation) && !fs.existsSync(downloadLocation)) {
+      logger.info('Creating new folders:', downloadLocation);
       fs.mkdirSync(downloadLocation, { recursive: true });
     }
     const writer = fs.createWriteStream(fileLocation);
@@ -79,7 +82,10 @@ const downloadFile = ({ fileName, downloadUrl, extractedFolderName }, progressCa
       await extractFile(fileLocation, downloadLocation, fileName, extractedFolderName);
       resolve(true);
     });
-    writer.on('error', reject);
+    writer.on('error', error => {
+      logger.error(error);
+      reject(error);
+    });
   });
 
 const extractFile = (filePath, destination, folderName, extractedFolderName) =>
