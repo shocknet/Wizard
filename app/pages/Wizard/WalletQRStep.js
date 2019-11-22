@@ -120,10 +120,10 @@ export default class WalletQRStep extends Component {
     return (
       <Fragment>
         <p className={styles.stepDescription} style={{ marginBottom: 20 }}>
-          Instructions for user to connect wallet to wizard api instance (Work in Progress)
+          Scan the QR Code with the mobile app to import your IP addresses.
           <br />
           <br />
-          Reminder: Setup firewall/forwarding for ShockWizard
+          Reminder: Your network may require NAT Forwarding/Firewall Rules
         </p>
         <div className={styles.walletInfo}>
           <label
@@ -153,7 +153,7 @@ export default class WalletQRStep extends Component {
           <p className={styles.QRCodeDesc}>Scan QR Code with ShockWallet:</p>
           {loadingServer ? (
             <span>
-              Please wait while we're downloading the LND and/or Bitcoind clients...
+              Please wait while we're downloading LND and/or Bitcoind...
               <br />
               {lndType === 'bitcoind' ? (lndProgress + bitcoindProgress) / 2 : lndProgress}%
             </span>

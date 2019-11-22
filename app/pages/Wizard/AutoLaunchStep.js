@@ -35,7 +35,7 @@ export default class LndTypeStep extends Component {
                 textAlign: 'left'
               }}
             >
-              Do you wish to have the LND Server automatically start up on boot?
+              Automatically start the node on system boot?
             </p>
             <div className={styles.stepChoices}>
               <label className={styles.stepChoice}>

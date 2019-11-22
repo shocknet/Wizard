@@ -45,7 +45,7 @@ export default class NetworkURLStep extends Component {
                 textAlign: 'left'
               }}
             >
-              Please specify the network url you wish to run the lnd wizard on:
+              Please specify the neutrino peer you wish to synch the blockchain from:
             </p>
             <div
               className={styles.stepInputContainer}

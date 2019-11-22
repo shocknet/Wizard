@@ -33,7 +33,7 @@ export default class LndTypeStep extends Component {
       <div className={styles.container}>
         <div className={styles.wizardStepContainer}>
           <div className={styles.lndTypeContainer}>
-            <p className={styles.stepTitle}>LND SYNC MODE</p>
+            <p className={styles.stepTitle}>BLOCK DOWNLOAD METHOD</p>
             <div className={styles.stepChoices}>
               <label className={styles.stepChoice}>
                 <input
@@ -47,9 +47,9 @@ export default class LndTypeStep extends Component {
                 <div className={styles.choiceInfoContainer}>
                   <b>Neutrino</b>
                   <p className={styles.radioDesc}>
-                    A privacy preserving protocol for reading the blockchain data through trusted
-                    servers. Shock Network provides Neutrino servers for public use on Mainnet or
-                    Testnet. Alternatively, you can specify different servers. (default)
+                    A privacy preserving protocol for reading compressed blockchain data. 
+                    Shock Network provides default public Neutrino servers on Mainnet or Testnet. 
+                    Alternatively, you can specify different servers.
                   </p>
                 </div>
               </label>

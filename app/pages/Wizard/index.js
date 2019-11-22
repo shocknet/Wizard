@@ -159,7 +159,7 @@ export default class Home extends Component {
     if (setupCompleted && lndType === 'bitcoind') {
       await Bitcoind.download(
         {
-          version: '0.18.0',
+          version: '0.18.1',
           os: getUserPlatform(),
           osArchitecture: getUserPlatform(true)
         },
