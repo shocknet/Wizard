@@ -113,43 +113,47 @@ export default class Home extends Component {
   };
 
   runLnd = async () => {
-    const setupCompleted = await localForage.getItem('setupCompleted');
-    const autoStartup = await localForage.getItem('autoStartup');
-    const externalIP = await localForage.getItem('externalIP');
+    try {
+      const setupCompleted = await localForage.getItem('setupCompleted');
+      const autoStartup = await localForage.getItem('autoStartup');
+      const externalIP = await localForage.getItem('externalIP');
 
-    ipcRenderer.send('externalIP', externalIP);
+      ipcRenderer.send('externalIP', externalIP);
 
-    if (setupCompleted) {
-      await Lnd.download(
-        {
-          version: TARGET_LND_VERSION,
-          os: getUserPlatform()
-        },
-        ({ app, progress }) => {
-          this.setState({
-            [app + 'Progress']: progress
+      if (setupCompleted) {
+        await Lnd.download(
+          {
+            version: TARGET_LND_VERSION,
+            os: getUserPlatform()
+          },
+          ({ app, progress }) => {
+            this.setState({
+              [app + 'Progress']: progress
+            });
+          }
+        );
+        await Lnd.start();
+
+        // this.setState({
+        //   step: 1
+        // });
+
+        if (autoStartup) {
+          const startup = new AutoLaunch({
+            name: 'LNDServer'
           });
-        }
-      );
-      await Lnd.start();
-
-      // this.setState({
-      //   step: 1
-      // });
-
-      if (autoStartup) {
-        const startup = new AutoLaunch({
-          name: 'LNDServer'
-        });
-        const startupEnabled = await startup.isEnabled();
-        logger.info('Startup Enabled:', startupEnabled);
-        if (!startupEnabled) {
-          await startup.enable();
-          logger.info('Startup Enabled');
+          const startupEnabled = await startup.isEnabled();
+          logger.info('Startup Enabled:', startupEnabled);
+          if (!startupEnabled) {
+            await startup.enable();
+            logger.info('Startup Enabled');
+          }
         }
       }
+      return true;
+    } catch (err) {
+      logger.error(err);
     }
-    return true;
   };
 
   runBitcoind = async () => {

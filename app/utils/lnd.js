@@ -61,6 +61,7 @@ const getLndDirectory = () => {
 const lndDirectory = getLndDirectory();
 
 const download = async ({ version, os: operatingSystem }, progressCallback) => {
+  logger.info('Downloading LND...');
   const folderPath = await getFolderPath();
   const fileName = `lnd-${operatingSystem}-amd64-${version}.${
     operatingSystem === 'linux' ? 'tar.gz' : 'zip'
@@ -69,6 +70,7 @@ const download = async ({ version, os: operatingSystem }, progressCallback) => {
     fs.existsSync(path.resolve(folderPath, 'lnd', 'lnd.exe')) ||
     fs.existsSync(path.resolve(folderPath, 'lnd', 'lnd'));
   if (!LNDExists) {
+    logger.info("LND doesn't exist");
     await Downloader.downloadRelease(
       {
         version,
@@ -80,6 +82,7 @@ const download = async ({ version, os: operatingSystem }, progressCallback) => {
     );
     return true;
   }
+  logger.info('LND already exists');
   progressCallback({
     app: 'lnd',
     progress: 100
