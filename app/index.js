@@ -2,6 +2,8 @@ import React from 'react';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import Root from './containers/Root';
+import localForage from 'localforage';
+import { ipcRenderer } from 'electron';
 import { configureStore, history } from './store/configureStore';
 import './app.global.css';
 
@@ -26,3 +28,9 @@ if (module.hot) {
     );
   });
 }
+
+ipcRenderer.on('getSetupStatus', async () => {
+  const setupCompleted = await localForage.getItem('setupCompleted');
+  console.log('getSetupStatus');
+  ipcRenderer.send('setupStatus', setupCompleted);
+});

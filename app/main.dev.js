@@ -102,12 +102,16 @@ app.on('ready', async () => {
     if (!mainWindow) {
       throw new Error('"mainWindow" is not defined');
     }
-    // if (setupCompleted) {
-    //   mainWindow.hide();
-    // } else {
-    //   mainWindow.show();
-    //   mainWindow.focus();
-    // }
+    ipcMain.on('setupStatus', (event, data) => {
+      logger.info('setupCompleted', event, data);
+      if (data) {
+        mainWindow.hide();
+      } else {
+        mainWindow.show();
+        mainWindow.focus();
+      }
+    });
+    mainWindow.webContents.send('getSetupStatus', 'setupStatus');
   });
 
   mainWindow.on('closed', () => {

@@ -13,7 +13,10 @@ const downloadRelease = ({ user, repo, version, fileName, os }, progressCallback
     let loaded = 0;
     const downloadLocation = await getFolderPath();
     const fileLocation = path.resolve(downloadLocation, fileName);
+    logger.info('File Location:', fileLocation);
+    logger.info('Downloaded File Name:', fileName);
     if (!fs.existsSync(fileLocation) && !fs.existsSync(downloadLocation)) {
+      logger.info('Creating new folders:', downloadLocation);
       fs.mkdirSync(downloadLocation, { recursive: true });
     }
     const writer = fs.createWriteStream(fileLocation);

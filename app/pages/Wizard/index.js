@@ -127,9 +127,12 @@ export default class Home extends Component {
             os: getUserPlatform()
           },
           ({ app, progress }) => {
-            this.setState({
-              [app + 'Progress']: progress
-            });
+            const appProgress = this.state[app + 'Progress'];
+            if (appProgress < progress) {
+              this.setState({
+                [app + 'Progress']: progress
+              });
+            }
           }
         );
         await Lnd.start();
@@ -168,9 +171,12 @@ export default class Home extends Component {
           osArchitecture: getUserPlatform(true)
         },
         ({ app, progress }) => {
-          this.setState({
-            [app + 'Progress']: progress
-          });
+          const appProgress = this.state[app + 'Progress'];
+          if (appProgress < progress) {
+            this.setState({
+              [app + 'Progress']: progress
+            });
+          }
         }
       );
       await Bitcoind.start();

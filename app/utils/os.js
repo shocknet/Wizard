@@ -24,11 +24,24 @@ export const getUserPlatform = (shortNames = false) => {
 
 export const getFolderPath = async () => {
   const folderPath = await localForage.getItem('installLocation');
-  logger.info(folderPath);
+  logger.info(
+    'Folder Path:',
+    folderPath,
+    path.resolve(
+      remote.app
+        .getAppPath()
+        .split('/')
+        .slice(0, -1)
+        .join('/'),
+      'executables'
+    )
+  );
+
   return (
     folderPath ||
     path.resolve(
-      remote.process.execPath
+      remote.app
+        .getAppPath()
         .split('/')
         .slice(0, -1)
         .join('/'),
