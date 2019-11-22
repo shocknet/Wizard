@@ -139,7 +139,7 @@ app.on('ready', async () => {
         serverInstance = server(data);
       }
     } catch (err) {
-      console.error(err);
+      logger.error(err);
     }
   });
 

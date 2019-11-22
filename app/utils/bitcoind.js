@@ -172,7 +172,7 @@ const start = async () => {
     processLine(line);
   });
   child.stderr.on('data', data => {
-    console.error(data.toString());
+    logger.error(data.toString());
     const error = data.toString().split(':');
     // eslint-disable-next-line no-new
     new Notification('Bitcoind Error', {

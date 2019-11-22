@@ -265,7 +265,7 @@ export default merge.smart(baseConfig, {
           stdio: 'inherit'
         })
           .on('close', code => process.exit(code))
-          .on('error', spawnError => console.error(spawnError));
+          .on('error', spawnError => logger.error(spawnError));
       }
     }
   }
