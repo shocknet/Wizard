@@ -51,8 +51,8 @@ export default class InstallLocationStep extends Component {
                 textAlign: 'left'
               }}
             >
-              Please specify the folder in which you would like to store the bitcoin
-              chain data (leave blank to install on default path):
+              Please specify the folder in which you would like to store the bitcoin chain data
+              (leave blank to install on default path):
             </p>
             <div className={styles.stepInputContainer}>
               <input
