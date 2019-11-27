@@ -19,7 +19,7 @@ There are automatic builds for most operating systems:
 - [Windows](https://github.com/shocknet/Wizard/releases)
 - [Linux](https://github.com/shocknet/Wizard/releases) (*headless systems should follow the API readme*)
 
-ShockWallet utilizes [ShockAPI](https://github.com/jhizzle84/api) which comes configured with this package. The wizard supports both Neutrino and Bitcoin Core.
+ShockWallet utilizes [ShockAPI](https://github.com/shocknet/api) which comes configured with this package. The wizard supports both Neutrino and Bitcoin Core.
 
 
 
