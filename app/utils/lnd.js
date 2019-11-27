@@ -240,11 +240,13 @@ const start = async () => {
       : [`--neutrino.connect=${networkUrl}`])
   ]);
   ipcRenderer.send('lndPID', child.pid);
-  ipcRenderer.send('startServer', {
+  const serverConfig = {
     serverhost: '0.0.0.0',
     lndCertPath: `${lndDirectory}/tls.cert`,
     macaroonPath: `${dataDir}/chain/bitcoin/${networkType}/admin.macaroon`
-  });
+  };
+  logger.info(serverConfig);
+  ipcRenderer.send('startServer', serverConfig);
   child.stdout.on('data', data => {
     const line = data.toString();
     processLine(line);
