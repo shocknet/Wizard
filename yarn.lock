@@ -1116,9 +1116,9 @@
   integrity sha512-1w52Nyx4Gq47uuu0EVcsHBxZFJgurQ+rTKS3qMHxR1GY2T8c2AJYd6vZoZ9q1rupaDjU0yT+Jc2XTyXkjeMA+Q==
 
 "@types/node@*":
-  version "12.12.11"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.11.tgz#bec2961975888d964196bf0016a2f984d793d3ce"
-  integrity sha512-O+x6uIpa6oMNTkPuHDa9MhMMehlxLAd5QcOvKRjAFsBVpeFWTOPnXbDvILvFgFFZfQ1xh1EZi1FbXxUix+zpsQ==
+  version "12.12.12"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.12.tgz#529bc3e73dbb35dd9e90b0a1c83606a9d3264bdb"
+  integrity sha512-MGuvYJrPU0HUwqF7LqvIj50RZUX23Z+m583KBygKYUZLlZ88n6w28XRNJRJgsHukLEnLz6w6SvxZoLgbr5wLqQ==
 
 "@types/node@^10.1.0", "@types/node@^10.14.17":
   version "10.17.5"
@@ -6730,9 +6730,9 @@ gulp-run-command@0.0.9:
     timeout-as-promise "^1.0.0"
 
 gun@^0.2019.930:
-  version "0.2019.930"
-  resolved "https://registry.yarnpkg.com/gun/-/gun-0.2019.930.tgz#9251c064d4408958626af3707f7ce0623e0c19b0"
-  integrity sha512-JZunmIcZqwq9MgrMHBRVAB7HbgNWUnwnHSJZPq0QCCbJwJ4rRctBcBWZF3BgS3AGpOUM9S+ecSQDacQHYJkujg==
+  version "0.2019.1120"
+  resolved "https://registry.yarnpkg.com/gun/-/gun-0.2019.1120.tgz#76f93b682cf77aca2300cbd0d138f0244ecc2d42"
+  integrity sha512-YWoFNxuWuMt4afWBsHDZ+WkxTqUIywXY7ql5QniJqeCqi6KEwFZ6Kg5dNSDbBJ7G3bHxRh6ELKawUySVnTYnOQ==
   dependencies:
     ws "~>7.1.0"
   optionalDependencies:
@@ -11783,9 +11783,9 @@ resolve@1.1.7, resolve@~1.1.7:
   resolved "https://registry.npmjs.org/resolve/-/resolve-1.1.7.tgz#203114d82ad2c5ed9e8e0411b3932875e889e97b"
 
 resolve@^1.1.6, resolve@^1.10.0:
-  version "1.12.0"
-  resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.12.0.tgz#3fc644a35c84a48554609ff26ec52b66fa577df6"
-  integrity sha512-B/dOmuoAik5bKcD6s6nXDCjzUKnaDvdkRyAk6rsmsKLipWj4797iothd7jmmUhWTfinVMU+wc56rYKsit2Qy4w==
+  version "1.12.2"
+  resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.12.2.tgz#08b12496d9aa8659c75f534a8f05f0d892fff594"
+  integrity sha512-cAVTI2VLHWYsGOirfeYVVQ7ZDejtQ9fp4YhYckWDEkFfqbVjaT11iM8k6xSAfGFMM+gDpZjMnFssPu8we+mqFw==
   dependencies:
     path-parse "^1.0.6"
 
@@ -12928,7 +12928,7 @@ svgo@^1.0.0:
 
 sw-server@jhizzle84/api:
   version "1.0.0"
-  resolved "https://codeload.github.com/jhizzle84/api/tar.gz/42881282c30aedb7320e9ed82b80924fe5c3ab99"
+  resolved "https://codeload.github.com/jhizzle84/api/tar.gz/d54a486901e7daad05e4b3840644a5741aa877f5"
   dependencies:
     "@grpc/proto-loader" "^0.5.1"
     axios "^0.19.0"
