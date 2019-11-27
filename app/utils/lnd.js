@@ -116,9 +116,6 @@ const getChild = () => {
 };
 
 const processLine = async line => {
-  if (dataListener) {
-    dataListener(line);
-  }
   await Promise.all(
     Object.entries(regexExpressions).map(async ([key, conditions]) => {
       const downloadedBlockHeightsLength = await localForage.getItem(
@@ -212,6 +209,9 @@ const processLine = async line => {
       }
     })
   );
+  if (dataListener) {
+    dataListener(line);
+  }
 };
 
 const start = async () => {
