@@ -30,8 +30,16 @@ export default class Home extends Component {
     lndProgress: 0,
     bitcoindProgress: 0,
     showNodeInfo: false,
+    lndLogLines: [],
+    bitcoindProgress: 0,
+    lndProgress: 0,
+    lndDownloadProgress: 0,
+    bitcoindDownloadProgress: 0,
+    bitcoindLogLines: [],
     loadingServer: true
   };
+
+  logBox = React.createRef();
 
   componentDidMount = async () => {
     const { maxStep } = this.state;
@@ -72,6 +80,33 @@ export default class Home extends Component {
       });
     });
 
+    const LNDData = {
+      downloadedBlockHeightsLength: await localForage.getItem('downloadedBlockHeightsLength'),
+      downloadedBlocks: await localForage.getItem('downloadedBlocks')
+    };
+    const bitcoindData = {
+      progress: await localForage.getItem('bitcoind_progress')
+    };
+    this.setProgress('lnd', LNDData);
+    this.setProgress('bitcoind', bitcoindData);
+    Lnd.onData(async data => {
+      console.log('onData triggered', data);
+      const LNDData = {
+        downloadedBlockHeightsLength: await localForage.getItem('downloadedBlockHeightsLength'),
+        downloadedBlocks: await localForage.getItem('downloadedBlocks')
+      };
+      this.setProgress('lnd', LNDData);
+      await this.addLNDLogLine(data);
+    });
+
+    Bitcoind.onData(async data => {
+      const bitcoindData = {
+        progress: await localForage.getItem('bitcoind_progress')
+      };
+      this.setProgress('bitcoind', bitcoindData);
+      await this.addBitcoindLogLine(data);
+    });
+
     const setupCompleted = await localForage.getItem('setupCompleted');
     if (setupCompleted) {
       await this.runBitcoind();
@@ -108,8 +143,69 @@ export default class Home extends Component {
       logger.info('Unmounted');
     });
 
+    Lnd.offData();
+    Bitcoind.offData();
     Lnd.terminate();
     Bitcoind.terminate();
+  };
+
+  addLNDLogLine = data =>
+    new Promise((resolve, reject) => {
+      const { lndLogLines } = this.state;
+      this.setState(
+        {
+          lndLogLines: [...lndLogLines, data]
+        },
+        () => {
+          if (this.logBox.current) {
+            this.logBox.current.scrollTo(0, this.logBox.current.scrollHeight);
+          }
+          resolve(true);
+        }
+      );
+    });
+
+  addBitcoindLogLine = data =>
+    new Promise((resolve, reject) => {
+      const { bitcoindLogLines } = this.state;
+      this.setState(
+        {
+          bitcoindLogLines: [...bitcoindLogLines, data]
+        },
+        () => {
+          if (this.logBox.current) {
+            this.logBox.current.scrollTo(0, this.logBox.current.scrollHeight);
+          }
+          resolve(true);
+        }
+      );
+    });
+
+  setProgress = (type, data) => {
+    logger.info('setProgress:', type, data);
+    if (
+      data.downloadedBlocks !== data.downloadedBlockHeightsLength &&
+      data.downloadedBlockHeightsLength !== 0
+    ) {
+      const downloadProgress = Math.trunc(
+        (data.downloadedBlocks / data.downloadedBlockHeightsLength) * 100
+      );
+      return this.setState({
+        [type + 'DownloadProgress']: downloadProgress
+      });
+    }
+
+    if (data.downloadedBlockHeightsLength !== 0 && data.downloadedBlockHeightsLength) {
+      return this.setState({
+        [type + 'DownloadProgress']: 100
+      });
+    }
+
+    if (data.progress >= 0) {
+      return this.setState({
+        [type + 'DownloadProgress']: data.progress
+      });
+    }
   };
 
   runLnd = async () => {
@@ -237,7 +333,18 @@ export default class Home extends Component {
   };
 
   renderStep = () => {
-    const { step, lndType, loadingServer, showNodeInfo, lndProgress } = this.state;
+    const {
+      step,
+      lndType,
+      loadingServer,
+      showNodeInfo,
+      lndLogLines,
+      bitcoindProgress,
+      lndProgress,
+      lndDownloadProgress,
+      bitcoindDownloadProgress,
+      bitcoindLogLines
+    } = this.state;
 
     if (step === 1) {
       return <IntroStep />;
@@ -268,7 +375,6 @@ export default class Home extends Component {
     }
 
     if (step === 7) {
-      const { lndType, bitcoindProgress } = this.state;
       logger.info('loadingServer', loadingServer, lndType);
       return (
         <WalletQRStep
@@ -277,6 +383,11 @@ export default class Home extends Component {
           showNodeInfo={showNodeInfo}
           lndProgress={lndProgress}
           bitcoindProgress={bitcoindProgress}
+          lndLogLines={lndLogLines}
+          logBox={this.logBox}
+          lndDownloadProgress={lndDownloadProgress}
+          bitcoindDownloadProgress={bitcoindDownloadProgress}
+          bitcoindLogLines={bitcoindLogLines}
         />
       );
     }
