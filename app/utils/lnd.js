@@ -174,20 +174,20 @@ const processLine = async line => {
               walletUnlocked ? '' : 'Please unlock your wallet to interact with it'
             }`
           });
+          const serverConfig = {
+            serverhost: '0.0.0.0',
+            lndCertPath: `${lndDirectory}/tls.cert`,
+            macaroonPath: `${dataDir}/chain/bitcoin/${
+              networkType ? networkType : 'testnet'
+            }/admin.macaroon`
+          };
+          ipcRenderer.send('startServer', serverConfig);
           // ipcRenderer.send('startServer', {
           //   serverhost: '0.0.0.0',
           //   lndCertPath: `${lndDirectory}/tls.cert`,
           //   macaroonPath: `${dataDir}/chain/bitcoin/${networkType}/admin.macaroon`
           // });
-          // await server({
-          //   serverhost: '0.0.0.0',
-          //   lndCertPath: `${lndDirectory}/tls.cert`,
-          //   macaroonPath: `${dataDir}/chain/bitcoin/${networkType}/admin.macaroon`
-          // });
-          logger.info(
-            'ShockAPI Macaroon Path:',
-            `${dataDir}/chain/bitcoin/${networkType}/admin.macaroon`
-          );
+          logger.info('ShockAPI Macaroon Path:', serverConfig.macaroonPath);
         } else if (key === 'walletUnlocked') {
           const downloadedBlocks = await localForage.getItem('downloadedBlocks');
           // eslint-disable-next-line no-new
@@ -240,13 +240,6 @@ const start = async () => {
       : [`--neutrino.connect=${networkUrl}`])
   ]);
   ipcRenderer.send('lndPID', child.pid);
-  const serverConfig = {
-    serverhost: '0.0.0.0',
-    lndCertPath: `${lndDirectory}/tls.cert`,
-    macaroonPath: `${dataDir}/chain/bitcoin/${networkType}/admin.macaroon`
-  };
-  logger.info(serverConfig);
-  ipcRenderer.send('startServer', serverConfig);
   child.stdout.on('data', data => {
     const line = data.toString();
     processLine(line);

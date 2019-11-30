@@ -151,8 +151,7 @@ export default class WalletQRStep extends Component {
   };
 
   renderLNDLogs = () => {
-    logger.info('lndLogLines', Lnd);
-    const { lndLogLines } = this.state;
+    const { lndLogLines } = this.props;
     return (
       <div className={styles.lndLogsContainer}>
         <div className={styles.logsBox} ref={this.props.logBox}>
@@ -163,8 +162,7 @@ export default class WalletQRStep extends Component {
   };
 
   renderBitcoindLogs = () => {
-    const { bitcoindLogLines } = this.state;
-    logger.info('bitcoindLogLines', bitcoindLogLines);
+    const { bitcoindLogLines } = this.props;
     return (
       <div className={styles.lndLogsContainer}>
         <div className={styles.logsBox} ref={this.props.logBox}>
