@@ -4,7 +4,6 @@ import os from 'os';
 import { spawn } from 'child_process';
 import localForage from 'localforage';
 import { ipcRenderer } from 'electron';
-import server from 'sw-server';
 import logger from 'electron-log';
 import Downloader from './downloader';
 import { getFolderPath, getDataDir, getUserPlatform } from './os';
@@ -165,15 +164,19 @@ const processLine = async line => {
         const value = await conditions.value();
         await setStatus(conditions.key, value);
         if (key === 'syncedBlocks') {
-          const walletUnlocked = await localForage.getItem('walletUnlocked');
-          const networkType = await localForage.getItem('networkType');
-          const dataDir = await getDataDir();
+          const [walletUnlocked, networkType, dataDir] = await Promise.all([
+            localForage.getItem('walletUnlocked'),
+            localForage.getItem('networkType'),
+            getDataDir()
+          ]);
+
           // eslint-disable-next-line no-new
           new Notification('LND is synced up!', {
             body: `The LND instance is fully synced up with the bitcoin network! ${
               walletUnlocked ? '' : 'Please unlock your wallet to interact with it'
             }`
           });
+
           const serverConfig = {
             serverhost: '0.0.0.0',
             lndCertPath: `${lndDirectory}/tls.cert`,
@@ -181,13 +184,10 @@ const processLine = async line => {
               networkType ? networkType : 'testnet'
             }/admin.macaroon`
           };
-          ipcRenderer.send('startServer', serverConfig);
-          // ipcRenderer.send('startServer', {
-          //   serverhost: '0.0.0.0',
-          //   lndCertPath: `${lndDirectory}/tls.cert`,
-          //   macaroonPath: `${dataDir}/chain/bitcoin/${networkType}/admin.macaroon`
-          // });
+
           logger.info('ShockAPI Macaroon Path:', serverConfig.macaroonPath);
+
+          ipcRenderer.send('startServer', serverConfig);
         } else if (key === 'walletUnlocked') {
           const downloadedBlocks = await localForage.getItem('downloadedBlocks');
           // eslint-disable-next-line no-new
@@ -198,12 +198,20 @@ const processLine = async line => {
                 : 'Please wait until the LND instance fully syncs up'
             }`
           });
-          // if (downloadedBlocks >= downloadedBlockHeightsLength) {
-          //   server({
-          //     serverhost: '0.0.0.0',
-          //     lndCertPath: lndDirectory + '/tls.cert'
-          //   });
-          // }
+          if (downloadedBlocks >= downloadedBlockHeightsLength) {
+            const [networkType, dataDir] = await Promise.all([
+              localForage.getItem('networkType'),
+              getDataDir()
+            ]);
+            const serverConfig = {
+              serverhost: '0.0.0.0',
+              lndCertPath: `${lndDirectory}/tls.cert`,
+              macaroonPath: `${dataDir}/chain/bitcoin/${
+                networkType ? networkType : 'testnet'
+              }/admin.macaroon`
+            };
+            ipcRenderer.send('startServer', serverConfig);
+          }
         }
         return { key: conditions.key, value };
       }
