@@ -43,15 +43,6 @@ To package apps for the local platform:
 $ yarn package
 ```
 
-To package apps for all platforms:
-
-First, refer to the [Multi Platform Build docs](https://www.electron.build/multi-platform-build) for dependencies.
-
-Then,
-
-```bash
-$ yarn package-all
-```
 
 <hr></hr>
 
