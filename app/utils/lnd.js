@@ -149,9 +149,9 @@ const processLine = async line => {
           if (key === 'currentHeight' && downloadedBlockHeightsLength === value) {
             const walletUnlocked = await localForage.getItem('walletUnlocked');
             // eslint-disable-next-line no-new
-            new Notification('LND is synced up!', {
-              body: `The LND instance is fully synced up with the bitcoin network! ${
-                walletUnlocked ? '' : 'Please unlock your wallet to interact with it'
+            new Notification('Network sync is complete!', {
+              body: `Node has completed initial sync with the Bitcoin network! ${
+                walletUnlocked ? '' : 'Connect with ShockWallet to interact with it'
               }`
             });
           }
@@ -171,9 +171,9 @@ const processLine = async line => {
           ]);
 
           // eslint-disable-next-line no-new
-          new Notification('LND is synced up!', {
-            body: `The LND instance is fully synced up with the bitcoin network! ${
-              walletUnlocked ? '' : 'Please unlock your wallet to interact with it'
+          new Notification('Network sync is complete!', {
+            body: `Node has completed initial sync with the Bitcoin network! ${
+              walletUnlocked ? '' : 'Connect with ShockWallet to interact with it'
             }`
           });
 
@@ -195,7 +195,7 @@ const processLine = async line => {
             body: `The LND instance is now unlocked! ${
               downloadedBlocks >= downloadedBlockHeightsLength
                 ? ''
-                : 'Please wait until the LND instance fully syncs up'
+                : 'Please wait while the node syncs with the Bitcoin network'
             }`
           });
           if (downloadedBlocks >= downloadedBlockHeightsLength) {
