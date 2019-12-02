@@ -16,10 +16,10 @@ environment:
     secure: khOgHhUwzVHSm3rDvpkFL8AgEj1DKOruKC4dB2qzPCTzYWs9ySBqpvA3BA6DnkgA
 
 cache:
-  - '%LOCALAPPDATA%/Yarn'
-  - node_modules
-  - flow-typed
-  - '%USERPROFILE%\.electron'
+  #- '%LOCALAPPDATA%/Yarn'
+  #- node_modules
+  #- flow-typed
+  #- '%USERPROFILE%\.electron'
 
 matrix:
   fast_finish: true
