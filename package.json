@@ -1,7 +1,7 @@
 {
   "name": "ShockWizard",
   "productName": "ShockWizard",
-  "version": "0.0.29",
+  "version": "0.0.30",
   "description": "Setup a Lightning Node Automatically!",
   "scripts": {
     "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
@@ -82,8 +82,7 @@
     },
     "win": {
       "target": [
-        "nsis",
-        "msi"
+        "nsis"
       ],
       "requestedExecutionLevel": "requireAdministrator"
     },
@@ -95,6 +94,9 @@
         "AppImage"
       ],
       "category": "Development"
+    },
+    "nsis": {
+      "oneClick": false
     },
     "directories": {
       "buildResources": "resources",
