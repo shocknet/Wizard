@@ -15,7 +15,7 @@
 ShockWizard is a Desktop Installer that makes deploying and managing your own Bitcoin+LND node, and configuring as your [ShockWallet](https://github.com/shocknet/wallet) server, as simple as a few clicks. 
 
 There are automatic builds for most operating systems:
-- [MacOS](https://github.com/shocknet/Wizard/releases)
+- ~~[MacOS](https://github.com/shocknet/Wizard/releases)~~ Mac wanted
 - [Windows](https://github.com/shocknet/Wizard/releases)
 - [Linux](https://github.com/shocknet/Wizard/releases) (*headless systems should follow the API readme*)
 
