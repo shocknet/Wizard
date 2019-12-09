@@ -12926,9 +12926,9 @@ svgo@^1.0.0:
     unquote "~1.1.1"
     util.promisify "~1.0.0"
 
-sw-server@shocknet/api:
+"sw-server@git://github.com/shocknet/api.git#bug/wallet_status":
   version "1.0.0"
-  resolved "https://codeload.github.com/shocknet/api/tar.gz/dba393522b9b6f945d2203d57c6d7fb04859f40a"
+  resolved "git://github.com/shocknet/api.git#8b3f61285b9029cd9c9572973d076d0aacf8b43a"
   dependencies:
     "@grpc/proto-loader" "^0.5.1"
     axios "^0.19.0"

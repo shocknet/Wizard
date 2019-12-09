@@ -140,7 +140,8 @@ app.on('ready', async () => {
   ipcMain.on('startServer', (event, data) => {
     try {
       if (!serverInstance) {
-        serverInstance = server(data);
+        server(data);
+        serverInstance = true;
       }
     } catch (err) {
       logger.error(err);

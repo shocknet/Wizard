@@ -210,7 +210,7 @@ const processLine = async line => {
                 networkType ? networkType : 'testnet'
               }/admin.macaroon`
             };
-            ipcRenderer.send('startServer', serverConfig);
+            // ipcRenderer.send('startServer', serverConfig);
           }
         }
         return { key: conditions.key, value };
