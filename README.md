@@ -1,5 +1,5 @@
 <div align="center" style="display: flex; width: 100%; align-items: center; justify-content: center; flex-direction: column">
-  <img src="https://github.com/shocknet/Wizard/blob/master/app/img/D7B5290A.png" width="80px" style="margin-bottom: 5px" /><br>
+  <img src="https://shockwallet.app/wizardSS_homepage.png" style="margin-bottom: 5px" /><br>
   <span style="font-size: 24px;font-weight: bold;">S H O C K W I Z A R D</span>
   <div style="margin-top: 10px;">
     <a href="https://ci.appveyor.com/project/Emad-salah/wizard-q98nu">
