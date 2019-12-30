@@ -8,6 +8,10 @@ platform:
 branches:
   only:
     - master
+    
+only_commits: 
+  files: 
+    - package.json
 
 environment:
   matrix:
