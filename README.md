@@ -1,5 +1,5 @@
 <div align="center" style="display: flex; width: 100%; align-items: center; justify-content: center; flex-direction: column">
-  <span style="font-size: 24px;font-weight: bold;">S H O C K W I Z A R D</span>
+  <span style="font-size: 24px;font-weight: bold;">S H O C K W I Z A R D</span><br>
   <img src="https://shockwallet.app/wizardSS_homepage.png" style="margin-bottom: 5px" /><br>
   <span style="font-size: 22px;font-weight: bold;">Run your own node and wallet server in a few clicks.</span>
   <div style="margin-top: 10px;">
