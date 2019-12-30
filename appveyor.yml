@@ -9,6 +9,8 @@ branches:
   only:
     - master
     
+skip_tags: true
+    
 only_commits: 
   files: 
     - package.json
