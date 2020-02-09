@@ -291,7 +291,7 @@
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "source-map-support": "^0.5.9",
-    "sw-server": "git://github.com/shocknet/api.git#2db0e27",
+    "sw-server": "git://github.com/shocknet/api.git#db1e0d1e0749140f2783b906cee14f3cd9d71832",
     "tar": "^4.4.10",
     "unzip": "^0.1.11",
     "unzipper": "^0.10.5"
