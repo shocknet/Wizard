@@ -12419,9 +12419,10 @@ svgo@^1.0.0:
     unquote "~1.1.1"
     util.promisify "~1.0.0"
 
-"sw-server@git://github.com/shocknet/api.git#dcf369add05f72110329134b004548343a2962cf":
+"sw-server@git://github.com/shocknet/api.git#8e8e2ca4d4fd54b8a06c24aaac4436b15ab313d8":
   version "1.0.0"
-  resolved "git://github.com/shocknet/api.git#dcf369add05f72110329134b004548343a2962cf"
+  uid "8e8e2ca4d4fd54b8a06c24aaac4436b15ab313d8"
+  resolved "git://github.com/shocknet/api.git#8e8e2ca4d4fd54b8a06c24aaac4436b15ab313d8"
   dependencies:
     "@grpc/proto-loader" "^0.5.1"
     axios "^0.19.0"
@@ -14045,9 +14046,9 @@ yargs@^4.2.0:
     y18n "^3.2.1"
     yargs-parser "^2.4.1"
 
-yarn@^1.12.3:
-  version "1.12.3"
-  resolved "https://registry.npmjs.org/yarn/-/yarn-1.12.3.tgz#fb4599bf1f8da01552bcc7e1571dfd4e53788203"
+yarn@^1.17.3:
+  version "1.17.3"
+  resolved "https://registry.yarnpkg.com/yarn/-/yarn-1.17.3.tgz#60e0b77d079eb78e753bb616f7592b51b6a9adce"
 
 yauzl@2.4.1:
   version "2.4.1"
