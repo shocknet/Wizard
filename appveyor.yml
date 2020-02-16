@@ -43,11 +43,12 @@ install:
   - sh: nvm install $nodejs_version
   - sh: sudo apt update && sudo apt-get install alien -y
   - set CI=true
-  - cross-env ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=true yarn
+  - set ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=true
+  - yarn
 
 test_script:
-  - cross-env ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=true yarn package-ci
-  - cross-env ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=true yarn lint
+  - yarn package-ci
+  - yarn lint
   # - yarn flow
   # - yarn test
   # - yarn build-e2e
