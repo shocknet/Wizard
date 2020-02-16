@@ -17,7 +17,7 @@ only_commits:
 
 environment:
   matrix:
-    - nodejs_version: 12
+    - nodejs_version: 13
   GH_TOKEN:
     secure: khOgHhUwzVHSm3rDvpkFL8AgEj1DKOruKC4dB2qzPCTzYWs9ySBqpvA3BA6DnkgA
 
