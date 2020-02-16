@@ -967,22 +967,24 @@
     asn1js "^2.0.22"
     tslib "^1.9.3"
 
-"@peculiar/json-schema@^1.1.5":
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/@peculiar/json-schema/-/json-schema-1.1.6.tgz#134096ede59cf502e9acbdb24cbe55eb97ad2fe9"
+"@peculiar/json-schema@^1.1.6":
+  version "1.1.9"
+  resolved "https://registry.npm.taobao.org/@peculiar/json-schema/download/@peculiar/json-schema-1.1.9.tgz#b746e046b787607a1b2804f64437fda2527b3e62"
+  integrity sha1-t0bgRreHYHobKAT2RDf9olJ7PmI=
   dependencies:
     tslib "^1.10.0"
 
-"@peculiar/webcrypto@^1.0.19":
-  version "1.0.21"
-  resolved "https://registry.yarnpkg.com/@peculiar/webcrypto/-/webcrypto-1.0.21.tgz#d38eb883bf966b247954afc259054c3fa2a10c98"
+"@peculiar/webcrypto@^1.0.22":
+  version "1.0.22"
+  resolved "https://registry.npm.taobao.org/@peculiar/webcrypto/download/@peculiar/webcrypto-1.0.22.tgz#9dae652fce6bacd9df15bc91965797cee33adf67"
+  integrity sha1-na5lL85rrNnfFbyRlleXzuM632c=
   dependencies:
     "@peculiar/asn1-schema" "^1.0.3"
-    "@peculiar/json-schema" "^1.1.5"
+    "@peculiar/json-schema" "^1.1.6"
     asn1js "^2.0.26"
-    pvtsutils "^1.0.6"
+    pvtsutils "^1.0.9"
     tslib "^1.10.0"
-    webcrypto-core "^1.0.14"
+    webcrypto-core "^1.0.17"
 
 "@protobufjs/aspromise@^1.1.1", "@protobufjs/aspromise@^1.1.2":
   version "1.1.2"
@@ -1096,7 +1098,7 @@
   version "12.12.14"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.14.tgz#1c1d6e3c75dba466e0326948d56e8bd72a1903d2"
 
-"@types/node@^10.1.0", "@types/node@^10.14.17":
+"@types/node@^10.1.0":
   version "10.17.6"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.17.6.tgz#1aaabd6f6470a6ac3824ab1e94d731ca1326d93d"
 
@@ -1150,6 +1152,22 @@
     lodash.unescape "4.0.1"
     semver "^6.3.0"
     tsutils "^3.17.1"
+
+"@unimodules/core@*":
+  version "5.0.0"
+  resolved "https://registry.npm.taobao.org/@unimodules/core/download/@unimodules/core-5.0.0.tgz#e1e3ca3f91f3d27dbc93c6eebc03a40c711da755"
+  integrity sha1-4ePKP5Hz0n28k8buvAOkDHEdp1U=
+  dependencies:
+    compare-versions "^3.4.0"
+
+"@unimodules/react-native-adapter@*":
+  version "5.0.0"
+  resolved "https://registry.npm.taobao.org/@unimodules/react-native-adapter/download/@unimodules/react-native-adapter-5.0.0.tgz#af9835821a2bf38390b9f09f3231c0b7546ee510"
+  integrity sha1-r5g1ghor84OQufCfMjHAt1Ru5RA=
+  dependencies:
+    invariant "^2.2.4"
+    lodash "^4.5.0"
+    prop-types "^15.6.1"
 
 "@webassemblyjs/ast@1.7.11":
   version "1.7.11"
@@ -1729,6 +1747,11 @@ ascli@~1:
     colour "~0.7.1"
     optjs "~3.2.2"
 
+asmcrypto.js@^0.22.0:
+  version "0.22.0"
+  resolved "https://registry.npm.taobao.org/asmcrypto.js/download/asmcrypto.js-0.22.0.tgz#38fc1440884d802c7bd37d1d23c2b26a5cd5d2d2"
+  integrity sha1-OPwUQIhNgCx7030dI8KyalzV0tI=
+
 asn1.js@^4.0.0:
   version "4.10.1"
   resolved "https://registry.npmjs.org/asn1.js/-/asn1.js-4.10.1.tgz#b9c2bf5805f1e64aadeed6df3a2bfafb5a73f5a0"
@@ -1858,6 +1881,20 @@ axobject-query@^2.0.1:
   resolved "https://registry.npmjs.org/axobject-query/-/axobject-query-2.0.2.tgz#ea187abe5b9002b377f925d8bf7d1c561adf38f9"
   dependencies:
     ast-types-flow "0.0.7"
+
+b64-lite@^1.3.1, b64-lite@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.npm.taobao.org/b64-lite/download/b64-lite-1.4.0.tgz#e62442de11f1f21c60e38b74f111ac0242283d3d"
+  integrity sha1-5iRC3hHx8hxg44t08RGsAkIoPT0=
+  dependencies:
+    base-64 "^0.1.0"
+
+b64u-lite@^1.0.1:
+  version "1.1.0"
+  resolved "https://registry.npm.taobao.org/b64u-lite/download/b64u-lite-1.1.0.tgz#a581b7df94cbd4bed7cbb19feae816654f0b1bf0"
+  integrity sha1-pYG335TL1L7Xy7Gf6ugWZU8LG/A=
+  dependencies:
+    b64-lite "^1.4.0"
 
 babel-code-frame@^6.26.0:
   version "6.26.0"
@@ -2561,6 +2598,11 @@ balanced-match@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
 
+base-64@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.npm.taobao.org/base-64/download/base-64-0.1.0.tgz#780a99c84e7d600260361511c4877613bf24f6bb"
+  integrity sha1-eAqZyE59YAJgNhURxId2E78k9rs=
+
 base-x@^3.0.2:
   version "3.0.7"
   resolved "https://registry.yarnpkg.com/base-x/-/base-x-3.0.7.tgz#1c5a7fafe8f66b4114063e8da102799d4e7c408f"
@@ -2570,6 +2612,11 @@ base-x@^3.0.2:
 base64-arraybuffer@0.1.5:
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/base64-arraybuffer/-/base64-arraybuffer-0.1.5.tgz#73926771923b5a19747ad666aa5cd4bf9c6e9ce8"
+
+base64-js@*, base64-js@^1.3.0:
+  version "1.3.1"
+  resolved "https://registry.npm.taobao.org/base64-js/download/base64-js-1.3.1.tgz#58ece8cb75dd07e71ed08c736abc5fac4dbf8df1"
+  integrity sha1-WOzoy3XdB+ce0IxzarxfrE2/jfE=
 
 base64-js@^1.0.2, base64-js@^1.1.2, base64-js@^1.2.3:
   version "1.3.0"
@@ -2957,6 +3004,14 @@ buffer@^5.1.0:
 buffer@^5.2.1:
   version "5.4.0"
   resolved "https://registry.yarnpkg.com/buffer/-/buffer-5.4.0.tgz#33294f5c1f26e08461e528b69fa06de3c45cbd8c"
+  dependencies:
+    base64-js "^1.0.2"
+    ieee754 "^1.1.4"
+
+buffer@^5.4.3:
+  version "5.4.3"
+  resolved "https://registry.npm.taobao.org/buffer/download/buffer-5.4.3.tgz#3fbc9c69eb713d323e3fc1a895eee0710c072115"
+  integrity sha1-P7ycaetxPTI+P8Gole7gcQwHIRU=
   dependencies:
     base64-js "^1.0.2"
     ieee754 "^1.1.4"
@@ -3554,6 +3609,11 @@ compare-version@^0.1.2:
   version "0.1.2"
   resolved "https://registry.npmjs.org/compare-version/-/compare-version-0.1.2.tgz#0162ec2d9351f5ddd59a9202cba935366a725080"
 
+compare-versions@^3.4.0:
+  version "3.6.0"
+  resolved "https://registry.npm.taobao.org/compare-versions/download/compare-versions-3.6.0.tgz#1a5689913685e5a87637b8d3ffca75514ec41d62"
+  integrity sha1-GlaJkTaF5ah2N7jT/8p1UU7EHWI=
+
 component-bind@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/component-bind/-/component-bind-1.0.0.tgz#00c608ab7dcd93897c0009651b1d3a8e1e73bbd1"
@@ -3718,6 +3778,11 @@ core-js@^1.0.0:
 core-js@^2.4.0, core-js@^2.4.1, core-js@^2.5.0, core-js@^2.5.7:
   version "2.5.7"
   resolved "https://registry.npmjs.org/core-js/-/core-js-2.5.7.tgz#f972608ff0cead68b841a16a932d0b183791814e"
+
+core-js@^2.6.5:
+  version "2.6.11"
+  resolved "https://registry.npm.taobao.org/core-js/download/core-js-2.6.11.tgz#38831469f9922bded8ee21c9dc46985e0399308c"
+  integrity sha1-OIMUafmSK97Y7iHJ3EaYXgOZMIw=
 
 core-js@^3.1.4:
   version "3.2.1"
@@ -5441,6 +5506,13 @@ expect@^23.6.0:
     jest-message-util "^23.4.0"
     jest-regex-util "^23.3.0"
 
+expo-random@*:
+  version "8.0.0"
+  resolved "https://registry.npm.taobao.org/expo-random/download/expo-random-8.0.0.tgz#bbcc7a189d29ae9b709b36a6cf84256c22cc16f6"
+  integrity sha1-u8x6GJ0prptwmzamz4QlbCLMFvY=
+  dependencies:
+    base64-js "^1.3.0"
+
 express-session@^1.15.1:
   version "1.17.0"
   resolved "https://registry.yarnpkg.com/express-session/-/express-session-1.17.0.tgz#9b50dbb5e8a03c3537368138f072736150b7f9b3"
@@ -6483,14 +6555,15 @@ gulp-run-command@0.0.9:
     spawn-args "0.2.0"
     timeout-as-promise "^1.0.0"
 
-gun@^0.2019.1211:
-  version "0.2019.1211"
-  resolved "https://registry.yarnpkg.com/gun/-/gun-0.2019.1211.tgz#37aa58217f86256b5d6f126450c8860f7bca384e"
+"gun@git://github.com/amark/gun#c59e0e95f92779ce6bb3aab823d318bc16b20c33":
+  version "0.2020.116"
+  resolved "git://github.com/amark/gun#c59e0e95f92779ce6bb3aab823d318bc16b20c33"
   dependencies:
-    ws "~>7.1.0"
+    buffer "^5.4.3"
+    ws "^7.1.2"
   optionalDependencies:
-    "@peculiar/webcrypto" "^1.0.19"
     emailjs "^2.2.0"
+    isomorphic-webcrypto "^2.3.2"
     text-encoding "^0.7.0"
 
 gzip-size@^5.0.0:
@@ -7545,6 +7618,24 @@ isobject@^3.0.0, isobject@^3.0.1:
   version "3.0.1"
   resolved "https://registry.npmjs.org/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
 
+isomorphic-webcrypto@^2.3.2:
+  version "2.3.4"
+  resolved "https://registry.npm.taobao.org/isomorphic-webcrypto/download/isomorphic-webcrypto-2.3.4.tgz#6d18ee7f795ab2f5e9fd7a5b489abaf9ee2e6af5"
+  integrity sha1-bRjuf3lasvXp/XpbSJq6+e4uavU=
+  dependencies:
+    "@peculiar/webcrypto" "^1.0.22"
+    asmcrypto.js "^0.22.0"
+    b64-lite "^1.3.1"
+    b64u-lite "^1.0.1"
+    msrcrypto "^1.5.6"
+    str2buf "^1.3.0"
+    webcrypto-shim "^0.1.4"
+  optionalDependencies:
+    "@unimodules/core" "*"
+    "@unimodules/react-native-adapter" "*"
+    expo-random "*"
+    react-native-securerandom "^0.1.1"
+
 isstream@0.1.x, isstream@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
@@ -8454,7 +8545,7 @@ lodash@=4.17.4:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
-lodash@^4.17.11, lodash@^4.17.12, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.5:
+lodash@^4.17.11, lodash@^4.17.12, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.5, lodash@^4.5.0:
   version "4.17.15"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
 
@@ -8994,6 +9085,11 @@ ms@2.1.1:
 ms@^2.1.1:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
+
+msrcrypto@^1.5.6:
+  version "1.5.8"
+  resolved "https://registry.npm.taobao.org/msrcrypto/download/msrcrypto-1.5.8.tgz#be419be4945bf134d8af52e9d43be7fa261f4a1c"
+  integrity sha1-vkGb5JRb8TTYr1Lp1Dvn+iYfShw=
 
 multicast-dns-service-types@^1.1.0:
   version "1.1.0"
@@ -10583,11 +10679,11 @@ punycode@^2.1.0, punycode@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
 
-pvtsutils@^1.0.4, pvtsutils@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/pvtsutils/-/pvtsutils-1.0.6.tgz#e3883fd77abdd4c124131f6a49f3914cd9f21290"
+pvtsutils@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.npm.taobao.org/pvtsutils/download/pvtsutils-1.0.9.tgz#0eb6106f27878ccaa55e7dfbf6bd2c75af461dee"
+  integrity sha1-DrYQbyeHjMqlXn379r0sda9GHe4=
   dependencies:
-    "@types/node" "^10.14.17"
     tslib "^1.10.0"
 
 pvutils@latest:
@@ -10751,6 +10847,13 @@ react-is@^16.6.1, react-is@^16.6.3:
 react-lifecycles-compat@^3.0.0, react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.npmjs.org/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
+
+react-native-securerandom@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.npm.taobao.org/react-native-securerandom/download/react-native-securerandom-0.1.1.tgz#f130623a412c338b0afadedbc204c5cbb8bf2070"
+  integrity sha1-8TBiOkEsM4sK+t7bwgTFy7i/IHA=
+  dependencies:
+    base64-js "*"
 
 react-qrcode-logo@^2.2.0:
   version "2.2.0"
@@ -12114,6 +12217,11 @@ stealthy-require@^1.1.0, stealthy-require@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
 
+str2buf@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.npm.taobao.org/str2buf/download/str2buf-1.3.0.tgz#a4172afff4310e67235178e738a2dbb573abead0"
+  integrity sha1-pBcq//QxDmcjUXjnOKLbtXOr6tA=
+
 stream-browserify@^2.0.1:
   version "2.0.1"
   resolved "https://registry.npmjs.org/stream-browserify/-/stream-browserify-2.0.1.tgz#66266ee5f9bdb9940a4e4514cafb43bb71e5c9db"
@@ -12419,9 +12527,9 @@ svgo@^1.0.0:
     unquote "~1.1.1"
     util.promisify "~1.0.0"
 
-"sw-server@git://github.com/shocknet/api.git#dcf369add05f72110329134b004548343a2962cf":
+"sw-server@git://github.com/shocknet/api.git#744dfce3dc74a33714d6900419a804899659e69d":
   version "1.0.0"
-  resolved "git://github.com/shocknet/api.git#dcf369add05f72110329134b004548343a2962cf"
+  resolved "git://github.com/shocknet/api.git#744dfce3dc74a33714d6900419a804899659e69d"
   dependencies:
     "@grpc/proto-loader" "^0.5.1"
     axios "^0.19.0"
@@ -12439,7 +12547,7 @@ svgo@^1.0.0:
     google-proto-files "^1.0.3"
     graphviz "0.0.8"
     grpc "^1.21.1"
-    gun "^0.2019.1211"
+    gun "git://github.com/amark/gun#c59e0e95f92779ce6bb3aab823d318bc16b20c33"
     husky "^3.0.9"
     jsonfile "^4.0.0"
     jsonwebtoken "^8.3.0"
@@ -13516,12 +13624,18 @@ webauth@^1.1.0:
   version "1.1.0"
   resolved "https://registry.npmjs.org/webauth/-/webauth-1.1.0.tgz#64704f6b8026986605bc3ca629952e6e26fdd100"
 
-webcrypto-core@^1.0.14:
-  version "1.0.14"
-  resolved "https://registry.yarnpkg.com/webcrypto-core/-/webcrypto-core-1.0.14.tgz#c015088fbc9c235ebd8b35047a131c5ff58f7152"
+webcrypto-core@^1.0.17:
+  version "1.0.17"
+  resolved "https://registry.npm.taobao.org/webcrypto-core/download/webcrypto-core-1.0.17.tgz#a9354bc0b1ba6735e882f4137ede2c4366e6ad9b"
+  integrity sha1-qTVLwLG6ZzXogvQTft4sQ2bmrZs=
   dependencies:
-    pvtsutils "^1.0.4"
+    pvtsutils "^1.0.9"
     tslib "^1.10.0"
+
+webcrypto-shim@^0.1.4:
+  version "0.1.5"
+  resolved "https://registry.npm.taobao.org/webcrypto-shim/download/webcrypto-shim-0.1.5.tgz#13e34a010ccc544edecfe8a2642204502841bcf0"
+  integrity sha1-E+NKAQzMVE7ez+iiZCIEUChBvPA=
 
 webdriverio@^4.13.0:
   version "4.14.0"
@@ -13876,12 +13990,6 @@ ws@~6.1.0:
   resolved "https://registry.yarnpkg.com/ws/-/ws-6.1.4.tgz#5b5c8800afab925e94ccb29d153c8d02c1776ef9"
   dependencies:
     async-limiter "~1.0.0"
-
-ws@~>7.1.0:
-  version "7.1.2"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-7.1.2.tgz#c672d1629de8bb27a9699eb599be47aeeedd8f73"
-  dependencies:
-    async-limiter "^1.0.0"
 
 x-is-string@^0.1.0:
   version "0.1.0"

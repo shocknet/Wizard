@@ -8,11 +8,11 @@ platform:
 branches:
   only:
     - master
-    
+
 skip_tags: true
-    
-only_commits: 
-  files: 
+
+only_commits:
+  files:
     - package.json
 
 environment:
@@ -43,11 +43,11 @@ install:
   - sh: nvm install $nodejs_version
   - sh: sudo apt update && sudo apt-get install alien -y
   - set CI=true
-  - yarn
+  - cross-env ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=true yarn
 
 test_script:
-  - yarn package-ci
-  - yarn lint
+  - cross-env ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=true yarn package-ci
+  - cross-env ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=true yarn lint
   # - yarn flow
   # - yarn test
   # - yarn build-e2e

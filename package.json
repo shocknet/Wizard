@@ -1,7 +1,7 @@
 {
   "name": "ShockWizard",
   "productName": "ShockWizard",
-  "version": "0.0.40",
+  "version": "0.0.41",
   "description": "Setup a Lightning Node Automatically!",
   "scripts": {
     "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
@@ -21,7 +21,7 @@
     "package-ci": "yarn postinstall && yarn build && electron-builder --publish always",
     "package-linux": "yarn build && electron-builder build --linux",
     "package-win": "yarn build && electron-builder build --win --x64",
-    "postinstall": "yarn flow-typed && electron-builder install-app-deps package.json && yarn build-dll",
+    "postinstall": "yarn flow-typed && cross-env ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=true electron-builder install-app-deps package.json && yarn build-dll",
     "postlint-fix": "prettier --ignore-path .eslintignore --single-quote --write '**/*.{*{js,jsx,json},babelrc,eslintrc,prettierrc,stylelintrc}'",
     "postlint-styles-fix": "prettier --ignore-path .eslintignore --single-quote --write '**/*.{css,scss}'",
     "prestart": "yarn build",
@@ -64,7 +64,9 @@
       "app/app.html",
       "app/main.prod.js",
       "app/main.prod.js.map",
-      "package.json"
+      "package.json",
+      "!node_modules/react-native/*",
+      "!node_modules/@unimodules/*"
     ],
     "dmg": {
       "contents": [
@@ -169,6 +171,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",
+    "core-js": "^2.6.5",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/plugin-proposal-decorators": "^7.1.6",
     "@babel/plugin-proposal-do-expressions": "^7.0.0",
@@ -291,7 +294,7 @@
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "source-map-support": "^0.5.9",
-    "sw-server": "git://github.com/shocknet/api.git#b206c74f36b533e61aa4c5e8abc011b39af16fa2",
+    "sw-server": "git://github.com/shocknet/api.git#744dfce3dc74a33714d6900419a804899659e69d",
     "tar": "^4.4.10",
     "unzip": "^0.1.11",
     "unzipper": "^0.10.5"
