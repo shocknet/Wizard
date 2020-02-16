@@ -30,7 +30,9 @@ Browse to [Releases](https://github.com/shocknet/Wizard/releases) and download->
 
 
 # Using with ShockWallet
-The end of the wizard will provide you with a scan-able QR code. Scan with ShockWallet to automatically connect, this method will configure the app to automatically switch between your internal and external* IP addresses when you leave your home network.
+- The end of the wizard will provide you with a scan-able QR code. 
+- Scan with ShockWallet to automatically connect
+- This method will configure the app to automatically switch between your internal and external* IP addresses when you leave your home network.
 
 **Port `9835` is used by default and may require a Firewall/NAT Forwarding Rule to be set on your router.*
 
@@ -48,4 +50,4 @@ $ yarn package
 **If you find any issues with this project, or would like to suggest an enhancement, please [tell us](https://github.com/shocknet/Wizard/issues).**
 
 [ISC License](https://opensource.org/licenses/ISC)
-© 2019 [Shock Network, Inc.](http://shock.network)
+© 2020 [Shock Network, Inc.](http://shock.network)
