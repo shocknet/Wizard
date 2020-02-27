@@ -20,7 +20,7 @@ import AutoLaunchStep from './AutoLaunchStep';
 import Lnd from '../../utils/lnd';
 import Bitcoind from '../../utils/bitcoind';
 import styles from './css/index.css';
-import shockLogo from '../../img/logo.svg';
+import shockLogo from '../../img/banner.png';
 
 export default class Home extends Component {
   state = {
