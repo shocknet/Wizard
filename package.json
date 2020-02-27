@@ -171,7 +171,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",
-    "core-js": "^2.6.5",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/plugin-proposal-decorators": "^7.1.6",
     "@babel/plugin-proposal-do-expressions": "^7.0.0",
@@ -203,6 +202,7 @@
     "chalk": "^2.4.1",
     "concurrently": "^4.1.0",
     "connected-react-router": "^5.0.1",
+    "core-js": "^2.6.5",
     "cross-env": "^5.2.0",
     "cross-spawn": "^6.0.5",
     "css-loader": "^1.0.1",
@@ -294,7 +294,7 @@
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "source-map-support": "^0.5.9",
-    "sw-server": "git://github.com/shocknet/api.git#744dfce3dc74a33714d6900419a804899659e69d",
+    "sw-server": "git://github.com/shocknet/api.git#0a4444b295cd50ee7a4dc87ab50f91636b46f3ee",
     "tar": "^4.4.10",
     "unzip": "^0.1.11",
     "unzipper": "^0.10.5"
