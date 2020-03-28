@@ -28,6 +28,8 @@ Browse to [Releases](https://github.com/shocknet/Wizard/releases) and download->
 
 *Full Bitcoin Core installations should budget at least 400GB of disk space*
 
+Windows users should install "as Administrator" 
+
 
 # Using with ShockWallet
 - The end of the wizard will provide you with a scan-able QR code. 
