@@ -1,7 +1,7 @@
 {
   "name": "ShockWizard",
   "productName": "ShockWizard",
-  "version": "0.0.47",
+  "version": "0.0.48",
   "description": "Setup a Lightning Node Automatically!",
   "scripts": {
     "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
@@ -294,7 +294,7 @@
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "source-map-support": "^0.5.9",
-    "sw-server": "git://github.com/shocknet/api.git#79813c35553e0a609b0a23562f32a52278aa8ff9",
+    "sw-server": "git://github.com/shocknet/api.git#9ebce42ec413657b653865beb85fd229fd4dce7c",
     "tar": "^4.4.10",
     "unzip": "^0.1.11",
     "unzipper": "^0.10.5"
