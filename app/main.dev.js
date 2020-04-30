@@ -13,8 +13,9 @@ import { app, BrowserWindow, Tray, ipcMain } from 'electron';
 import logger from 'electron-log';
 import unhandled from 'electron-unhandled';
 import path from 'path';
-import MenuBuilder from './menu';
+import { autoUpdater } from 'electron-updater';
 import server from 'sw-server';
+import MenuBuilder from './menu';
 
 unhandled();
 
@@ -24,6 +25,18 @@ let tray = null;
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
+
+  autoUpdater.allowPrerelease = true;
+  autoUpdater.autoDownload = true;
+  autoUpdater.allowDowngrade = false;
+  autoUpdater.setFeedURL({
+    provider: 'github',
+    repo: 'Wizard',
+    owner: 'shocknet'
+  });
+  setInterval(() => {
+    autoUpdater.checkForUpdates();
+  }, 60000); // Check for updates every minute
 }
 
 if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
@@ -147,8 +160,24 @@ app.on('ready', async () => {
       logger.error(err);
     }
   });
+});
 
-  // Remove this if your app does not use auto updates
-  // eslint-disable-next-line
-  // new AppUpdater();
+autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
+  const dialogOpts = {
+    type: 'info',
+    buttons: ['Restart', 'Later'],
+    title: 'Application Update',
+    message: process.platform === 'win32' ? releaseNotes : releaseName,
+    detail:
+      'A new version of ShockWizard has been downloaded. Restart the application to apply the update.'
+  };
+
+  dialog.showMessageBox(dialogOpts).then(returnValue => {
+    if (returnValue.response === 0) autoUpdater.quitAndInstall();
+  });
+});
+
+autoUpdater.on('error', message => {
+  logger.error('There was a problem updating the application');
+  logger.error(message);
 });
