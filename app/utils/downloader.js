@@ -6,9 +6,10 @@ import path from 'path';
 import Unzip from 'unzipper';
 import Tar from 'tar';
 import logger from 'electron-log';
+import rimraf from 'rimraf';
 import { getFolderPath, getUserPlatform } from './os';
 
-const downloadRelease = ({ user, repo, version, fileName, os }, progressCallback) =>
+const downloadRelease = ({ user, repo, version, fileName, os, update = false }, progressCallback) =>
   new Promise(async (resolve, reject) => {
     let loaded = 0;
     const downloadLocation = await getFolderPath();
@@ -22,6 +23,9 @@ const downloadRelease = ({ user, repo, version, fileName, os }, progressCallback
     const writer = fs.createWriteStream(fileLocation);
     const releaseLink = `https://github.com/${user}/${repo}/releases/download/${version}/${fileName}`;
     logger.info('Release Link:', releaseLink);
+    if (update) {
+      rimraf(path.resolve(downloadLocation, repo));
+    }
     const downloadedRelease = await Http.get(releaseLink, {
       responseType: 'stream'
     });
@@ -33,13 +37,14 @@ const downloadRelease = ({ user, repo, version, fileName, os }, progressCallback
       if (progressCallback) {
         progressCallback({
           app: repo,
+          type: update ? 'update' : 'download',
           progress: Math.round((loaded * 100) / total)
         });
       }
     });
     writer.on('finish', async () => {
       logger.info(Buffer.isBuffer(writer));
-      await extractFile(fileLocation, downloadLocation, repo);
+      await extractFile(fileLocation, downloadLocation, repo, null, update);
       resolve(true);
     });
     writer.on('error', reject);
@@ -91,7 +96,7 @@ const downloadFile = ({ fileName, downloadUrl, extractedFolderName }, progressCa
     });
   });
 
-const extractFile = (filePath, destination, folderName, extractedFolderName) =>
+const extractFile = (filePath, destination, folderName, extractedFolderName, update) =>
   new Promise((resolve, reject) => {
     const os = getUserPlatform();
     const archiveFormatIndex = os === 'linux' ? -2 : -1;

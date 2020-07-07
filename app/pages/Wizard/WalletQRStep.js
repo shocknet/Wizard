@@ -10,12 +10,7 @@ import Bitcoind from '../../utils/bitcoind';
 import styles from './css/index.css';
 
 export default class WalletQRStep extends Component {
-  state = {
-    activeTab: 'info',
-    internalIP: '',
-    externalIP: '',
-    walletPort: '9835'
-  };
+  state = { activeTab: 'info', internalIP: '', externalIP: '', walletPort: '9835' };
 
   componentDidMount = async () => {
     const externalIP = await localForage.getItem('externalIP');
@@ -32,15 +27,11 @@ export default class WalletQRStep extends Component {
   setOption = async (key, value) => {
     await localForage.setItem(key, value);
     logger.info(key, value);
-    this.setState({
-      [key]: value
-    });
+    this.setState({ [key]: value });
   };
 
   setActiveTab = tab => {
-    this.setState({
-      activeTab: tab
-    });
+    this.setState({ activeTab: tab });
   };
 
   renderTabs = () => {
@@ -79,6 +70,85 @@ export default class WalletQRStep extends Component {
     );
   };
 
+  getProgressRate = ({
+    type,
+    lndProgress = 0,
+    bitcoindProgress = 0,
+    lndDownloadProgress = 0,
+    bitcoindDownloadProgress = 0
+  }) => {
+    if (type === 'bitcoind') {
+      return {
+        totalProgress: (lndProgress + bitcoindProgress) / 2,
+        downloadCompleted: bitcoindDownloadProgress === 100,
+        syncProgress: bitcoindDownloadProgress
+      };
+    }
+
+    return {
+      totalProgress: lndProgress,
+      downloadCompleted: lndDownloadProgress === 100,
+      syncProgress: lndDownloadProgress
+    };
+  };
+
+  getDownloadProgress = () => {
+    const {
+      loadingServer,
+      lndProgress,
+      bitcoindProgress,
+      lndDownloadProgress,
+      bitcoindDownloadProgress,
+      lndType,
+      downloadType
+    } = this.props;
+    const { totalProgress, downloadCompleted, syncProgress } = this.getProgressRate({
+      type: lndType,
+      lndProgress,
+      bitcoindProgress,
+      lndDownloadProgress,
+      bitcoindDownloadProgress
+    });
+    if (loadingServer) {
+      if (downloadType === 'download') {
+        return (
+          <span>
+            Please wait while we're downloading LND and/or Bitcoind...
+            <br />
+            {totalProgress}%
+          </span>
+        );
+      }
+
+      if (downloadType === 'update') {
+        return (
+          <span>
+            Upgrading LND to the latest version...
+            <br />
+            {totalProgress}%
+          </span>
+        );
+      }
+    }
+
+    if (!downloadCompleted) {
+      <span>
+        Please wait while LND/Bitcoind is syncing blocks...
+        <br />
+        {syncProgress}%
+      </span>;
+    }
+
+    return (
+      <QRCode
+        bgColor="#F5A623"
+        fgColor="#21355a"
+        value={`{ "externalIP": "${externalIP}", "internalIP": "${internalIP}", "walletPort": "${walletPort}" }`}
+        ecLevel="M"
+      />
+    );
+  };
+
   renderQRCode = () => {
     const { internalIP, walletPort, externalIP, activeTab } = this.state;
     const {
@@ -88,7 +158,8 @@ export default class WalletQRStep extends Component {
       bitcoindProgress,
       lndDownloadProgress,
       bitcoindDownloadProgress,
-      lndType
+      lndType,
+      downloadType
     } = this.props;
     return (
       <Fragment>
@@ -101,23 +172,13 @@ export default class WalletQRStep extends Component {
         <div className={styles.walletInfo}>
           <label
             htmlFor=""
-            style={{
-              display: 'block',
-              padding: '0px 0px',
-              margin: 'auto',
-              fontWeight: 600
-            }}
+            style={{ display: 'block', padding: '0px 0px', margin: 'auto', fontWeight: 600 }}
           >
             Internal IP: {internalIP}
           </label>
           <label
             htmlFor=""
-            style={{
-              display: 'block',
-              padding: '0px 0px',
-              margin: 'auto',
-              fontWeight: 600
-            }}
+            style={{ display: 'block', padding: '0px 0px', margin: 'auto', fontWeight: 600 }}
           >
             External IP: {externalIP}
           </label>

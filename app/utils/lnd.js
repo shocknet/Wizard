@@ -6,6 +6,7 @@ import localForage from 'localforage';
 import { ipcRenderer } from 'electron';
 import logger from 'electron-log';
 import Downloader from './downloader';
+import { TARGET_LND_VERSION } from '../constants/lnd.json';
 import { getFolderPath, getDataDir, getUserPlatform } from './os';
 
 const regexExpressions = {
@@ -59,6 +60,32 @@ const getLndDirectory = () => {
 
 const lndDirectory = getLndDirectory();
 
+const getLNDVersion = () =>
+  new Promise((resolve, reject) => {
+    const lndExe = path.resolve(folderPath, 'lnd', `lnd${os !== 'linux' ? '.exe' : ''}`);
+    child = spawn(lndExe, ['--version']);
+    ipcRenderer.send('lndPID', child.pid);
+    child.stdout.on('data', data => {
+      resolve(data.split('commit=')[1]);
+    });
+    child.stderr.on('error', error => {
+      reject('An error occurred');
+    });
+    setTimeout(() => {
+      resolve(null);
+    }, 5000);
+  });
+
+const getLNDOutdated = async () => {
+  try {
+    const LNDVersion = await localForage.getItem('lnd-version');
+
+    return !LNDVersion.includes(TARGET_LND_VERSION);
+  } catch (err) {
+    return true;
+  }
+};
+
 const download = async ({ version, os: operatingSystem }, progressCallback) => {
   logger.info('Downloading LND...');
   const folderPath = await getFolderPath();
@@ -68,14 +95,17 @@ const download = async ({ version, os: operatingSystem }, progressCallback) => {
   const LNDExists =
     fs.existsSync(path.resolve(folderPath, 'lnd', 'lnd.exe')) ||
     fs.existsSync(path.resolve(folderPath, 'lnd', 'lnd'));
-  if (!LNDExists) {
+  const LNDOutdated = await (LNDExists ? getLNDOutdated() : null);
+  if (!LNDExists || LNDOutdated) {
     logger.info("LND doesn't exist");
+    await localForage.setItem('lnd-version', TARGET_LND_VERSION);
     await Downloader.downloadRelease(
       {
         version,
-        user: 'lightningnetwork',
+        user: 'shocknet',
         repo: 'lnd',
-        fileName
+        fileName,
+        update: LNDOutdated
       },
       progressCallback
     );

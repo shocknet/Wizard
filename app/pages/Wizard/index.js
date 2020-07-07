@@ -28,6 +28,7 @@ export default class Home extends Component {
     maxStep: 7,
     lndType: 'neutrino',
     lndProgress: 0,
+    downloadType: null,
     bitcoindProgress: 0,
     showNodeInfo: false,
     lndLogLines: [],
@@ -40,6 +41,14 @@ export default class Home extends Component {
   };
 
   logBox = React.createRef();
+
+  safeParse = data => {
+    try {
+      return JSON.parse(data);
+    } catch {
+      return {};
+    }
+  };
 
   componentDidMount = async () => {
     const { maxStep } = this.state;
@@ -78,6 +87,15 @@ export default class Home extends Component {
         showNodeInfo: true,
         step: 7
       });
+    });
+
+    ipcRenderer.on('update-available', (event, data) => {
+      console.log('update-available react', event, data);
+      this.setState({ updatePending: true, updateDetails: this.safeParse(data) });
+    });
+
+    ipcRenderer.on('download-progress', (event, progress) => {
+      this.setState({ updateProgress: JSON.parse(progress) });
     });
 
     const LNDData = {
@@ -140,6 +158,10 @@ export default class Home extends Component {
       logger.info('Unmounted');
     });
     ipcRenderer.off('node-info', () => {
+      logger.info('Unmounted');
+    });
+
+    ipcRenderer.off('update-available', () => {
       logger.info('Unmounted');
     });
 
@@ -222,11 +244,12 @@ export default class Home extends Component {
             version: TARGET_LND_VERSION,
             os: getUserPlatform()
           },
-          ({ app, progress }) => {
+          ({ app, progress, type }) => {
             const appProgress = this.state[app + 'Progress'];
             if (appProgress < progress) {
               this.setState({
-                [app + 'Progress']: progress
+                [app + 'Progress']: progress,
+                downloadType: type
               });
             }
           }
@@ -343,7 +366,8 @@ export default class Home extends Component {
       lndProgress,
       lndDownloadProgress,
       bitcoindDownloadProgress,
-      bitcoindLogLines
+      bitcoindLogLines,
+      downloadType
     } = this.state;
 
     if (step === 1) {
@@ -387,6 +411,7 @@ export default class Home extends Component {
           logBox={this.logBox}
           lndDownloadProgress={lndDownloadProgress}
           bitcoindDownloadProgress={bitcoindDownloadProgress}
+          downloadType={downloadType}
           bitcoindLogLines={bitcoindLogLines}
         />
       );
@@ -441,6 +466,82 @@ export default class Home extends Component {
     }
   };
 
+  downloadUpdate = () => {
+    ipcRenderer.send('download-update');
+    this.setState({
+      updateProgress: {
+        progress: 24
+      }
+    });
+  };
+
+  cancelUpdate = () => {
+    ipcRenderer.send('cancel-update');
+    this.setState({ updateDismissed: true, updateProgress: null, updatePending: false });
+  };
+
+  getUpdateBody = downloading => {
+    const { updateProgress } = this.state;
+    if (!downloading) {
+      return (
+        <div className={styles.updateDialogBody}>
+          <p className={styles.updateDialogText}>
+            A new update has been found for Shock services and/or LND, would you like to update?
+          </p>
+        </div>
+      );
+    }
+
+    return (
+      <div className={styles.updateDialogBody}>
+        <p className={styles.updateDialogText}>Update is now downloading...</p>
+        <div className={styles.updateDialogProgressContainer}>
+          <div className={styles.updateDialogProgress}>
+            <div
+              className={styles.updateDialogProgressHighlight}
+              style={{ width: (updateProgress?.percent ?? 0) + '%' }}
+            />
+          </div>
+          <div className={styles.updateDialogProgressCancel} onClick={this.cancelUpdate}>
+            <i class="fas fa-times" />
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  renderUpdatePopup = () => {
+    const { updatePending, updateDismissed, updateDetails, updateProgress } = this.state;
+    const updateHidden = !updatePending || updateDismissed;
+    console.log(styles);
+    return (
+      <div className={[styles.updateDialog, updateHidden ? styles.dialogHidden : ''].join(' ')}>
+        <div className={styles.updateDialogHeader}>
+          <p className={styles.updateDialogHeaderTitle}>
+            Update Available (v{updateDetails?.version})
+          </p>
+        </div>
+        {this.getUpdateBody(updateProgress)}
+        {!updateProgress ? (
+          <div className={styles.updateDialogFooter}>
+            <div
+              className={[styles.updateDialogFooterBtn, styles.primaryFooterBtn].join(' ')}
+              onClick={this.downloadUpdate}
+            >
+              <div className={styles.updateDialogFooterBtnText}>Update</div>
+            </div>
+            <div
+              className={[styles.updateDialogFooterBtn, styles.secondaryFooterBtn].join('  ')}
+              onClick={() => this.setState({ updateDismissed: true })}
+            >
+              <div className={styles.updateDialogFooterBtnText}>Remind me later</div>
+            </div>
+          </div>
+        ) : null}
+      </div>
+    );
+  };
+
   render() {
     const { step, showNodeInfo } = this.state;
 
@@ -472,6 +573,7 @@ export default class Home extends Component {
             )
           ) : null}
           {this.renderNavButtons()}
+          {this.renderUpdatePopup()}
         </div>
       </div>
     );

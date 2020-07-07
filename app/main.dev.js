@@ -13,7 +13,7 @@ import { app, BrowserWindow, Tray, ipcMain } from 'electron';
 import logger from 'electron-log';
 import unhandled from 'electron-unhandled';
 import path from 'path';
-import { autoUpdater } from 'electron-updater';
+import { autoUpdater, CancellationToken } from 'electron-updater';
 import server from 'sw-server';
 import MenuBuilder from './menu';
 
@@ -22,12 +22,12 @@ unhandled();
 let mainWindow = null;
 let tray = null;
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production' || true) {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
 
   autoUpdater.allowPrerelease = true;
-  autoUpdater.autoDownload = true;
+  autoUpdater.autoDownload = false;
   autoUpdater.allowDowngrade = false;
   autoUpdater.setFeedURL({
     provider: 'github',
@@ -36,7 +36,7 @@ if (process.env.NODE_ENV === 'production') {
   });
   setInterval(() => {
     autoUpdater.checkForUpdates();
-  }, 60000); // Check for updates every minute
+  }, 20000); // Check for updates every minute
 }
 
 if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
@@ -91,6 +91,7 @@ app.on('window-all-closed', () => {
 });
 
 app.on('ready', async () => {
+  const updateCancelToken = new CancellationToken();
   if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
     await installExtensions();
   }
@@ -108,6 +109,13 @@ app.on('ready', async () => {
   });
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
+
+  mainWindow.once('ready-to-show', () => {
+    setInterval(async () => {
+      const updateResult = await autoUpdater.checkForUpdatesAndNotify();
+      console.log(updateResult);
+    }, 60000);
+  });
 
   // @TODO: Use 'ready-to-show' event
   //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
@@ -160,9 +168,27 @@ app.on('ready', async () => {
       logger.error(err);
     }
   });
+
+  ipcMain.on('download-update', () => {
+    autoUpdater.downloadUpdate(updateCancelToken);
+  });
+
+  ipcMain.on('cancel-update', () => {
+    try {
+      updateCancelToken.cancel();
+    } catch {
+      logger.warn('Update Cancelled');
+    }
+  });
+});
+
+autoUpdater.on('update-available', (event, releaseNotes, releaseName) => {
+  console.log('update-available', event, releaseNotes, releaseName);
+  mainWindow.webContents.send('update-available', JSON.stringify(event));
 });
 
 autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
+  mainWindow.webContents.send('update-downloaded');
   const dialogOpts = {
     type: 'info',
     buttons: ['Restart', 'Later'],
@@ -175,6 +201,10 @@ autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
   dialog.showMessageBox(dialogOpts).then(returnValue => {
     if (returnValue.response === 0) autoUpdater.quitAndInstall();
   });
+});
+
+autoUpdater.on('download-progress', (ev, progressObj) => {
+  mainWindow.webContents.send('update-progress', JSON.stringify(progressObj));
 });
 
 autoUpdater.on('error', message => {
