@@ -9,23 +9,35 @@ import logger from 'electron-log';
 import rimraf from 'rimraf';
 import { getFolderPath, getUserPlatform } from './os';
 
-const downloadRelease = ({ user, repo, version, fileName, os, update = false }, progressCallback) =>
+const deleteRelease = folderPath =>
+  new Promise((resolve, reject) => {
+    rimraf(folderPath, err => {
+      if (err) {
+        logger.error(err);
+        reject(err);
+        return;
+      }
+      resolve(true);
+    });
+  });
+
+const downloadRelease = ({ repo, fileName, url, update = false }, progressCallback) =>
   new Promise(async (resolve, reject) => {
     let loaded = 0;
     const downloadLocation = await getFolderPath();
     const fileLocation = path.resolve(downloadLocation, fileName);
     logger.info('File Location:', fileLocation);
     logger.info('Downloaded File Name:', fileName);
+    if (update) {
+      await deleteRelease(path.resolve(downloadLocation, repo, '*.exe'));
+    }
     if (!fs.existsSync(fileLocation) && !fs.existsSync(downloadLocation)) {
       logger.info('Creating new folders:', downloadLocation);
       fs.mkdirSync(downloadLocation, { recursive: true });
     }
     const writer = fs.createWriteStream(fileLocation);
-    const releaseLink = `https://github.com/${user}/${repo}/releases/download/${version}/${fileName}`;
+    const releaseLink = url;
     logger.info('Release Link:', releaseLink);
-    if (update) {
-      rimraf(path.resolve(downloadLocation, repo));
-    }
     const downloadedRelease = await Http.get(releaseLink, {
       responseType: 'stream'
     });

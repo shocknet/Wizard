@@ -5,6 +5,7 @@ import { spawn } from 'child_process';
 import localForage from 'localforage';
 import { ipcRenderer } from 'electron';
 import logger from 'electron-log';
+import Http from 'axios';
 import Downloader from './downloader';
 import { TARGET_LND_VERSION } from '../constants/lnd.json';
 import { getFolderPath, getDataDir, getUserPlatform } from './os';
@@ -60,6 +61,23 @@ const getLndDirectory = () => {
 
 const lndDirectory = getLndDirectory();
 
+const getLatestRelease = async ({ user, repo, os: operatingSystem }) => {
+  try {
+    const { data } = await Http.get(`https://api.github.com/repos/${user}/${repo}/releases/latest`);
+    const [currentBuild] = data.assets.filter(asset =>
+      asset.name.includes(`${operatingSystem}-amd64`)
+    );
+    return {
+      tag: data.tag_name,
+      currentBuild: currentBuild.browser_download_url,
+      fileName: currentBuild.name
+    };
+  } catch (err) {
+    logger.error(err);
+    return localForage.getItem('lnd-version');
+  }
+};
+
 const getLNDVersion = () =>
   new Promise((resolve, reject) => {
     const lndExe = path.resolve(folderPath, 'lnd', `lnd${os !== 'linux' ? '.exe' : ''}`);
@@ -76,11 +94,12 @@ const getLNDVersion = () =>
     }, 5000);
   });
 
-const getLNDOutdated = async () => {
+const getLNDOutdated = async currentVersion => {
   try {
     const LNDVersion = await localForage.getItem('lnd-version');
+    const parsedVersion = LNDVersion ?? '0.0.0';
 
-    return !LNDVersion.includes(TARGET_LND_VERSION);
+    return !parsedVersion.includes(currentVersion);
   } catch (err) {
     return true;
   }
@@ -88,23 +107,22 @@ const getLNDOutdated = async () => {
 
 const download = async ({ version, os: operatingSystem }, progressCallback) => {
   logger.info('Downloading LND...');
+  const repo = 'lnd';
+  const user = 'shocknet';
   const folderPath = await getFolderPath();
-  const fileName = `lnd-${operatingSystem}-amd64-${version}.${
-    operatingSystem === 'linux' ? 'tar.gz' : 'zip'
-  }`;
   const LNDExists =
     fs.existsSync(path.resolve(folderPath, 'lnd', 'lnd.exe')) ||
     fs.existsSync(path.resolve(folderPath, 'lnd', 'lnd'));
-  const LNDOutdated = await (LNDExists ? getLNDOutdated() : null);
+  const LNDRelease = await getLatestRelease({ user, repo, os: operatingSystem });
+  const LNDOutdated = await (LNDExists ? getLNDOutdated(LNDRelease.tag_name) : null);
   if (!LNDExists || LNDOutdated) {
     logger.info("LND doesn't exist");
     await localForage.setItem('lnd-version', TARGET_LND_VERSION);
     await Downloader.downloadRelease(
       {
-        version,
-        user: 'shocknet',
-        repo: 'lnd',
-        fileName,
+        url: LNDRelease.currentBuild,
+        fileName: LNDRelease.fileName,
+        repo,
         update: LNDOutdated
       },
       progressCallback
