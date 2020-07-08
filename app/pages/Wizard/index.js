@@ -421,9 +421,9 @@ export default class Home extends Component {
   };
 
   renderNavButtons = () => {
-    const { step, maxStep, showNodeInfo } = this.state;
+    const { step, maxStep, showNodeInfo, loadingServer, downloadCompleted } = this.state;
 
-    if (showNodeInfo) {
+    if (showNodeInfo || loadingServer) {
       return null;
     }
 

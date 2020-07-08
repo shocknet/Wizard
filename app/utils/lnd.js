@@ -116,7 +116,7 @@ const download = async ({ version, os: operatingSystem }, progressCallback) => {
   const LNDRelease = await getLatestRelease({ user, repo, os: operatingSystem });
   const LNDOutdated = await (LNDExists ? getLNDOutdated(LNDRelease.tag_name) : null);
   if (!LNDExists || LNDOutdated) {
-    logger.info("LND doesn't exist");
+    logger.info(!LNDExists ? "LND doesn't exist" : 'LND is outdated, updating...');
     await localForage.setItem('lnd-version', TARGET_LND_VERSION);
     await Downloader.downloadRelease(
       {

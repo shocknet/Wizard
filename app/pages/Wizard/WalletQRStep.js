@@ -35,9 +35,9 @@ export default class WalletQRStep extends Component {
   };
 
   renderTabs = () => {
-    const { showNodeInfo, lndType } = this.props;
+    const { showNodeInfo, lndType, loadingServer, downloadCompleted } = this.props;
     const { activeTab } = this.state;
-    if (!showNodeInfo) {
+    if (!showNodeInfo && !(!loadingServer && !downloadCompleted)) {
       return null;
     }
 
