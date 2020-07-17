@@ -14,7 +14,7 @@ import logger from 'electron-log';
 import unhandled from 'electron-unhandled';
 import path from 'path';
 import { autoUpdater, CancellationToken } from 'electron-updater';
-import server from 'sw-server';
+import server from 'shockapi';
 import MenuBuilder from './menu';
 
 unhandled();
