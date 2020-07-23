@@ -294,7 +294,7 @@
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "source-map-support": "^0.5.9",
-    "shockapi": "git://github.com/shocknet/api.git#f84e506b917d718b112351b2965ff2aec9653b47",
+    "shockapi": "git://github.com/shocknet/api.git#master",
     "tar": "^4.4.10",
     "unzip": "^0.1.11",
     "unzipper": "^0.10.5"
