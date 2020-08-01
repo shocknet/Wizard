@@ -32,7 +32,8 @@ if (process.env.NODE_ENV === 'production' || process.env.DEBUG_PROD === 'true') 
   autoUpdater.setFeedURL({
     provider: 'github',
     repo: 'Wizard',
-    owner: 'shocknet'
+    owner: 'shocknet',
+    artifactName: 'ShockWizard-Setup-${version}.${ext}'
   });
   setInterval(() => {
     autoUpdater.checkForUpdates();

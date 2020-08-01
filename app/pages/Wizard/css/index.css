@@ -51,6 +51,22 @@
   color: white;
 }
 
+.debugPrompt {
+  position: absolute;
+  top: 20;
+  right: 0;
+  padding: 10px;
+  background-color: rgba(0,0,0,0.5);
+  border-radius: 0 0 0 8px;
+  z-index: 1000;
+}
+
+.debugPrompt p {
+  margin: 0;
+  margin-bottom: 2px;
+  font-size: 10px;
+}
+
 .shockLogo {
   display: flex;
   align-items: center;

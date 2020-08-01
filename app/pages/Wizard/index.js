@@ -425,7 +425,7 @@ export default class Home extends Component {
   renderNavButtons = () => {
     const { step, maxStep, showNodeInfo, loadingServer, downloadCompleted } = this.state;
 
-    if (showNodeInfo || loadingServer) {
+    if (showNodeInfo) {
       return null;
     }
 
@@ -551,6 +551,24 @@ export default class Home extends Component {
       <div className={styles.container}>
         <div className={styles.shockLogo}>
           <img src={shockLogo} className={styles.logo} alt="ShockWizard Logo" />
+        </div>
+        <div className={styles.debugPrompt}>
+          {Object.entries(this.state).map(([key, value]) => (
+            <p>
+              {key}:{' '}
+              {value
+                ? value === true
+                  ? 'true'
+                  : value.length === 0
+                  ? '[]'
+                  : value
+                : value === false
+                ? 'false'
+                : value === null
+                ? 'null'
+                : value}
+            </p>
+          ))}
         </div>
         {this.renderStep()}
         <div className={styles.stepControlsBar}>

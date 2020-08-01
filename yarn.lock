@@ -3026,6 +3026,13 @@ buffers@~0.1.1:
   version "0.1.1"
   resolved "https://registry.npmjs.org/buffers/-/buffers-0.1.1.tgz#b24579c3bed4d6d396aeee6d9a8ae7f5482ab7bb"
 
+bufferutil@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/bufferutil/-/bufferutil-4.0.1.tgz#3a177e8e5819a1243fe16b63a199951a7ad8d4a7"
+  integrity sha512-xowrxvpxojqkagPcWRQVXZl0YXhRhAtBEIq3VoER1NH5Mw1n1o0ojdspp+GS2J//2gCVyrzQDApQ4unGF+QOoA==
+  dependencies:
+    node-gyp-build "~3.7.0"
+
 builder-util-runtime@7.1.0, builder-util-runtime@^7.1.0, builder-util-runtime@~7.1.0:
   version "7.1.0"
   resolved "https://registry.npmjs.org/builder-util-runtime/-/builder-util-runtime-7.1.0.tgz#f0bf1f247d0eb79ea8a20d0c9178ffa0daf98a80"
@@ -6647,7 +6654,6 @@ gulp-run-command@0.0.9:
 
 "gun@git://github.com/amark/gun#97aa976c97e6219a9f93095d32c220dcd371ca62":
   version "0.2020.520"
-  uid "97aa976c97e6219a9f93095d32c220dcd371ca62"
   resolved "git://github.com/amark/gun#97aa976c97e6219a9f93095d32c220dcd371ca62"
   dependencies:
     ws "^7.2.1"
@@ -9297,6 +9303,11 @@ node-fetch@^2.1.1:
 node-forge@0.7.5:
   version "0.7.5"
   resolved "https://registry.npmjs.org/node-forge/-/node-forge-0.7.5.tgz#6c152c345ce11c52f465c2abd957e8639cd674df"
+
+node-gyp-build@~3.7.0:
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/node-gyp-build/-/node-gyp-build-3.7.0.tgz#daa77a4f547b9aed3e2aac779eaf151afd60ec8d"
+  integrity sha512-L/Eg02Epx6Si2NXmedx+Okg+4UHqmaf3TNcxd50SF9NQGcJaON3AtU++kax69XV7YWz4tUspqZSAsVofhFKG2w==
 
 node-int64@^0.4.0:
   version "0.4.0"
@@ -12025,7 +12036,6 @@ shock-common@4.0.1:
 
 "shockapi@git://github.com/shocknet/api.git#master":
   version "1.0.0"
-  uid "828e830cd9fc5e1c3a06f9f027048dc27b64c5f0"
   resolved "git://github.com/shocknet/api.git#828e830cd9fc5e1c3a06f9f027048dc27b64c5f0"
   dependencies:
     "@grpc/proto-loader" "^0.5.1"
@@ -13343,6 +13353,11 @@ type-check@~0.3.2:
 type-detect@4.0.8, type-detect@^4.0.0, type-detect@^4.0.5, type-detect@^4.0.8:
   version "4.0.8"
   resolved "https://registry.npmjs.org/type-detect/-/type-detect-4.0.8.tgz#7646fb5f18871cfbb7749e69bd39a6388eb7450c"
+
+type-fest@^0.13.1:
+  version "0.13.1"
+  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.13.1.tgz#0172cb5bce80b0bd542ea348db50c7e21834d934"
+  integrity sha512-34R7HTnG0XIJcBSn5XhDd7nNFPRcXYRZrBB2O2jdKqYODldSzBAqzsWoZYYvduky73toYS/ESqxPvkDf/F0XMg==
 
 type-is@~1.6.16:
   version "1.6.16"
