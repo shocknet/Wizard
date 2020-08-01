@@ -3,11 +3,7 @@ import React, { Component } from 'react';
 import { remote } from 'electron';
 import styles from './css/Nav.css';
 
-type Props = {};
-
-export default class Nav extends Component<Props> {
-  props: Props;
-
+export default class Nav extends Component {
   render() {
     return (
       <div className={styles.navContainer}>

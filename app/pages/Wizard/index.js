@@ -51,7 +51,6 @@ export default class Home extends Component {
   };
 
   componentDidMount = async () => {
-    const { maxStep } = this.state;
     ipcRenderer.on('lnd-start', () => {
       logger.info('lnd-start');
       this.runLnd();
@@ -73,11 +72,14 @@ export default class Home extends Component {
     });
 
     ipcRenderer.on('restart-setup', async () => {
+      const LNDVersion = await localForage.getItem('lnd-version');
       localForage.setItem('setupCompleted', false);
-      localForage.clear();
-      ipcRenderer.send('lndPID', null);
+      await localForage.clear();
+      localForage.setItem('lnd-version', LNDVersion);
+      ipcRenderer.send('lndPID');
       this.setState({
         showNodeInfo: false,
+        loadingServer: false,
         step: 1
       });
     });

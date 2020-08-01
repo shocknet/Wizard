@@ -98,6 +98,8 @@ const getLNDOutdated = async currentVersion => {
   try {
     const LNDVersion = await localForage.getItem('lnd-version');
     const parsedVersion = LNDVersion ?? '0.0.0';
+    console.log('LND Version:', LNDVersion);
+    console.log('Target LND Version:', currentVersion);
 
     return !parsedVersion.includes(currentVersion);
   } catch (err) {
@@ -114,10 +116,12 @@ const download = async ({ version, os: operatingSystem }, progressCallback) => {
     fs.existsSync(path.resolve(folderPath, 'lnd', 'lnd.exe')) ||
     fs.existsSync(path.resolve(folderPath, 'lnd', 'lnd'));
   const LNDRelease = await getLatestRelease({ user, repo, os: operatingSystem });
-  const LNDOutdated = await (LNDExists ? getLNDOutdated(LNDRelease.tag_name) : null);
-  if (!LNDExists || LNDOutdated) {
+  console.log(LNDRelease);
+  const LNDOutdated = await (LNDExists ? getLNDOutdated(LNDRelease.tag) : null);
+  if (LNDOutdated) {
     logger.info(!LNDExists ? "LND doesn't exist" : 'LND is outdated, updating...');
-    await localForage.setItem('lnd-version', TARGET_LND_VERSION);
+    await localForage.setItem('lnd-version', LNDRelease.tag);
+    logger.info('Saved LND Version updated:', 'lnd-version', LNDRelease.tag);
     await Downloader.downloadRelease(
       {
         url: LNDRelease.currentBuild,

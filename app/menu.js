@@ -14,7 +14,7 @@ export default class MenuBuilder {
     this.progress = null;
     this.status = null;
     this.getUserIP();
-    ipcMain.on('lndPID', (event, pid) => {
+    ipcMain.on('lndPID', (event, pid = null) => {
       logger.info('LND PID:', pid);
       this.lndPID = pid;
     });

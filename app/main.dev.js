@@ -22,7 +22,7 @@ unhandled();
 let mainWindow = null;
 let tray = null;
 
-if (process.env.NODE_ENV === 'production' || true) {
+if (process.env.NODE_ENV === 'production' || process.env.DEBUG_PROD === 'true') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
 
@@ -119,12 +119,11 @@ app.on('ready', async () => {
 
   // @TODO: Use 'ready-to-show' event
   //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
-  mainWindow.webContents.on('did-finish-load', async () => {
+  mainWindow.webContents.on('ready-to-show', async () => {
     if (!mainWindow) {
       throw new Error('"mainWindow" is not defined');
     }
     ipcMain.on('setupStatus', (event, data) => {
-      logger.info('setupCompleted', event, data);
       if (data) {
         mainWindow.hide();
       } else {
@@ -183,7 +182,7 @@ app.on('ready', async () => {
 });
 
 autoUpdater.on('update-available', (event, releaseNotes, releaseName) => {
-  console.log('update-available', event, releaseNotes, releaseName);
+  logger.info('update-available', event, releaseNotes, releaseName);
   mainWindow.webContents.send('update-available', JSON.stringify(event));
 });
 
