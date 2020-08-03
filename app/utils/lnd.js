@@ -284,7 +284,10 @@ const start = async () => {
   const dataDir = await getDataDir();
   child = spawn(lndExe, [
     '--bitcoin.active',
-    `--bitcoin.${networkType || 'testnet'}`,
+    '--accept-keysend',
+    '--routing.assumechanvalid',
+    '--allow-circular-route',
+    `--bitcoin.${networkType || 'mainnet'}`,
     '--debuglevel=info',
     `--bitcoin.node=${lndType}`,
     `--datadir=${dataDir}`,
