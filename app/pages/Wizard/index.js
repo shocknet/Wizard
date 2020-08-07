@@ -552,7 +552,7 @@ export default class Home extends Component {
         <div className={styles.shockLogo}>
           <img src={shockLogo} className={styles.logo} alt="ShockWizard Logo" />
         </div>
-        <div className={styles.debugPrompt}>
+        {/* <div className={styles.debugPrompt}>
           {Object.entries(this.state).map(([key, value]) => (
             <p>
               {key}:{' '}
@@ -569,7 +569,7 @@ export default class Home extends Component {
                 : value}
             </p>
           ))}
-        </div>
+        </div> */}
         {this.renderStep()}
         <div className={styles.stepControlsBar}>
           {!showNodeInfo ? (
