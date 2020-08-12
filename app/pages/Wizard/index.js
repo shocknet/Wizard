@@ -556,8 +556,8 @@ export default class Home extends Component {
       <div className={styles.container}>
         <div className={styles.shockLogo}>
           <img src={shockLogo} className={styles.logo} alt="ShockWizard Logo" />
-        {/* </div>
-        <div className={styles.debugPrompt}>
+        </div>
+        {/* <div className={styles.debugPrompt}>
           {Object.entries(this.state).map(([key, value]) => (
             <p>
               {key}:{' '}
