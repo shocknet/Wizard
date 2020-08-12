@@ -9,7 +9,7 @@
  * `./app/main.prod.js` using webpack. This gives us some performance wins.
  *
  */
-import { app, BrowserWindow, Tray, ipcMain } from 'electron';
+import { app, BrowserWindow, Tray, ipcMain, dialog } from 'electron';
 import logger from 'electron-log';
 import unhandled from 'electron-unhandled';
 import path from 'path';
@@ -17,31 +17,45 @@ import { autoUpdater, CancellationToken } from 'electron-updater';
 import server from 'shockapi';
 import MenuBuilder from './menu';
 
+autoUpdater.logger = logger;
+autoUpdater.logger.transports.file.level = 'info';
+
 unhandled();
 
 let mainWindow = null;
 let tray = null;
+let updateTimer = null;
+let downloadingUpdate = false;
+
+app.allowRendererProcessReuse = true;
 
 if (process.env.NODE_ENV === 'production' || process.env.DEBUG_PROD === 'true') {
-  const sourceMapSupport = require('source-map-support');
-  sourceMapSupport.install();
+  try {
+    const sourceMapSupport = require('source-map-support');
+    sourceMapSupport.install();
 
-  autoUpdater.allowPrerelease = true;
-  autoUpdater.autoDownload = false;
-  autoUpdater.allowDowngrade = false;
-  autoUpdater.setFeedURL({
-    provider: 'github',
-    repo: 'Wizard',
-    owner: 'shocknet',
-    artifactName: 'ShockWizard-Setup-${version}.${ext}'
-  });
-  setInterval(() => {
+    autoUpdater.allowPrerelease = true;
+    autoUpdater.autoDownload = false;
+    autoUpdater.allowDowngrade = false;
+    autoUpdater.setFeedURL({
+      provider: 'github',
+      repo: 'Wizard',
+      owner: 'shocknet',
+      artifactName: 'ShockWizard-Setup-${version}.${ext}'
+    });
     autoUpdater.checkForUpdates();
-  }, 20000); // Check for updates every minute
+    updateTimer = setInterval(() => {
+      if (!downloadingUpdate) {
+        try {
+          autoUpdater.checkForUpdates();
+        } catch {}
+      }
+    }, 20000); // Check for updates every minute
+  } catch {}
 }
 
 if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
-  require('electron-debug')();
+  // require('electron-debug')();
 }
 
 const installExtensions = async () => {
@@ -94,7 +108,7 @@ app.on('window-all-closed', () => {
 app.on('ready', async () => {
   const updateCancelToken = new CancellationToken();
   if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
-    await installExtensions();
+    // await installExtensions();
   }
 
   logger.info(__dirname);
@@ -170,7 +184,9 @@ app.on('ready', async () => {
   });
 
   ipcMain.on('download-update', () => {
+    downloadingUpdate = true;
     autoUpdater.downloadUpdate(updateCancelToken);
+    clearInterval(updateTimer);
   });
 
   ipcMain.on('cancel-update', () => {
@@ -183,8 +199,10 @@ app.on('ready', async () => {
 });
 
 autoUpdater.on('update-available', (event, releaseNotes, releaseName) => {
-  logger.info('update-available', event, releaseNotes, releaseName);
-  mainWindow.webContents.send('update-available', JSON.stringify(event));
+  if (!downloadingUpdate) {
+    logger.info('update-available', event, releaseNotes, releaseName);
+    mainWindow.webContents.send('update-available', JSON.stringify(event));
+  }
 });
 
 autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
@@ -204,10 +222,67 @@ autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
 });
 
 autoUpdater.on('download-progress', (ev, progressObj) => {
-  mainWindow.webContents.send('update-progress', JSON.stringify(progressObj));
+  mainWindow.webContents.send('update-progress', JSON.stringify(ev));
 });
 
 autoUpdater.on('error', message => {
   logger.error('There was a problem updating the application');
   logger.error(message);
+});
+
+let diffDown = {
+  percent: 0,
+  bytesPerSecond: 0,
+  total: 0,
+  transferred: 0
+};
+let diffDownHelper = {
+  startTime: 0,
+  lastTime: 0,
+  lastSize: 0
+};
+
+logger.hooks.push((msg, transport) => {
+  if (transport !== logger.transports.console) {
+    return msg;
+  }
+
+  let match = /Full: ([\d\,\.]+) ([GMKB]+), To download: ([\d\,\.]+) ([GMKB]+)/.exec(msg.data[0]);
+  if (match) {
+    let multiplier = 1;
+    if (match[4] == 'KB') multiplier *= 1024;
+    if (match[4] == 'MB') multiplier *= 1024 * 1024;
+    if (match[4] == 'GB') multiplier *= 1024 * 1024 * 1024;
+
+    diffDown = {
+      percent: 0,
+      bytesPerSecond: 0,
+      total: Number(match[3].split(',').join('')) * multiplier,
+      transferred: 0
+    };
+    diffDownHelper = {
+      startTime: Date.now(),
+      lastTime: Date.now(),
+      lastSize: 0
+    };
+    return msg;
+  }
+
+  match = /download range: bytes=(\d+)-(\d+)/.exec(msg.data[0]);
+  if (match) {
+    const currentSize = Number(match[2]) - Number(match[1]);
+    const currentTime = Date.now();
+    const deltaTime = currentTime - diffDownHelper.startTime;
+
+    diffDown.transferred += diffDownHelper.lastSize;
+    diffDown.bytesPerSecond = Math.floor((diffDown.transferred * 1000) / deltaTime);
+    diffDown.percent = (diffDown.transferred * 100) / diffDown.total;
+
+    diffDownHelper.lastSize = currentSize;
+    diffDownHelper.lastTime = currentTime;
+    logger.info('Update Progress:', diffDown);
+    mainWindow.webContents.send('update-progress', JSON.stringify(diffDown));
+    return msg;
+  }
+  return msg;
 });

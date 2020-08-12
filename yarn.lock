@@ -1345,10 +1345,6 @@ accepts@~1.3.5:
     mime-types "~2.1.18"
     negotiator "0.6.1"
 
-accessibility-developer-tools@^2.11.0:
-  version "2.12.0"
-  resolved "https://registry.npmjs.org/accessibility-developer-tools/-/accessibility-developer-tools-2.12.0.tgz#3da0cce9d6ec6373964b84f35db7cfc3df7ab514"
-
 acorn-dynamic-import@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/acorn-dynamic-import/-/acorn-dynamic-import-3.0.0.tgz#901ceee4c7faaef7e07ad2a47e890675da50a278"
@@ -4488,14 +4484,6 @@ dev-null@^0.1.1:
   version "0.1.1"
   resolved "https://registry.npmjs.org/dev-null/-/dev-null-0.1.1.tgz#5a205ce3c2b2ef77b6238d6ba179eb74c6a0e818"
 
-devtron@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.npmjs.org/devtron/-/devtron-1.4.0.tgz#b5e748bd6e95bbe70bfcc68aae6fe696119441e1"
-  dependencies:
-    accessibility-developer-tools "^2.11.0"
-    highlight.js "^9.3.0"
-    humanize-plus "^1.8.1"
-
 diff@^3.2.0, diff@^3.5.0:
   version "3.5.0"
   resolved "https://registry.npmjs.org/diff/-/diff-3.5.0.tgz#800c0dd1e0a8bfbc95835c202ad220fe317e5a12"
@@ -4732,13 +4720,6 @@ electron-chromedriver@~3.0.0:
     electron-download "^4.1.0"
     extract-zip "^1.6.5"
 
-electron-debug@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/electron-debug/-/electron-debug-2.0.0.tgz#3059a6557acbfb091f138d83875f57bac80cea6d"
-  dependencies:
-    electron-is-dev "^0.3.0"
-    electron-localshortcut "^3.0.0"
-
 electron-devtools-installer@^2.2.4:
   version "2.2.4"
   resolved "https://registry.npmjs.org/electron-devtools-installer/-/electron-devtools-installer-2.2.4.tgz#261a50337e37121d338b966f07922eb4939a8763"
@@ -4762,22 +4743,9 @@ electron-download@^4.1.0:
     semver "^5.4.1"
     sumchecker "^2.0.2"
 
-electron-is-accelerator@^0.1.0:
-  version "0.1.2"
-  resolved "https://registry.npmjs.org/electron-is-accelerator/-/electron-is-accelerator-0.1.2.tgz#509e510c26a56b55e17f863a4b04e111846ab27b"
-
 electron-is-dev@^0.3.0:
   version "0.3.0"
   resolved "https://registry.npmjs.org/electron-is-dev/-/electron-is-dev-0.3.0.tgz#14e6fda5c68e9e4ecbeff9ccf037cbd7c05c5afe"
-
-electron-localshortcut@^3.0.0:
-  version "3.1.0"
-  resolved "https://registry.npmjs.org/electron-localshortcut/-/electron-localshortcut-3.1.0.tgz#10c1ffd537b8d39170aaf6e1551341f7780dd2ce"
-  dependencies:
-    debug "^2.6.8"
-    electron-is-accelerator "^0.1.0"
-    keyboardevent-from-electron-accelerator "^1.1.0"
-    keyboardevents-areequal "^0.2.1"
 
 electron-log@^3.0.9:
   version "3.0.9"
@@ -4833,10 +4801,10 @@ electron-updater@^3.2.3:
     semver "^5.6.0"
     source-map-support "^0.5.9"
 
-electron@^9.1.2:
-  version "9.1.2"
-  resolved "https://registry.npmjs.org/electron/-/electron-9.1.2.tgz#bfa26d6b192ea13abb6f1461371fd731a8358988"
-  integrity sha512-xEYadr3XqIqJ4ktBPo0lhzPdovv4jLCpiUUGc2M1frUhFhwqXokwhPaTUcE+zfu5+uf/ONDnQApwjzznBsRrgQ==
+electron@^8.5.0:
+  version "8.5.0"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-8.5.0.tgz#a202738672214775fda27450b00ee516a66bffc4"
+  integrity sha512-ERqSTRlaQ4PqME5a1z9DWQbwQy2LbgSN1Jnau1MJCRRvHgq1FJlqbbb/ij/RGWuQuaxy4Djb2KnTs5rsemR5mQ==
   dependencies:
     "@electron/get" "^1.0.1"
     "@types/node" "^12.0.12"
@@ -6809,10 +6777,6 @@ highlight-es@^1.0.0:
     is-es2016-keyword "^1.0.0"
     js-tokens "^3.0.0"
 
-highlight.js@^9.3.0:
-  version "9.13.1"
-  resolved "https://registry.npmjs.org/highlight.js/-/highlight.js-9.13.1.tgz#054586d53a6863311168488a0f58d6c505ce641e"
-
 history@^4.7.2:
   version "4.7.2"
   resolved "https://registry.npmjs.org/history/-/history-4.7.2.tgz#22b5c7f31633c5b8021c7f4a8a954ac139ee8d5b"
@@ -6999,10 +6963,6 @@ https-proxy-agent@^2.2.0:
   dependencies:
     agent-base "^4.1.0"
     debug "^3.1.0"
-
-humanize-plus@^1.8.1:
-  version "1.8.2"
-  resolved "https://registry.npmjs.org/humanize-plus/-/humanize-plus-1.8.2.tgz#a65b34459ad6367adbb3707a82a3c9f916167030"
 
 husky@^1.1.4:
   version "1.1.4"
@@ -8265,14 +8225,6 @@ jws@^3.2.2:
   dependencies:
     jwa "^1.4.1"
     safe-buffer "^5.0.1"
-
-keyboardevent-from-electron-accelerator@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.npmjs.org/keyboardevent-from-electron-accelerator/-/keyboardevent-from-electron-accelerator-1.1.0.tgz#324614f6e33490c37ffc5be5876b3e85fe223c84"
-
-keyboardevents-areequal@^0.2.1:
-  version "0.2.2"
-  resolved "https://registry.npmjs.org/keyboardevents-areequal/-/keyboardevents-areequal-0.2.2.tgz#88191ec738ce9f7591c25e9056de928b40277194"
 
 keypress@0.1.x:
   version "0.1.0"

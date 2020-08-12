@@ -96,8 +96,14 @@ export default class Home extends Component {
       this.setState({ updatePending: true, updateDetails: this.safeParse(data) });
     });
 
+    ipcRenderer.on('update-progress', (event, data) => {
+      logger.info('Update Progress:', data);
+      this.setState({ updateProgress: this.safeParse(data) });
+    });
+
     ipcRenderer.on('download-progress', (event, progress) => {
-      this.setState({ updateProgress: JSON.parse(progress) });
+      logger.info('Download Progress:', data);
+      this.setState({ updateProgress: this.safeParse(progress) });
     });
 
     const LNDData = {
@@ -164,6 +170,10 @@ export default class Home extends Component {
     });
 
     ipcRenderer.off('update-available', () => {
+      logger.info('Unmounted');
+    });
+
+    ipcRenderer.off('update-progress', () => {
       logger.info('Unmounted');
     });
 
@@ -470,11 +480,6 @@ export default class Home extends Component {
 
   downloadUpdate = () => {
     ipcRenderer.send('download-update');
-    this.setState({
-      updateProgress: {
-        progress: 24
-      }
-    });
   };
 
   cancelUpdate = () => {
@@ -551,8 +556,8 @@ export default class Home extends Component {
       <div className={styles.container}>
         <div className={styles.shockLogo}>
           <img src={shockLogo} className={styles.logo} alt="ShockWizard Logo" />
-        </div>
-        {/* <div className={styles.debugPrompt}>
+        {/* </div>
+        <div className={styles.debugPrompt}>
           {Object.entries(this.state).map(([key, value]) => (
             <p>
               {key}:{' '}
@@ -561,6 +566,8 @@ export default class Home extends Component {
                   ? 'true'
                   : value.length === 0
                   ? '[]'
+                  : typeof value === 'object'
+                  ? JSON.stringify(value)
                   : value
                 : value === false
                 ? 'false'
