@@ -578,9 +578,9 @@ export default class Home extends Component {
           ))}
         </div> */}
         {this.renderStep()}
-        <div className={styles.stepControlsBar}>
-          {!showNodeInfo ? (
-            step > 1 ? (
+        {!showNodeInfo ? (
+          <div className={styles.stepControlsBar}>
+            {step > 1 ? (
               <div
                 className={[styles.controlsBtn, styles.prev].join(' ')}
                 onClick={this.prevStep}
@@ -597,11 +597,11 @@ export default class Home extends Component {
               </div>
             ) : (
               <div />
-            )
-          ) : null}
-          {this.renderNavButtons()}
-          {this.renderUpdatePopup()}
-        </div>
+            )}
+            {this.renderNavButtons()}
+          </div>
+        ) : null}
+        {this.renderUpdatePopup()}
       </div>
     );
   }

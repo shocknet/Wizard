@@ -112,23 +112,18 @@ const download = async ({ version, os: operatingSystem }, progressCallback) => {
   const repo = 'lnd';
   const user = 'shocknet';
   const folderPath = await getFolderPath();
-  const LNDExists =
-    fs.existsSync(path.resolve(folderPath, 'lnd', 'lnd.exe')) ||
-    fs.existsSync(path.resolve(folderPath, 'lnd', 'lnd'));
+  const LNDExists = operatingSystem.includes('win')
+    ? fs.existsSync(path.resolve(folderPath, 'lnd', 'lnd.exe'))
+    : fs.existsSync(path.resolve(folderPath, 'lnd', 'lnd'));
   const LNDRelease = await getLatestRelease({ user, repo, os: operatingSystem });
   console.log(LNDRelease);
   const LNDOutdated = await (LNDExists ? getLNDOutdated(LNDRelease.tag) : null);
-  if (LNDOutdated) {
+  if (LNDOutdated || !LNDExists) {
     logger.info(!LNDExists ? "LND doesn't exist" : 'LND is outdated, updating...');
     await localForage.setItem('lnd-version', LNDRelease.tag);
     logger.info('Saved LND Version updated:', 'lnd-version', LNDRelease.tag);
     await Downloader.downloadRelease(
-      {
-        url: LNDRelease.currentBuild,
-        fileName: LNDRelease.fileName,
-        repo,
-        update: LNDOutdated
-      },
+      { url: LNDRelease.currentBuild, fileName: LNDRelease.fileName, repo, update: LNDOutdated },
       progressCallback
     );
     return true;

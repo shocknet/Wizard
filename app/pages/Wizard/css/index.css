@@ -56,7 +56,7 @@
   top: 20;
   right: 0;
   padding: 10px;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0, 0, 0, 0.5);
   border-radius: 0 0 0 8px;
   z-index: 1000;
 }
@@ -150,18 +150,18 @@
 }
 
 .stepTitle {
+  position: fixed;
+  top: 101px;
+  left: 0;
+  width: 100%;
+  padding: 15px 10px;
+  margin-top: 0;
+  margin-bottom: 0;
+  color: white;
+  background-color: #f5a623;
   font-weight: bold;
   font-size: 23px;
   text-align: center;
-  color: white;
-  margin-bottom: 0;
-  padding: 15px 10px;
-  margin-top: 0;
-  position: fixed;
-  top: 100px;
-  left: 0;
-  width: 100%;
-  background-color: #f5a623;
 }
 
 .divider {
@@ -293,7 +293,7 @@
   left: 0;
   right: 0;
   padding: 20px 30px;
-  background-color: rgba(0, 0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .stepControlsBar .controlsBtn {

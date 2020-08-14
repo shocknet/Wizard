@@ -212,9 +212,12 @@ export default class WalletQRStep extends Component {
   };
 
   renderLNDLogs = () => {
-    const { lndLogLines } = this.props;
+    const { lndLogLines, showNodeInfo } = this.props;
     return (
-      <div className={styles.lndLogsContainer}>
+      <div
+        className={styles.lndLogsContainer}
+        style={{ height: `calc(${showNodeInfo ? '100vh - 209px' : '100vh - 289px'})` }}
+      >
         <div className={styles.logsBox} ref={this.props.logBox}>
           {lndLogLines ? lndLogLines.map(line => <p className={styles.logEntry}>{line}</p>) : null}
         </div>
@@ -223,9 +226,12 @@ export default class WalletQRStep extends Component {
   };
 
   renderBitcoindLogs = () => {
-    const { bitcoindLogLines } = this.props;
+    const { bitcoindLogLines, showNodeInfo } = this.props;
     return (
-      <div className={styles.lndLogsContainer}>
+      <div
+        className={styles.lndLogsContainer}
+        style={{ height: `calc(${showNodeInfo ? '100vh - 209px' : '100vh - 289px'})` }}
+      >
         <div className={styles.logsBox} ref={this.props.logBox}>
           {bitcoindLogLines
             ? bitcoindLogLines.map(line => <p className={styles.logEntry}>{line}</p>)
@@ -244,8 +250,8 @@ export default class WalletQRStep extends Component {
           <div
             className={[styles.lndTypeContainer, styles.nodeInfo].join(' ')}
             style={{
-              height: !showNodeInfo ? '60%' : '100%',
-              justifyContent: !showNodeInfo ? 'center' : 'flex-start'
+              height: '60%',
+              justifyContent: 'flex-start'
             }}
           >
             <p className={styles.stepTitle}>
