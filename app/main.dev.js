@@ -153,7 +153,7 @@ app.on('ready', async () => {
     mainWindow = null;
   });
 
-  let serverInstance = null;
+  let serverInstance = false;
 
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
