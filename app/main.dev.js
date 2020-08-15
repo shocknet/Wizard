@@ -46,11 +46,11 @@ if (process.env.NODE_ENV === 'production' || process.env.DEBUG_PROD === 'true') 
     autoUpdater.checkForUpdates();
     updateTimer = setInterval(() => {
       if (!downloadingUpdate) {
-        try {
-          autoUpdater.checkForUpdates();
-        } catch {}
+        autoUpdater.checkForUpdates().catch(err => {
+          logger.log(err);
+        });
       }
-    }, 20000); // Check for updates every minute
+    }, 20000); // Check for updates every 20 seconds
   } catch {}
 }
 

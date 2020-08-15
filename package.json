@@ -98,7 +98,8 @@
       "category": "Development"
     },
     "nsis": {
-      "oneClick": false
+      "oneClick": false,
+      "differentialPackage": true
     },
     "directories": {
       "buildResources": "resources",
