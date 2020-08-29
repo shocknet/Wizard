@@ -293,7 +293,7 @@
     "react-router-dom": "^4.3.1",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
-    "shockapi": "git://github.com/shocknet/api.git#master",
+    "shockapi": "git://github.com/shocknet/api.git#16ed9f73ea17042e20b84e9cbba1ac3ccc93127f",
     "source-map-support": "^0.5.9",
     "tar": "^4.4.10",
     "unzip": "^0.1.11",
