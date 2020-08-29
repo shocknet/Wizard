@@ -43,7 +43,9 @@ if (process.env.NODE_ENV === 'production' || process.env.DEBUG_PROD === 'true') 
       owner: 'shocknet',
       artifactName: 'ShockWizard-Setup-${version}.${ext}'
     });
-    autoUpdater.checkForUpdates();
+    autoUpdater.checkForUpdates().catch(err => {
+      logger.log(err);
+    });
     updateTimer = setInterval(() => {
       if (!downloadingUpdate) {
         autoUpdater.checkForUpdates().catch(err => {
