@@ -1,7 +1,7 @@
 {
   "name": "ShockWizard",
   "productName": "ShockWizard",
-  "version": "0.0.163",
+  "version": "0.0.164",
   "description": "Setup a Lightning Node Automatically!",
   "scripts": {
     "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
