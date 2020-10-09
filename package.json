@@ -234,7 +234,7 @@
     "flow-typed": "^2.5.1",
     "husky": "^1.1.4",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^23.6.0",
+    "jest": "^26.5.2",
     "lint-staged": "^8.1.0",
     "mini-css-extract-plugin": "^0.4.4",
     "opencollective-postinstall": "^2.0.1",
