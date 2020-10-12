@@ -41,14 +41,14 @@ if (process.env.NODE_ENV === 'production' || process.env.DEBUG_PROD === 'true') 
       provider: 'github',
       repo: 'Wizard',
       owner: 'shocknet',
-      artifactName: 'ShockWizard-Setup-${version}.${ext}'
+      artifactName: 'ShockWizard-Setup-${version}.${ext}',
     });
-    autoUpdater.checkForUpdates().catch(err => {
+    autoUpdater.checkForUpdates().catch((err) => {
       logger.log(err);
     });
     updateTimer = setInterval(() => {
       if (!downloadingUpdate) {
-        autoUpdater.checkForUpdates().catch(err => {
+        autoUpdater.checkForUpdates().catch((err) => {
           logger.log(err);
         });
       }
@@ -66,11 +66,11 @@ const installExtensions = async () => {
   const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS'];
 
   return Promise.all(
-    extensions.map(name => installer.default(installer[name], forceDownload))
+    extensions.map((name) => installer.default(installer[name], forceDownload))
   ).catch(logger.info);
 };
 
-const getLndStatus = data => {
+const getLndStatus = (data) => {
   if (
     data.downloadedBlocks !== data.downloadedBlockHeightsLength &&
     data.downloadedBlockHeightsLength !== 0
@@ -87,7 +87,7 @@ const getLndStatus = data => {
   return 'LND wallet is unlocked and fully synced up with the network!';
 };
 
-const getBitcoindStatus = data => {
+const getBitcoindStatus = (data) => {
   if (data.bitcoind_progress > 0) {
     return `Bitcoind: ${data.bitcoind_progress}% Blocks Synced`;
   }
@@ -121,8 +121,9 @@ app.on('ready', async () => {
     show: false,
     frame: false,
     webPreferences: {
-      nodeIntegration: true
-    }
+      nodeIntegration: true,
+      worldSafeExecuteJavaScript: true,
+    },
   });
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
@@ -130,7 +131,6 @@ app.on('ready', async () => {
   mainWindow.once('ready-to-show', () => {
     setInterval(async () => {
       const updateResult = await autoUpdater.checkForUpdatesAndNotify();
-      console.log(updateResult);
     }, 60000);
   });
 
@@ -198,6 +198,54 @@ app.on('ready', async () => {
       logger.warn('Update Cancelled');
     }
   });
+
+  ipcMain.handle('getUserData', async () => {
+    const userData = app.getPath('userData');
+    return userData;
+  });
+
+  ipcMain.handle('showOpenDialog', async (event, options = {}) => {
+    const result = await dialog.showOpenDialog({
+      properties: options.properties,
+    });
+
+    return result;
+  });
+
+  ipcMain.handle('hideFocusedWindow', async () => {
+    const focusedWindow = BrowserWindow.getFocusedWindow();
+
+    if (focusedWindow) {
+      focusedWindow.hide();
+      return true;
+    }
+
+    return false;
+  });
+
+  ipcMain.handle('showWindows', async () => {
+    const shownWindows = BrowserWindow.getAllWindows();
+    shownWindows.map((window) => window.show());
+
+    return true;
+  });
+
+  ipcMain.handle('quitApp', async () => {
+    app.quit();
+
+    return true;
+  });
+
+  ipcMain.handle('minimize', async () => {
+    const focusedWindow = BrowserWindow.getFocusedWindow();
+
+    if (focusedWindow) {
+      focusedWindow.minimize();
+      return true;
+    }
+
+    return false;
+  });
 });
 
 autoUpdater.on('update-available', (event, releaseNotes, releaseName) => {
@@ -215,10 +263,10 @@ autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
     title: 'Application Update',
     message: process.platform === 'win32' ? releaseNotes : releaseName,
     detail:
-      'A new version of ShockWizard has been downloaded. Restart the application to apply the update.'
+      'A new version of ShockWizard has been downloaded. Restart the application to apply the update.',
   };
 
-  dialog.showMessageBox(dialogOpts).then(returnValue => {
+  dialog.showMessageBox(dialogOpts).then((returnValue) => {
     if (returnValue.response === 0) autoUpdater.quitAndInstall();
   });
 });
@@ -227,7 +275,7 @@ autoUpdater.on('download-progress', (ev, progressObj) => {
   mainWindow.webContents.send('update-progress', JSON.stringify(ev));
 });
 
-autoUpdater.on('error', message => {
+autoUpdater.on('error', (message) => {
   logger.error('There was a problem updating the application');
   logger.error(message);
 });
@@ -236,12 +284,12 @@ let diffDown = {
   percent: 0,
   bytesPerSecond: 0,
   total: 0,
-  transferred: 0
+  transferred: 0,
 };
 let diffDownHelper = {
   startTime: 0,
   lastTime: 0,
-  lastSize: 0
+  lastSize: 0,
 };
 
 logger.hooks.push((msg, transport) => {
@@ -260,12 +308,12 @@ logger.hooks.push((msg, transport) => {
       percent: 0,
       bytesPerSecond: 0,
       total: Number(match[3].split(',').join('')) * multiplier,
-      transferred: 0
+      transferred: 0,
     };
     diffDownHelper = {
       startTime: Date.now(),
       lastTime: Date.now(),
-      lastSize: 0
+      lastSize: 0,
     };
     return msg;
   }

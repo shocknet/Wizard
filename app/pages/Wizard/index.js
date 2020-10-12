@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { remote, ipcRenderer } from 'electron';
+import { ipcRenderer } from 'electron';
 import localForage from 'localforage';
 
 import AutoLaunch from 'auto-launch';
@@ -37,12 +37,12 @@ export default class Home extends Component {
     lndDownloadProgress: 0,
     bitcoindDownloadProgress: 0,
     bitcoindLogLines: [],
-    loadingServer: true
+    loadingServer: true,
   };
 
   logBox = React.createRef();
 
-  safeParse = data => {
+  safeParse = (data) => {
     try {
       return JSON.parse(data);
     } catch {
@@ -80,19 +80,18 @@ export default class Home extends Component {
       this.setState({
         showNodeInfo: false,
         loadingServer: false,
-        step: 1
+        step: 1,
       });
     });
 
     ipcRenderer.on('node-info', () => {
       this.setState({
         showNodeInfo: true,
-        step: 7
+        step: 7,
       });
     });
 
     ipcRenderer.on('update-available', (event, data) => {
-      console.log('update-available react', event, data);
       this.setState({ updatePending: true, updateDetails: this.safeParse(data) });
     });
 
@@ -108,26 +107,25 @@ export default class Home extends Component {
 
     const LNDData = {
       downloadedBlockHeightsLength: await localForage.getItem('downloadedBlockHeightsLength'),
-      downloadedBlocks: await localForage.getItem('downloadedBlocks')
+      downloadedBlocks: await localForage.getItem('downloadedBlocks'),
     };
     const bitcoindData = {
-      progress: await localForage.getItem('bitcoind_progress')
+      progress: await localForage.getItem('bitcoind_progress'),
     };
     this.setProgress('lnd', LNDData);
     this.setProgress('bitcoind', bitcoindData);
-    Lnd.onData(async data => {
-      console.log('onData triggered', data);
+    Lnd.onData(async (data) => {
       const LNDData = {
         downloadedBlockHeightsLength: await localForage.getItem('downloadedBlockHeightsLength'),
-        downloadedBlocks: await localForage.getItem('downloadedBlocks')
+        downloadedBlocks: await localForage.getItem('downloadedBlocks'),
       };
       this.setProgress('lnd', LNDData);
       await this.addLNDLogLine(data);
     });
 
-    Bitcoind.onData(async data => {
+    Bitcoind.onData(async (data) => {
       const bitcoindData = {
-        progress: await localForage.getItem('bitcoind_progress')
+        progress: await localForage.getItem('bitcoind_progress'),
       };
       this.setProgress('bitcoind', bitcoindData);
       await this.addBitcoindLogLine(data);
@@ -138,10 +136,10 @@ export default class Home extends Component {
       await this.runBitcoind();
       await this.runLnd();
       this.setState({
-        loadingServer: false
+        loadingServer: false,
       });
     } else {
-      remote.BrowserWindow.getAllWindows().map(window => window.show());
+      ipcRenderer.invoke('showWindows');
     }
   };
 
@@ -183,12 +181,12 @@ export default class Home extends Component {
     Bitcoind.terminate();
   };
 
-  addLNDLogLine = data =>
+  addLNDLogLine = (data) =>
     new Promise((resolve, reject) => {
       const { lndLogLines } = this.state;
       this.setState(
         {
-          lndLogLines: [...lndLogLines, data]
+          lndLogLines: [...lndLogLines, data],
         },
         () => {
           if (this.logBox.current) {
@@ -199,12 +197,12 @@ export default class Home extends Component {
       );
     });
 
-  addBitcoindLogLine = data =>
+  addBitcoindLogLine = (data) =>
     new Promise((resolve, reject) => {
       const { bitcoindLogLines } = this.state;
       this.setState(
         {
-          bitcoindLogLines: [...bitcoindLogLines, data]
+          bitcoindLogLines: [...bitcoindLogLines, data],
         },
         () => {
           if (this.logBox.current) {
@@ -225,19 +223,19 @@ export default class Home extends Component {
         (data.downloadedBlocks / data.downloadedBlockHeightsLength) * 100
       );
       return this.setState({
-        [type + 'DownloadProgress']: downloadProgress
+        [type + 'DownloadProgress']: downloadProgress,
       });
     }
 
     if (data.downloadedBlockHeightsLength !== 0 && data.downloadedBlockHeightsLength) {
       return this.setState({
-        [type + 'DownloadProgress']: 100
+        [type + 'DownloadProgress']: 100,
       });
     }
 
     if (data.progress >= 0) {
       return this.setState({
-        [type + 'DownloadProgress']: data.progress
+        [type + 'DownloadProgress']: data.progress,
       });
     }
   };
@@ -254,14 +252,14 @@ export default class Home extends Component {
         await Lnd.download(
           {
             version: TARGET_LND_VERSION,
-            os: getUserPlatform()
+            os: getUserPlatform(),
           },
           ({ app, progress, type }) => {
             const appProgress = this.state[app + 'Progress'];
             if (appProgress < progress) {
               this.setState({
                 [app + 'Progress']: progress,
-                downloadType: type
+                downloadType: type,
               });
             }
           }
@@ -274,7 +272,7 @@ export default class Home extends Component {
 
         if (autoStartup) {
           const startup = new AutoLaunch({
-            name: 'LNDServer'
+            name: 'LNDServer',
           });
           const startupEnabled = await startup.isEnabled();
           logger.info('Startup Enabled:', startupEnabled);
@@ -299,20 +297,20 @@ export default class Home extends Component {
         {
           version: '0.18.1',
           os: getUserPlatform(),
-          osArchitecture: getUserPlatform(true)
+          osArchitecture: getUserPlatform(true),
         },
         ({ app, progress }) => {
           const appProgress = this.state[app + 'Progress'];
           if (appProgress < progress) {
             this.setState({
-              [app + 'Progress']: progress
+              [app + 'Progress']: progress,
             });
           }
         }
       );
       await Bitcoind.start();
       this.setState({
-        lndType: 'bitcoind'
+        lndType: 'bitcoind',
       });
     }
     return true;
@@ -328,7 +326,7 @@ export default class Home extends Component {
       await localForage.setItem('setupCompleted', true);
       this.setState({
         loadingServer: true,
-        step: step + 1
+        step: step + 1,
       });
       logger.info('Running LND...');
       await this.runLnd();
@@ -336,7 +334,7 @@ export default class Home extends Component {
       await this.runBitcoind();
       logger.info('Server is no longer loading!');
       this.setState({
-        loadingServer: false
+        loadingServer: false,
       });
     } else if (step === 3) {
       logger.info(step);
@@ -344,18 +342,18 @@ export default class Home extends Component {
       logger.info('Lnd Type', lndType);
       this.setState({
         lndType,
-        step: step + 1
+        step: step + 1,
       });
     } else if (step === maxStep) {
       logger.info('Step 7');
-      remote.BrowserWindow.getFocusedWindow().hide();
+      ipcRenderer.invoke('hideFocusedWindow');
       new Notification('LND Server Setup', {
         body:
-          'The setup will now run in the background and download all the required files and notify you once everything is done!'
+          'The setup will now run in the background and download all the required files and notify you once everything is done!',
       });
     } else {
       this.setState({
-        step: step + 1
+        step: step + 1,
       });
     }
   };
@@ -363,7 +361,7 @@ export default class Home extends Component {
   prevStep = () => {
     const { step } = this.state;
     this.setState({
-      step: step - 1
+      step: step - 1,
     });
   };
 
@@ -379,7 +377,7 @@ export default class Home extends Component {
       lndDownloadProgress,
       bitcoindDownloadProgress,
       bitcoindLogLines,
-      downloadType
+      downloadType,
     } = this.state;
 
     if (step === 1) {
@@ -451,7 +449,7 @@ export default class Home extends Component {
           <i
             className="icon ion-ios-arrow-forward"
             style={{
-              marginLeft: 10
+              marginLeft: 10,
             }}
           />
         </div>
@@ -470,7 +468,7 @@ export default class Home extends Component {
           <i
             className="icon ion-ios-arrow-forward"
             style={{
-              marginLeft: 10
+              marginLeft: 10,
             }}
           />
         </div>
@@ -487,7 +485,7 @@ export default class Home extends Component {
     this.setState({ updateDismissed: true, updateProgress: null, updatePending: false });
   };
 
-  getUpdateBody = downloading => {
+  getUpdateBody = (downloading) => {
     const { updateProgress } = this.state;
     if (!downloading) {
       return (
@@ -520,7 +518,7 @@ export default class Home extends Component {
   renderUpdatePopup = () => {
     const { updatePending, updateDismissed, updateDetails, updateProgress } = this.state;
     const updateHidden = !updatePending || updateDismissed;
-    console.log(styles);
+
     return (
       <div className={[styles.updateDialog, updateHidden ? styles.dialogHidden : ''].join(' ')}>
         <div className={styles.updateDialogHeader}>
@@ -590,7 +588,7 @@ export default class Home extends Component {
                 <i
                   className="icon ion-ios-arrow-back"
                   style={{
-                    marginRight: 10
+                    marginRight: 10,
                   }}
                 />
                 Previous

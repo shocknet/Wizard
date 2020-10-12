@@ -1,7 +1,7 @@
 import os from 'os';
 import path from 'path';
 import fs from 'fs';
-import { remote } from 'electron';
+import { ipcRenderer } from 'electron';
 import logger from 'electron-log';
 import localForage from 'localforage';
 
@@ -23,9 +23,12 @@ export const getUserPlatform = (shortNames = false) => {
 };
 
 export const getFolderPath = async () => {
-  const folderPath = await localForage.getItem('installLocation');
-  const defaultPath = path.resolve(remote.app.getPath('userData'), './executables');
-  logger.info('Folder Path:', folderPath, defaultPath, remote.app.getPath('userData'));
+  const [folderPath, userData] = await Promise.all([
+    localForage.getItem('installLocation'),
+    ipcRenderer.invoke('getUserData'),
+  ]);
+  const defaultPath = path.resolve(userData, './executables');
+  logger.info('Folder Path:', folderPath, defaultPath, userData);
 
   return folderPath || defaultPath;
 };
@@ -45,8 +48,8 @@ export const getDataDir = async () => {
   return dataDir;
 };
 
-export const isIPAddress = address => {
-  const IPMatches = address.match(
+export const isIPAddress = (address) => {
+  const IPMatches = (address ? address : '').match(
     /\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/g
   );
   return IPMatches ? !!IPMatches[0] : false;

@@ -1,6 +1,5 @@
-// @flow
 import React, { Component } from 'react';
-import { remote } from 'electron';
+import { ipcRenderer } from 'electron';
 import styles from './css/Nav.css';
 
 export default class Nav extends Component {
@@ -11,7 +10,7 @@ export default class Nav extends Component {
         <div
           className={styles.navControls}
           onClick={() => {
-            remote.getCurrentWindow().minimize();
+            ipcRenderer.invoke('minimize');
           }}
           role="button"
           tabIndex={0}
@@ -22,7 +21,7 @@ export default class Nav extends Component {
           <div
             className={[styles.navControl]}
             onClick={() => {
-              remote.app.quit();
+              ipcRenderer.invoke('quitApp');
             }}
             role="button"
             tabIndex={0}

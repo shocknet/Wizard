@@ -15,7 +15,7 @@ const regexExpressions = {
     regex: /(?:Syncing to block height)\s([0-9])+/g,
     phrases: ['Syncing to block height'],
     replace: ['Syncing to block height '],
-    key: 'downloadedBlockHeightsLength'
+    key: 'downloadedBlockHeightsLength',
   },
   currentHeight: {
     regex: /(?:\(height\s)([0-9])+/g,
@@ -23,23 +23,23 @@ const regexExpressions = {
     replace: ['(height '],
     key: 'downloadedBlocks',
     condition: (downloadedBlocks, downloadedBlockHeightsLength) =>
-      downloadedBlocks !== downloadedBlockHeightsLength || downloadedBlocks === 0
+      downloadedBlocks !== downloadedBlockHeightsLength || downloadedBlocks === 0,
   },
   syncedBlocks: {
     phrases: ['Fully caught up with cfheaders at height'],
     key: 'downloadedBlocks',
-    value: async () => localForage.getItem('downloadedBlockHeightsLength')
+    value: async () => localForage.getItem('downloadedBlockHeightsLength'),
   },
   walletLocked: {
     phrases: ['Waiting for wallet encryption password'],
     key: 'walletUnlocked',
-    value: () => false
+    value: () => false,
   },
   walletUnlocked: {
     phrases: ['Opened wallet'],
     key: 'walletUnlocked',
-    value: () => true
-  }
+    value: () => true,
+  },
 };
 
 let child = null;
@@ -64,13 +64,13 @@ const lndDirectory = getLndDirectory();
 const getLatestRelease = async ({ user, repo, os: operatingSystem }) => {
   try {
     const { data } = await Http.get(`https://api.github.com/repos/${user}/${repo}/releases/latest`);
-    const [currentBuild] = data.assets.filter(asset =>
+    const [currentBuild] = data.assets.filter((asset) =>
       asset.name.includes(`${operatingSystem}-amd64`)
     );
     return {
       tag: data.tag_name,
       currentBuild: currentBuild.browser_download_url,
-      fileName: currentBuild.name
+      fileName: currentBuild.name,
     };
   } catch (err) {
     logger.error(err);
@@ -83,10 +83,10 @@ const getLNDVersion = () =>
     const lndExe = path.resolve(folderPath, 'lnd', `lnd${os !== 'linux' ? '.exe' : ''}`);
     child = spawn(lndExe, ['--version']);
     ipcRenderer.send('lndPID', child.pid);
-    child.stdout.on('data', data => {
+    child.stdout.on('data', (data) => {
       resolve(data.split('commit=')[1]);
     });
-    child.stderr.on('error', error => {
+    child.stderr.on('error', (error) => {
       reject('An error occurred');
     });
     setTimeout(() => {
@@ -94,7 +94,7 @@ const getLNDVersion = () =>
     }, 5000);
   });
 
-const getLNDOutdated = async currentVersion => {
+const getLNDOutdated = async (currentVersion) => {
   try {
     const LNDVersion = await localForage.getItem('lnd-version');
     const parsedVersion = LNDVersion ?? '0.0.0';
@@ -116,7 +116,7 @@ const download = async ({ version, os: operatingSystem }, progressCallback) => {
     ? fs.existsSync(path.resolve(folderPath, 'lnd', 'lnd.exe'))
     : fs.existsSync(path.resolve(folderPath, 'lnd', 'lnd'));
   const LNDRelease = await getLatestRelease({ user, repo, os: operatingSystem });
-  console.log(LNDRelease);
+
   const LNDOutdated = await (LNDExists ? getLNDOutdated(LNDRelease.tag) : null);
   if (LNDOutdated || !LNDExists) {
     logger.info(!LNDExists ? "LND doesn't exist" : 'LND is outdated, updating...');
@@ -131,21 +131,21 @@ const download = async ({ version, os: operatingSystem }, progressCallback) => {
   logger.info('LND already exists');
   progressCallback({
     app: 'lnd',
-    progress: 100
+    progress: 100,
   });
 };
 
 const getStatuses = async () => {
   const keys = await localForage.keys();
   const statuses = await Promise.all(
-    keys.map(async key => ({
-      [key]: await localForage.getItem(key)
+    keys.map(async (key) => ({
+      [key]: await localForage.getItem(key),
     }))
   );
   return statuses.reduce(
     (collectedStatuses, status) => ({
       ...collectedStatuses,
-      ...status
+      ...status,
     }),
     {}
   );
@@ -161,14 +161,14 @@ const getChild = () => {
   return child;
 };
 
-const processLine = async line => {
+const processLine = async (line) => {
   await Promise.all(
     Object.entries(regexExpressions).map(async ([key, conditions]) => {
       const downloadedBlockHeightsLength = await localForage.getItem(
         'downloadedBlockHeightsLength'
       );
       if (conditions.phrases) {
-        const unmatchedPhrases = conditions.phrases.filter(phrase => !line.includes(phrase))[0];
+        const unmatchedPhrases = conditions.phrases.filter((phrase) => !line.includes(phrase))[0];
         if (unmatchedPhrases) {
           return false;
         }
@@ -199,7 +199,7 @@ const processLine = async line => {
             new Notification('Network sync is complete!', {
               body: `Node has completed initial sync with the Bitcoin network! ${
                 walletUnlocked ? '' : 'Connect with ShockWallet to interact with it'
-              }`
+              }`,
             });
           }
           return { key: conditions.key, value };
@@ -214,14 +214,14 @@ const processLine = async line => {
           const [walletUnlocked, networkType, dataDir] = await Promise.all([
             localForage.getItem('walletUnlocked'),
             localForage.getItem('networkType'),
-            getDataDir()
+            getDataDir(),
           ]);
 
           // eslint-disable-next-line no-new
           new Notification('Network sync is complete!', {
             body: `Node has completed initial sync with the Bitcoin network! ${
               walletUnlocked ? '' : 'Connect with ShockWallet to interact with it'
-            }`
+            }`,
           });
 
           const serverConfig = {
@@ -229,7 +229,7 @@ const processLine = async line => {
             lndCertPath: `${lndDirectory}/tls.cert`,
             macaroonPath: `${dataDir}/chain/bitcoin/${
               networkType ? networkType : 'testnet'
-            }/admin.macaroon`
+            }/admin.macaroon`,
           };
 
           logger.info('ShockAPI Macaroon Path:', serverConfig.macaroonPath);
@@ -243,19 +243,19 @@ const processLine = async line => {
               downloadedBlocks >= downloadedBlockHeightsLength
                 ? ''
                 : 'Please wait while the node syncs with the Bitcoin network'
-            }`
+            }`,
           });
           if (downloadedBlocks >= downloadedBlockHeightsLength) {
             const [networkType, dataDir] = await Promise.all([
               localForage.getItem('networkType'),
-              getDataDir()
+              getDataDir(),
             ]);
             const serverConfig = {
               serverhost: '0.0.0.0',
               lndCertPath: `${lndDirectory}/tls.cert`,
               macaroonPath: `${dataDir}/chain/bitcoin/${
                 networkType ? networkType : 'testnet'
-              }/admin.macaroon`
+              }/admin.macaroon`,
             };
             // ipcRenderer.send('startServer', serverConfig);
           }
@@ -293,21 +293,21 @@ const start = async () => {
           '--bitcoind.zmqpubrawblock=tcp://127.0.0.1:28332',
           '--bitcoind.rpcuser=test',
           '--bitcoind.rpcpass=test',
-          '--bitcoind.rpchost=localhost'
+          '--bitcoind.rpchost=localhost',
         ]
-      : [`--neutrino.connect=${networkUrl}`])
+      : [`--neutrino.connect=${networkUrl}`]),
   ]);
   ipcRenderer.send('lndPID', child.pid);
-  child.stdout.on('data', data => {
+  child.stdout.on('data', (data) => {
     const line = data.toString();
     processLine(line);
   });
-  child.stderr.on('data', data => {
+  child.stderr.on('data', (data) => {
     logger.error(data.toString());
     const error = data.toString().split(':');
     // eslint-disable-next-line no-new
     new Notification('LND Error', {
-      body: error.length > 1 ? error.slice(1, error.length).join(':') : error[0]
+      body: error.length > 1 ? error.slice(1, error.length).join(':') : error[0],
     });
   });
 };
@@ -318,7 +318,7 @@ const terminate = () => {
   }
 };
 
-const onData = callback => {
+const onData = (callback) => {
   dataListener = callback;
 };
 
@@ -332,5 +332,5 @@ export default {
   getChild,
   terminate,
   onData,
-  offData
+  offData,
 };

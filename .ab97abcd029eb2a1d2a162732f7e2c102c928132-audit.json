@@ -1,0 +1,19 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 7
+    },
+    "auditLog": ".ab97abcd029eb2a1d2a162732f7e2c102c928132-audit.json",
+    "files": [
+        {
+            "date": 1602334988179,
+            "name": "shockapi.log.2020-10-10",
+            "hash": "23f4b6c92a22a6e964f39ce09cef73d8"
+        },
+        {
+            "date": 1602497785728,
+            "name": "shockapi.log.2020-10-12",
+            "hash": "b9ce58ab482284d545b0a75a0b9b9bc3"
+        }
+    ]
+}

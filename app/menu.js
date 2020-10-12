@@ -1,4 +1,3 @@
-// @flow
 import { app, Menu, shell, BrowserWindow, ipcMain, Notification } from 'electron';
 import internalIP from 'internal-ip';
 import publicIP from 'public-ip';
@@ -6,9 +5,7 @@ import logger from 'electron-log';
 import { isIPAddress } from './utils/os';
 
 export default class MenuBuilder {
-  mainWindow: BrowserWindow;
-
-  constructor(mainWindow: BrowserWindow) {
+  constructor(mainWindow) {
     this.mainWindow = mainWindow;
     this.contextMenu = [];
     this.progress = null;

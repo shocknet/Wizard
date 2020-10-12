@@ -3,17 +3,17 @@
   <head>
     <meta charset="utf-8" />
     <title>ShockWallet LND Wizard</title>
-    <link
-      href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css"
-      rel="stylesheet"
-    />
+    <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet" />
     <link
       href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800&display=swap"
       rel="stylesheet"
     />
     <script>
-      (function() {
-        if (!process.env.HOT) {
+      (() => {
+        if (
+          typeof process !== 'object' ||
+          (typeof process === 'object' && !process.env.START_HOT)
+        ) {
           const link = document.createElement('link');
           link.rel = 'stylesheet';
           link.href = './dist/style.css';
@@ -26,28 +26,27 @@
   <body>
     <div id="root"></div>
     <script>
-      {
+      if (typeof process === 'object') {
         const scripts = [];
 
-        // Dynamically insert the DLL script in development env in the
-        // renderer process
         if (process.env.NODE_ENV === 'development') {
+          // Dynamically insert the DLL script in development env in the
+          // renderer process
           scripts.push('../dll/renderer.dev.dll.js');
         }
+        if (process.env.START_HOT) {
+          // Dynamically insert the bundled app script in the renderer process
+          const port = process.env.PORT || 1212;
+          scripts.push(`http://localhost:${port}/dist/renderer.dev.js`);
+        } else {
+          scripts.push('./dist/renderer.prod.js');
+        }
 
-        // Dynamically insert the bundled app script in the renderer process
-        const port = process.env.PORT || 1212;
-        scripts.push(
-          process.env.HOT
-            ? 'http://localhost:' + port + '/dist/renderer.dev.js'
-            : './dist/renderer.prod.js'
-        );
-
-        document.write(
-          scripts
-            .map(script => `<script defer src="${script}"><\/script>`)
-            .join('')
-        );
+        if (scripts.length) {
+          document.write(
+            scripts.map((script) => `<script defer src="${script}"><\/script>`).join('')
+          );
+        }
       }
     </script>
   </body>

@@ -1,14 +1,12 @@
-/* eslint-disable jsx-a11y/label-has-for */
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { Component } from 'react';
-import { remote } from 'electron';
 import localForage from 'localforage';
+import { ipcRenderer } from 'electron';
 import logger from 'electron-log';
 import styles from './css/index.css';
 
 export default class InstallLocationStep extends Component {
   state = {
-    installLocation: ''
+    installLocation: '',
   };
 
   componentDidMount = async () => {
@@ -25,13 +23,13 @@ export default class InstallLocationStep extends Component {
     await localForage.setItem(key, value);
     logger.info(key, value);
     this.setState({
-      [key]: value
+      [key]: value,
     });
   };
 
   chooseFolder = async () => {
-    const folder = await remote.dialog.showOpenDialog({
-      properties: ['openDirectory']
+    const folder = await ipcRenderer.invoke('showOpenDialog', {
+      properties: ['openDirectory'],
     });
 
     logger.info('installLocation', folder.filePaths);
@@ -48,7 +46,7 @@ export default class InstallLocationStep extends Component {
             <p
               className={styles.stepDescription}
               style={{
-                textAlign: 'left'
+                textAlign: 'left',
               }}
             >
               Please specify the folder in which you would like to store the bitcoin chain data
@@ -58,7 +56,7 @@ export default class InstallLocationStep extends Component {
               <input
                 type="text"
                 className={styles.stepInput}
-                onChange={e => this.setOption('installLocation', e.target.value)}
+                onChange={(e) => this.setOption('installLocation', e.target.value)}
                 value={installLocation}
               />
               <div

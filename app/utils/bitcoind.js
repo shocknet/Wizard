@@ -13,8 +13,8 @@ const regexExpressions = {
     phrases: ['UpdateTip'],
     replace: ['progress='],
     key: 'progress',
-    default: 0
-  }
+    default: 0,
+  },
 };
 
 let child = null;
@@ -37,7 +37,7 @@ const download = async ({ version, os, osArchitecture }, progressCallback) => {
       {
         downloadUrl: `https://bitcoincore.org/bin/bitcoin-core-${version}/${fileName}`,
         fileName: 'bitcoind',
-        extractedFolderName: `bitcoin-${version}`
+        extractedFolderName: `bitcoin-${version}`,
       },
       progressCallback
     );
@@ -45,21 +45,21 @@ const download = async ({ version, os, osArchitecture }, progressCallback) => {
   }
   progressCallback({
     app: 'bitcoind',
-    progress: 100
+    progress: 100,
   });
 };
 
 const getStatuses = async () => {
   const keys = await localForage.keys();
   const statuses = await Promise.all(
-    keys.map(async key => ({
-      [key]: await localForage.getItem(key)
+    keys.map(async (key) => ({
+      [key]: await localForage.getItem(key),
     }))
   );
   return statuses.reduce(
     (collectedStatuses, status) => ({
       ...collectedStatuses,
-      ...status
+      ...status,
     }),
     {}
   );
@@ -71,14 +71,14 @@ const setStatus = async (key, value) => {
   return value;
 };
 
-const processLine = async line => {
+const processLine = async (line) => {
   await Promise.all(
     Object.entries(regexExpressions).map(async ([key, conditions]) => {
       const downloadedBlockHeightsLength = await localForage.getItem(
         'bitcoind_downloadedBlockHeightsLength'
       );
       if (conditions.phrases) {
-        const unmatchedPhrases = conditions.phrases.filter(phrase => !line.includes(phrase))[0];
+        const unmatchedPhrases = conditions.phrases.filter((phrase) => !line.includes(phrase))[0];
         if (unmatchedPhrases) {
           return false;
         }
@@ -107,7 +107,7 @@ const processLine = async line => {
           new Notification('Network sync is complete!', {
             body: `Node has completed initial sync with the Bitcoin network! ${
               walletUnlocked ? '' : 'Connect with ShockWallet to interact with it'
-            }`
+            }`,
           });
         } else if (key === 'walletUnlocked') {
           const downloadedBlocks = await localForage.getItem('bitcoind_downloadedBlocks');
@@ -117,7 +117,7 @@ const processLine = async line => {
               downloadedBlocks >= downloadedBlockHeightsLength
                 ? ''
                 : 'Please wait while the node syncs with the Bitcoin network'
-            }`
+            }`,
           });
         }
         return { key: conditions.key, value };
@@ -133,7 +133,7 @@ const start = async () => {
   const [folderPath, networkType, lndType] = await Promise.all([
     getFolderPath(),
     localForage.getItem('networkType'),
-    localForage.getItem('lndType')
+    localForage.getItem('lndType'),
   ]);
   const os = getUserPlatform();
   const bitcoindExe = path.resolve(
@@ -151,7 +151,7 @@ const start = async () => {
   }
   child = spawn(bitcoindExe, [
     `--testnet=${networkType === 'mainnet' ? 0 : 1}`,
-    `--datadir=${dataDir}`
+    `--datadir=${dataDir}`,
   ]);
   ipcRenderer.send('bitcoindPID', child.pid);
   await saveBitcoindConfig({
@@ -163,20 +163,20 @@ const start = async () => {
       zmqpubrawtx: 'tcp://127.0.0.1:28333',
       zmqpubrawblock: 'tcp://127.0.0.1:28332',
       rpcuser: 'test',
-      rpcpass: 'test'
+      rpcpass: 'test',
     },
-    bitcoindPath: path.resolve(folderPath, 'bitcoind', 'data', 'bitcoin.conf')
+    bitcoindPath: path.resolve(folderPath, 'bitcoind', 'data', 'bitcoin.conf'),
   });
-  child.stdout.on('data', data => {
+  child.stdout.on('data', (data) => {
     const line = data.toString();
     processLine(line);
   });
-  child.stderr.on('data', data => {
+  child.stderr.on('data', (data) => {
     logger.error(data.toString());
     const error = data.toString().split(':');
     // eslint-disable-next-line no-new
     new Notification('Bitcoind Error', {
-      body: error.length > 1 ? error.slice(1, error.length).join(':') : error[0]
+      body: error.length > 1 ? error.slice(1, error.length).join(':') : error[0],
     });
   });
 };
@@ -187,7 +187,7 @@ const terminate = () => {
   }
 };
 
-const onData = callback => {
+const onData = (callback) => {
   dataListener = callback;
 };
 
@@ -200,5 +200,5 @@ export default {
   start,
   terminate,
   onData,
-  offData
+  offData,
 };
