@@ -7,11 +7,11 @@ import styles from './css/index.css';
 
 export default class LndTypeStep extends Component {
   state = {
-    networkType: ''
+    networkType: '',
   };
 
   componentDidMount = async () => {
-    this.setOption('networkType', 'testnet');
+    this.setOption('networkType', 'mainnet');
   };
 
   componentWillUnmount = () => {
@@ -23,7 +23,7 @@ export default class LndTypeStep extends Component {
     await localForage.setItem(key, value);
     logger.info(key, value);
     this.setState({
-      [key]: value
+      [key]: value,
     });
   };
 
@@ -37,13 +37,13 @@ export default class LndTypeStep extends Component {
             <p
               className={styles.stepDescription}
               style={{
-                textAlign: 'left'
+                textAlign: 'left',
               }}
             >
-              Would you like to experiment on Testnet, or are you #Reckless?
+              Please choose a Network type for your LND Node (Only Mainnet is supported for now)
             </p>
             <div className={styles.stepChoices}>
-              <label className={styles.stepChoice}>
+              {/* <label className={styles.stepChoice}>
                 <input
                   type="radio"
                   name="lnd-type"
@@ -53,17 +53,17 @@ export default class LndTypeStep extends Component {
                 />
                 <span className={styles.checkmark} />
                 Testnet (default)
-              </label>
+              </label> */}
               <label className={styles.stepChoice}>
                 <input
                   type="radio"
                   name="lnd-type"
                   value="mainnet"
                   checked={networkType === 'mainnet'}
-                  onChange={e => this.setOption('networkType', e.target.value)}
+                  onChange={(e) => this.setOption('networkType', e.target.value)}
                 />
                 <span className={styles.checkmark} />
-                Mainnet (#Reckless)
+                Mainnet
               </label>
             </div>
           </div>
