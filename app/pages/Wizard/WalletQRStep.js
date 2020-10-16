@@ -30,7 +30,7 @@ export default class WalletQRStep extends Component {
     this.setState({ [key]: value });
   };
 
-  setActiveTab = tab => {
+  setActiveTab = (tab) => {
     this.setState({ activeTab: tab });
   };
 
@@ -45,14 +45,14 @@ export default class WalletQRStep extends Component {
       <div className={styles.stepTabs}>
         <div
           className={styles.stepTab}
-          style={activeTab === 'info' ? { backgroundColor: '#d08a15' } : {}}
+          style={activeTab === 'info' ? { backgroundColor: '#3e7fb1' } : {}}
           onClick={() => this.setActiveTab('info')}
         >
           <p>Information</p>
         </div>
         <div
           className={styles.stepTab}
-          style={activeTab === 'lnd' ? { backgroundColor: '#d08a15' } : {}}
+          style={activeTab === 'lnd' ? { backgroundColor: '#3e7fb1' } : {}}
           onClick={() => this.setActiveTab('lnd')}
         >
           <p>LND Logs</p>
@@ -60,7 +60,7 @@ export default class WalletQRStep extends Component {
         {lndType === 'bitcoind' ? (
           <div
             className={styles.stepTab}
-            style={activeTab === 'bitcoind' ? { backgroundColor: '#d08a15' } : {}}
+            style={activeTab === 'bitcoind' ? { backgroundColor: '#3e7fb1' } : {}}
             onClick={() => this.setActiveTab('bitcoind')}
           >
             <p>Bitcoind Logs</p>
@@ -75,20 +75,20 @@ export default class WalletQRStep extends Component {
     lndProgress = 0,
     bitcoindProgress = 0,
     lndDownloadProgress = 0,
-    bitcoindDownloadProgress = 0
+    bitcoindDownloadProgress = 0,
   }) => {
     if (type === 'bitcoind') {
       return {
         totalProgress: (lndProgress + bitcoindProgress) / 2,
         downloadCompleted: bitcoindDownloadProgress === 100,
-        syncProgress: bitcoindDownloadProgress
+        syncProgress: bitcoindDownloadProgress,
       };
     }
 
     return {
       totalProgress: lndProgress,
       downloadCompleted: lndDownloadProgress === 100,
-      syncProgress: lndDownloadProgress
+      syncProgress: lndDownloadProgress,
     };
   };
 
@@ -100,14 +100,14 @@ export default class WalletQRStep extends Component {
       lndDownloadProgress,
       bitcoindDownloadProgress,
       lndType,
-      downloadType
+      downloadType,
     } = this.props;
     const { totalProgress, downloadCompleted, syncProgress } = this.getProgressRate({
       type: lndType,
       lndProgress,
       bitcoindProgress,
       lndDownloadProgress,
-      bitcoindDownloadProgress
+      bitcoindDownloadProgress,
     });
     if (loadingServer) {
       if (downloadType === 'download') {
@@ -159,7 +159,7 @@ export default class WalletQRStep extends Component {
       lndDownloadProgress,
       bitcoindDownloadProgress,
       lndType,
-      downloadType
+      downloadType,
     } = this.props;
     return (
       <Fragment>
@@ -200,8 +200,8 @@ export default class WalletQRStep extends Component {
             </span>
           ) : (
             <QRCode
-              bgColor="#F5A623"
-              fgColor="#21355a"
+              bgColor="#4285b9"
+              fgColor="#001220"
               value={`{ "externalIP": "${externalIP}", "internalIP": "${internalIP}", "walletPort": "${walletPort}" }`}
               ecLevel="M"
             />
@@ -219,7 +219,9 @@ export default class WalletQRStep extends Component {
         style={{ height: `calc(${showNodeInfo ? '100vh - 209px' : '100vh - 289px'})` }}
       >
         <div className={styles.logsBox} ref={this.props.logBox}>
-          {lndLogLines ? lndLogLines.map(line => <p className={styles.logEntry}>{line}</p>) : null}
+          {lndLogLines
+            ? lndLogLines.map((line) => <p className={styles.logEntry}>{line}</p>)
+            : null}
         </div>
       </div>
     );
@@ -234,7 +236,7 @@ export default class WalletQRStep extends Component {
       >
         <div className={styles.logsBox} ref={this.props.logBox}>
           {bitcoindLogLines
-            ? bitcoindLogLines.map(line => <p className={styles.logEntry}>{line}</p>)
+            ? bitcoindLogLines.map((line) => <p className={styles.logEntry}>{line}</p>)
             : null}
         </div>
       </div>
@@ -251,7 +253,7 @@ export default class WalletQRStep extends Component {
             className={[styles.lndTypeContainer, styles.nodeInfo].join(' ')}
             style={{
               height: '60%',
-              justifyContent: 'flex-start'
+              justifyContent: 'flex-start',
             }}
           >
             <p className={styles.stepTitle}>

@@ -2,6 +2,14 @@
   box-sizing: border-box;
 }
 
+:root {
+  --primary-bg: #3e7fb1;
+  --primary-text: #fff;
+  --secondary-bg: #001220;
+  --secondary-border: #1b4260;
+  --secondary-text: #3e7fb1;
+}
+
 ::-webkit-scrollbar {
   width: 9px;
   padding: 0 2px;
@@ -14,6 +22,13 @@
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background-color: #ccc;
+}
+
+input:focus,
+div:focus,
+button:focus {
+  outline: none;
+  border: 0;
 }
 
 .warning {
@@ -80,7 +95,7 @@
   margin: 0;
   color: #fefefe;
   text-align: center;
-  background-color: #1f3d74;
+  /* background-color: #1f3d74; */
 }
 
 .logo {
@@ -92,7 +107,7 @@
 }
 
 .shockLogo .bold {
-  color: #f5a623;
+  color: #3775ae;
 }
 
 .lndTypeContainer.nodeInfo {
@@ -138,15 +153,21 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  background-color: #294f93;
+  background-color: var(--secondary-bg);
+  border-bottom: 2px solid var(--secondary-border);
 }
 
 .stepTab {
   width: 50%;
   text-align: center;
   font-weight: bold;
-  background-color: #294f93;
+  background-color: var(--secondary-bg);
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.stepTab:hover {
+  background-color: #3e7fb142;
 }
 
 .stepTitle {
@@ -157,9 +178,12 @@
   padding: 15px 10px;
   margin-top: 0;
   margin-bottom: 0;
-  color: white;
-  background-color: #f5a623;
-  font-weight: bold;
+  color: var(--secondary-text);
+  background-color: var(--secondary-bg);
+  border: 2px solid var(--secondary-border);
+  border-left: 0;
+  border-right: 0;
+  font-weight: 600;
   font-size: 23px;
   text-align: center;
 }
@@ -247,6 +271,7 @@
   width: 22px;
   margin-right: 8px;
   background-color: #0f1827;
+  border: 2px solid var(--secondary-border);
   border-radius: 50%;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
@@ -258,7 +283,8 @@
 
 /* When the radio button is checked, add a blue background */
 .stepChoice input:checked ~ .checkmark {
-  background-color: #fff;
+  background-color: #001220;
+  border: 2px solid var(--secondary-border);
 }
 
 /* Create the indicator (the dot/circle - hidden when not checked) */
@@ -276,7 +302,7 @@
   height: 12px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  background: #f5a623;
+  background: #3775ae;
 }
 
 /* Show the indicator (dot/circle) when checked */
@@ -302,19 +328,21 @@
   height: 40px;
   display: flex;
   align-items: center;
-  border-radius: 50px;
+  border-radius: 4px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  background-color: #f5a623;
+  background-color: #3775ae;
   color: #efefef;
   text-transform: uppercase;
+  line-height: 1;
   cursor: pointer;
 }
 
 .stepControlsBar .controlsBtn.prev {
   position: relative;
   padding-left: 50px;
-  background-color: rgba(63, 169, 245, 1);
-  color: white;
+  background-color: var(--secondary-bg);
+  color: var(--secondary-text);
+  border: 2px solid var(--secondary-border);
 }
 
 .stepControlsBar .controlsBtn i {
@@ -324,7 +352,7 @@
 .stepInput {
   width: 80%;
   border: 0;
-  color: white;
+  color: rgba(255, 255, 255, 0.8);
   background-color: transparent;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -338,10 +366,10 @@
   margin: auto;
   margin-top: 15px;
   padding: 7px 10px;
-  border: 0;
+  border: 2px solid var(--secondary-border);
   border-radius: 100px;
-  background-color: #1f3d74;
-  color: white;
+  background-color: var(--secondary-bg);
+  color: var(--secondary-text);
   font-family: Montserrat, sans-serif;
 }
 
@@ -358,7 +386,7 @@
   font-weight: bold;
   padding: 7px 15px;
   border-radius: 100px;
-  background-color: #f5a623;
+  background-color: #3775ae;
   text-transform: uppercase;
   flex-shrink: 0;
   margin-left: 10px;
@@ -375,21 +403,19 @@
   position: absolute;
   left: 0;
   padding: 6px 15px;
-  background-color: rgba(0, 0, 0, 0.1);
-  border-radius: 100px 0 0 100px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 4px 0 0 4px;
   top: 0;
   height: 100%;
 }
 
 .controlsBtn.next i {
   margin-left: 10px;
-
-  /* margin-right: 10px; */
   position: absolute;
   right: 0;
   padding: 6px 15px;
   background-color: rgba(0, 0, 0, 0.1);
-  border-radius: 0 100px 100px 0;
+  border-radius: 0 4px 4px 0;
   top: 0;
   height: 100%;
 }
@@ -423,7 +449,7 @@ p.updateDialogHeaderTitle {
 }
 
 .updateDialogHeader {
-  background-color: rgb(245, 166, 35);
+  background-color: #4285b9;
   padding: 9px 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
@@ -453,17 +479,17 @@ p.updateDialogText {
 .updateDialogFooterBtn {
   width: 50%;
   padding: 8px 5px;
-  background-color: rgb(208, 138, 21);
+  background-color: #4285b9;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .updateDialogFooterBtn.secondaryFooterBtn {
-  background-color: rgb(78, 123, 204);
+  background-color: rgb(62, 99, 167);
 }
 
 .updateDialogFooterBtn:hover {
-  background-color: rgb(241, 165, 37);
+  background-color: #427eac;
 }
 
 .updateDialogProgress {
@@ -498,7 +524,7 @@ p.updateDialogText {
 }
 
 .updateDialogProgressHighlight {
-  background-color: rgb(245, 166, 35);
+  background-color: #4285b9;
   height: 100%;
 }
 

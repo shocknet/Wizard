@@ -523,7 +523,7 @@ export default class Home extends Component {
       <div className={[styles.updateDialog, updateHidden ? styles.dialogHidden : ''].join(' ')}>
         <div className={styles.updateDialogHeader}>
           <p className={styles.updateDialogHeaderTitle}>
-            Update Available (v{updateDetails?.version})
+            Update Available {updateDetails?.version ? `(v${updateDetails.version})` : ''}
           </p>
         </div>
         {this.getUpdateBody(updateProgress)}
