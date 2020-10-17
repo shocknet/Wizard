@@ -40,16 +40,6 @@ export default class Home extends Component {
     loadingServer: true,
   };
 
-  logBox = React.createRef();
-
-  safeParse = (data) => {
-    try {
-      return JSON.parse(data);
-    } catch {
-      return {};
-    }
-  };
-
   componentDidMount = async () => {
     ipcRenderer.on('lnd-start', () => {
       logger.info('lnd-start');
@@ -179,6 +169,16 @@ export default class Home extends Component {
     Bitcoind.offData();
     Lnd.terminate();
     Bitcoind.terminate();
+  };
+
+  logBox = React.createRef();
+
+  safeParse = (data) => {
+    try {
+      return JSON.parse(data);
+    } catch {
+      return {};
+    }
   };
 
   addLNDLogLine = (data) =>

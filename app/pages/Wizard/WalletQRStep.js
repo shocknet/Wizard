@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/label-has-for */
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { Component, Fragment } from 'react';
 import localForage from 'localforage';
 import localIP from 'internal-ip';
@@ -10,7 +8,12 @@ import Bitcoind from '../../utils/bitcoind';
 import styles from './css/index.css';
 
 export default class WalletQRStep extends Component {
-  state = { activeTab: 'info', internalIP: '', externalIP: '', walletPort: '9835' };
+  state = {
+    activeTab: 'info',
+    internalIP: '',
+    externalIP: '',
+    walletPort: '9835',
+  };
 
   componentDidMount = async () => {
     const externalIP = await localForage.getItem('externalIP');
@@ -102,6 +105,7 @@ export default class WalletQRStep extends Component {
       lndType,
       downloadType,
     } = this.props;
+    const { externalIP, internalIP, walletPort } = this.state;
     const { totalProgress, downloadCompleted, syncProgress } = this.getProgressRate({
       type: lndType,
       lndProgress,
@@ -162,7 +166,7 @@ export default class WalletQRStep extends Component {
       downloadType,
     } = this.props;
     return (
-      <Fragment>
+      <>
         <p className={styles.stepDescription} style={{ marginBottom: 20 }}>
           Scan the QR Code with the mobile app to import your IP addresses.
           <br />
@@ -172,13 +176,23 @@ export default class WalletQRStep extends Component {
         <div className={styles.walletInfo}>
           <label
             htmlFor=""
-            style={{ display: 'block', padding: '0px 0px', margin: 'auto', fontWeight: 600 }}
+            style={{
+              display: 'block',
+              padding: '0px 0px',
+              margin: 'auto',
+              fontWeight: 600,
+            }}
           >
             Internal IP: {internalIP}
           </label>
           <label
             htmlFor=""
-            style={{ display: 'block', padding: '0px 0px', margin: 'auto', fontWeight: 600 }}
+            style={{
+              display: 'block',
+              padding: '0px 0px',
+              margin: 'auto',
+              fontWeight: 600,
+            }}
           >
             External IP: {externalIP}
           </label>
@@ -207,7 +221,7 @@ export default class WalletQRStep extends Component {
             />
           )}
         </div>
-      </Fragment>
+      </>
     );
   };
 

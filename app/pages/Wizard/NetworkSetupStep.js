@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/label-has-for */
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { Component } from 'react';
 import localForage from 'localforage';
 import publicIP from 'public-ip';
@@ -10,7 +8,7 @@ export default class LndTypeStep extends Component {
   state = {
     lightningPort: 9735,
     walletPort: 9835,
-    externalIP: ''
+    externalIP: '',
   };
 
   componentDidMount = async () => {
@@ -29,7 +27,7 @@ export default class LndTypeStep extends Component {
     await localForage.setItem(key, value);
     logger.info(key, value);
     this.setState({
-      [key]: value
+      [key]: value,
     });
   };
 
@@ -47,7 +45,7 @@ export default class LndTypeStep extends Component {
                 width: '80%',
                 padding: '0px 0px',
                 margin: 'auto',
-                fontWeight: 600
+                fontWeight: 600,
               }}
             >
               Lightning Port
@@ -57,14 +55,14 @@ export default class LndTypeStep extends Component {
               style={{
                 width: '80%',
                 padding: '10px 20px',
-                marginBottom: 15
+                marginBottom: 15,
               }}
             >
               <input
                 type="text"
                 className={styles.stepInput}
                 style={{ width: '100%' }}
-                onChange={e => this.setOption('lightningPort', e.target.value)}
+                onChange={(e) => this.setOption('lightningPort', e.target.value)}
                 value={lightningPort}
                 placeholder="Lightning Port"
               />
@@ -76,7 +74,7 @@ export default class LndTypeStep extends Component {
                 width: '80%',
                 padding: '0px 0px',
                 margin: 'auto',
-                fontWeight: 600
+                fontWeight: 600,
               }}
             >
               Wallet Port
@@ -86,14 +84,14 @@ export default class LndTypeStep extends Component {
               style={{
                 width: '80%',
                 padding: '10px 20px',
-                marginBottom: 15
+                marginBottom: 15,
               }}
             >
               <input
                 type="text"
                 className={styles.stepInput}
                 style={{ width: '100%' }}
-                onChange={e => this.setOption('walletPort', e.target.value)}
+                onChange={(e) => this.setOption('walletPort', e.target.value)}
                 value={walletPort}
                 placeholder="Wallet Port"
               />
@@ -105,7 +103,7 @@ export default class LndTypeStep extends Component {
                 width: '80%',
                 padding: '0px 0px',
                 margin: 'auto',
-                fontWeight: 600
+                fontWeight: 600,
               }}
             >
               External IP
@@ -115,14 +113,14 @@ export default class LndTypeStep extends Component {
               style={{
                 width: '80%',
                 padding: '10px 20px',
-                marginBottom: 5
+                marginBottom: 5,
               }}
             >
               <input
                 type="text"
                 className={styles.stepInput}
                 style={{ width: '100%' }}
-                onChange={e => this.setOption('externalIP', e.target.value)}
+                onChange={(e) => this.setOption('externalIP', e.target.value)}
                 value={externalIP}
                 placeholder="External IP"
               />

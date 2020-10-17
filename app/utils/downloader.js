@@ -9,9 +9,9 @@ import logger from 'electron-log';
 import rimraf from 'rimraf';
 import { getFolderPath, getUserPlatform } from './os';
 
-const deleteRelease = folderPath =>
+const deleteRelease = (folderPath) =>
   new Promise((resolve, reject) => {
-    rimraf(folderPath, err => {
+    rimraf(folderPath, (err) => {
       if (err) {
         logger.error(err);
         reject(err);
@@ -39,10 +39,10 @@ const downloadRelease = ({ repo, fileName, url, update = false }, progressCallba
     const releaseLink = url;
     logger.info('Release Link:', releaseLink);
     const downloadedRelease = await Http.get(releaseLink, {
-      responseType: 'stream'
+      responseType: 'stream',
     });
     downloadedRelease.data.pipe(writer);
-    downloadedRelease.data.on('data', buffer => {
+    downloadedRelease.data.on('data', (buffer) => {
       const total = downloadedRelease.headers['content-length'];
       loaded += buffer.length;
       ipcRenderer.send(`${repo}Progress`, Math.round((loaded * 100) / total));
@@ -50,7 +50,7 @@ const downloadRelease = ({ repo, fileName, url, update = false }, progressCallba
         progressCallback({
           app: repo,
           type: update ? 'update' : 'download',
-          progress: Math.round((loaded * 100) / total)
+          progress: Math.round((loaded * 100) / total),
         });
       }
     });
@@ -83,17 +83,17 @@ const downloadFile = ({ fileName, downloadUrl, extractedFolderName }, progressCa
     const releaseLink = downloadUrl;
     logger.info('Release Link:', releaseLink);
     const downloadedRelease = await Http.get(releaseLink, {
-      responseType: 'stream'
+      responseType: 'stream',
     });
     downloadedRelease.data.pipe(writer);
-    downloadedRelease.data.on('data', buffer => {
+    downloadedRelease.data.on('data', (buffer) => {
       const total = downloadedRelease.headers['content-length'];
       loaded += buffer.length;
       ipcRenderer.send(`${fileName}Progress`, Math.round((loaded * 100) / total));
       if (progressCallback) {
         progressCallback({
           app: fileName,
-          progress: Math.round((loaded * 100) / total)
+          progress: Math.round((loaded * 100) / total),
         });
       }
     });
@@ -102,7 +102,7 @@ const downloadFile = ({ fileName, downloadUrl, extractedFolderName }, progressCa
       await extractFile(fileLocation, downloadLocation, fileName, extractedFolderName);
       resolve(true);
     });
-    writer.on('error', error => {
+    writer.on('error', (error) => {
       logger.error(error);
       reject(error);
     });
@@ -115,10 +115,7 @@ const extractFile = (filePath, destination, folderName, extractedFolderName, upd
     const directoryIdentifier = os === 'windows' ? '\\' : '/';
     const sourceFolderPath = extractedFolderName
       ? [...filePath.split(directoryIdentifier).slice(0, -1), extractedFolderName].join('/')
-      : filePath
-          .split('.')
-          .slice(0, archiveFormatIndex)
-          .join('.');
+      : filePath.split('.').slice(0, archiveFormatIndex).join('.');
     const readStream = fs.createReadStream(filePath);
     logger.info(filePath, sourceFolderPath, destination);
     if (os !== 'linux') {
@@ -132,7 +129,7 @@ const extractFile = (filePath, destination, folderName, extractedFolderName, upd
       await Promise.all([fs.remove(sourceFolderPath), fs.remove(filePath)]);
       resolve(true);
     });
-    readStream.on('error', err => {
+    readStream.on('error', (err) => {
       reject(err);
     });
   });
@@ -140,5 +137,5 @@ const extractFile = (filePath, destination, folderName, extractedFolderName, upd
 export default {
   downloadRelease,
   downloadFile,
-  extractFile
+  extractFile,
 };

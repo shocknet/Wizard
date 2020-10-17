@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/label-has-for */
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { Component } from 'react';
 import localForage from 'localforage';
 import logger from 'electron-log';
@@ -8,7 +6,7 @@ import styles from './css/index.css';
 export default class RPCStep extends Component {
   state = {
     rpcUser: '',
-    rpcPass: ''
+    rpcPass: '',
   };
 
   componentWillUnmount = () => {
@@ -21,7 +19,7 @@ export default class RPCStep extends Component {
     await localForage.setItem(key, value);
     logger.info(key, value);
     this.setState({
-      [key]: value
+      [key]: value,
     });
   };
 
@@ -35,7 +33,7 @@ export default class RPCStep extends Component {
             <p
               className={styles.stepDescription}
               style={{
-                textAlign: 'left'
+                textAlign: 'left',
               }}
             >
               Please input the credentials for your Bitcoin Core RPC
@@ -47,7 +45,7 @@ export default class RPCStep extends Component {
                   style={{ width: '100%' }}
                   className={styles.stepInput}
                   placeholder="RPC Username"
-                  onChange={e => this.setOption('rpcUser', e.target.value)}
+                  onChange={(e) => this.setOption('rpcUser', e.target.value)}
                   value={rpcUser}
                 />
               </div>
@@ -57,7 +55,7 @@ export default class RPCStep extends Component {
                   style={{ width: '100%' }}
                   className={styles.stepInput}
                   placeholder="RPC Password"
-                  onChange={e => this.setOption('rpcPass', e.target.value)}
+                  onChange={(e) => this.setOption('rpcPass', e.target.value)}
                   value={rpcPass}
                 />
               </div>

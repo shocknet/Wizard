@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/label-has-for */
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { Component } from 'react';
 import localForage from 'localforage';
 import logger from 'electron-log';
@@ -7,7 +5,7 @@ import styles from './css/index.css';
 
 export default class LndTypeStep extends Component {
   state = {
-    autoStartup: 'yes'
+    autoStartup: 'yes',
   };
 
   componentWillUnmount = () => {
@@ -19,7 +17,7 @@ export default class LndTypeStep extends Component {
     await localForage.setItem(key, value);
     logger.info(key, value);
     this.setState({
-      [key]: value
+      [key]: value,
     });
   };
 
@@ -32,7 +30,7 @@ export default class LndTypeStep extends Component {
             <p
               className={styles.stepDescription}
               style={{
-                textAlign: 'left'
+                textAlign: 'left',
               }}
             >
               Automatically start the node on system boot?
@@ -44,7 +42,7 @@ export default class LndTypeStep extends Component {
                   name="lnd-type"
                   value="yes"
                   checked
-                  onChange={e => this.setStatus('autoStartup', e.target.value)}
+                  onChange={(e) => this.setStatus('autoStartup', e.target.value)}
                 />
                 <span className={styles.checkmark} />
                 Yes
@@ -54,7 +52,7 @@ export default class LndTypeStep extends Component {
                   type="radio"
                   name="lnd-type"
                   value="no"
-                  onChange={e => this.setStatus('autoStartup', e.target.value)}
+                  onChange={(e) => this.setStatus('autoStartup', e.target.value)}
                 />
                 <span className={styles.checkmark} />
                 No

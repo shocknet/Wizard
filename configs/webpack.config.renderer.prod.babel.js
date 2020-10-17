@@ -21,13 +21,12 @@ export default merge(baseConfig, {
 
   mode: 'production',
 
-  target: process.env.E2E_BUILD || process.env.ERB_SECURE !== 'true' ? 'electron-renderer' : 'electron-preload',
+  target:
+    process.env.E2E_BUILD || process.env.ERB_SECURE !== 'true'
+      ? 'electron-renderer'
+      : 'electron-preload',
 
-  entry: [
-    'core-js',
-    'regenerator-runtime/runtime',
-    path.join(__dirname, '..', 'app/index.js'),
-  ],
+  entry: ['core-js', 'regenerator-runtime/runtime', path.join(__dirname, '..', 'app/index.js')],
 
   output: {
     path: path.join(__dirname, '..', 'app/dist'),
@@ -218,8 +217,7 @@ export default merge(baseConfig, {
     }),
 
     new BundleAnalyzerPlugin({
-      analyzerMode:
-        process.env.OPEN_ANALYZER === 'true' ? 'server' : 'disabled',
+      analyzerMode: process.env.OPEN_ANALYZER === 'true' ? 'server' : 'disabled',
       openAnalyzer: process.env.OPEN_ANALYZER === 'true',
     }),
   ],

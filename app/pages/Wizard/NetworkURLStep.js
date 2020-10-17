@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/label-has-for */
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { Component } from 'react';
 import localForage from 'localforage';
 import logger from 'electron-log';
@@ -7,7 +5,7 @@ import styles from './css/index.css';
 
 export default class NetworkURLStep extends Component {
   state = {
-    networkUrl: ''
+    networkUrl: '',
   };
 
   componentDidMount = async () => {
@@ -28,7 +26,7 @@ export default class NetworkURLStep extends Component {
     await localForage.setItem(key, value);
     logger.info(key, value);
     this.setState({
-      [key]: value
+      [key]: value,
     });
   };
 
@@ -42,7 +40,7 @@ export default class NetworkURLStep extends Component {
             <p
               className={styles.stepDescription}
               style={{
-                textAlign: 'left'
+                textAlign: 'left',
               }}
             >
               Please specify the neutrino peer you wish to synch the blockchain from:
@@ -51,14 +49,14 @@ export default class NetworkURLStep extends Component {
               className={styles.stepInputContainer}
               style={{
                 width: '80%',
-                padding: '10px 20px'
+                padding: '10px 20px',
               }}
             >
               <input
                 type="text"
                 className={styles.stepInput}
                 style={{ width: '100%' }}
-                onChange={e => this.setOption('networkUrl', e.target.value)}
+                onChange={(e) => this.setOption('networkUrl', e.target.value)}
                 value={networkUrl}
               />
             </div>

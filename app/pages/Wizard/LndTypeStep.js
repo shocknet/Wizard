@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/label-has-for */
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { Component } from 'react';
 import localForage from 'localforage';
 import logger from 'electron-log';
@@ -7,7 +5,7 @@ import styles from './css/index.css';
 
 export default class LndTypeStep extends Component {
   state = {
-    lndType: 'neutrino'
+    lndType: 'neutrino',
   };
 
   componentDidMount = () => {
@@ -23,7 +21,7 @@ export default class LndTypeStep extends Component {
     await localForage.setItem(key, value);
     logger.info(key, value);
     this.setState({
-      [key]: value
+      [key]: value,
     });
   };
 
@@ -40,7 +38,7 @@ export default class LndTypeStep extends Component {
                   type="radio"
                   name="lnd-type"
                   value="neutrino"
-                  onChange={e => this.setOption('lndType', e.target.value)}
+                  onChange={(e) => this.setOption('lndType', e.target.value)}
                   checked={lndType === 'neutrino'}
                 />
                 <span className={styles.checkmark} />
@@ -58,7 +56,7 @@ export default class LndTypeStep extends Component {
                   type="radio"
                   name="lnd-type"
                   value="bitcoind"
-                  onChange={e => this.setOption('lndType', e.target.value)}
+                  onChange={(e) => this.setOption('lndType', e.target.value)}
                   checked={lndType === 'bitcoind'}
                 />
                 <span className={styles.checkmark} />

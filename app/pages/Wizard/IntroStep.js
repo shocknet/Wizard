@@ -22,7 +22,7 @@ export default class IntroStep extends Component {
             Please submit any issues or requests for support at{' '}
             <a
               href="https://github.com/shocknet/Wizard/issues"
-              onClick={e => {
+              onClick={(e) => {
                 e.preventDefault();
                 shell.openExternal('https://github.com/shocknet/Wizard/issues');
               }}

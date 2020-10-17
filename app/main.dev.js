@@ -266,9 +266,13 @@ autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
       'A new version of ShockWizard has been downloaded. Restart the application to apply the update.',
   };
 
-  dialog.showMessageBox(dialogOpts).then((returnValue) => {
-    if (returnValue.response === 0) autoUpdater.quitAndInstall();
-  });
+  dialog
+    .showMessageBox(dialogOpts)
+    .then((returnValue) => {
+      if (returnValue.response === 0) return autoUpdater.quitAndInstall();
+      return;
+    })
+    .catch((err) => console.log(err));
 });
 
 autoUpdater.on('download-progress', (ev, progressObj) => {
