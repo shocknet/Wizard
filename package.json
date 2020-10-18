@@ -269,7 +269,7 @@
     "decompress": "^4.2.0",
     "electron-log": "^4.2.4",
     "electron-unhandled": "^1.1.0",
-    "electron-updater": "^4.0.0",
+    "electron-updater": "^4.3.5",
     "fs-extra": "^8.1.0",
     "google-proto-files": "^2.2.0",
     "grpc": "^1.24.2",
