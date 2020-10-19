@@ -55,12 +55,7 @@
     "productName": "ShockWizard",
     "appId": "org.shockwallet.ShockWiz",
     "files": [
-      "app/img/",
-      "app/dist/",
-      "app/index.js",
-      "app/app.html",
-      "app/main.prod.js",
-      "app/main.prod.js.map",
+      "app/",
       "node_modules/",
       "package.json",
       "!node_modules/react-native/*",
