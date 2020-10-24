@@ -16,6 +16,8 @@ import DeleteSourceMaps from '../internals/scripts/DeleteSourceMaps';
 CheckNodeEnv('production');
 DeleteSourceMaps();
 
+console.log('Path:', path.join(__dirname, '..', 'app/index.js'));
+
 export default merge(baseConfig, {
   devtool: process.env.DEBUG_PROD === 'true' ? 'source-map' : 'none',
 

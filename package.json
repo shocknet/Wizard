@@ -54,13 +54,6 @@
   "build": {
     "productName": "ShockWizard",
     "appId": "org.shockwallet.ShockWiz",
-    "files": [
-      "app/**",
-      "node_modules/**",
-      "package.json",
-      "!node_modules/react-native/*",
-      "!node_modules/@unimodules/*"
-    ],
     "dmg": {
       "contents": [
         {
