@@ -25,7 +25,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: 'Automated Version Bump (/app/package.json)'
-        uses: 'phips28/gh-action-bump-version'
+        uses: 'phips28/gh-action-bump-version@master'
         with:
           tag-prefix: ''
         env:
