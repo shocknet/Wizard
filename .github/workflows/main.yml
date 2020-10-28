@@ -18,11 +18,18 @@ jobs:
         uses: "actions/setup-node@v1"
         with:
           node-version: 12
-      - name: 'Automated Version Bump'
+      - name: 'Automated Version Bump (/package.json)'
         uses: 'Emad-salah/gh-action-bump-version@patch-1'
         with:
           tag-prefix: ''
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: 'Automated Version Bump (/app/package.json)'
+        uses: 'Emad-salah/gh-action-bump-version@patch-1'
+        with:
+          tag-prefix: ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PACKAGEJSON_DIR: "app"
       - name: "cat package.json"
         run: cat ./package.json
