@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: 12
       - name: 'Automated Version Bump (/package.json)'
-        uses: 'phips28/gh-action-bump-version'
+        uses: 'phips28/gh-action-bump-version@master'
         with:
           tag-prefix: ''
         env:
