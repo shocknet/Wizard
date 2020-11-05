@@ -8,8 +8,8 @@ import { merge } from 'webpack-merge';
 import TerserPlugin from 'terser-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import baseConfig from './webpack.config.base';
-import CheckNodeEnv from '../../internals/scripts/CheckNodeEnv';
-import DeleteSourceMaps from '../../internals/scripts/DeleteSourceMaps';
+import CheckNodeEnv from '../internals/scripts/CheckNodeEnv';
+import DeleteSourceMaps from '../internals/scripts/DeleteSourceMaps';
 
 CheckNodeEnv('production');
 DeleteSourceMaps();
@@ -21,11 +21,11 @@ export default merge(baseConfig, {
 
   target: 'electron-main',
 
-  entry: './main.dev',
+  entry: './app/main.dev',
 
   output: {
     path: path.join(__dirname, '..'),
-    filename: './main.prod.js',
+    filename: './app/main.prod.js',
   },
 
   optimization: {

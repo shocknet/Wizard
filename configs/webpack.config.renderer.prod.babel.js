@@ -10,13 +10,13 @@ import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import { merge } from 'webpack-merge';
 import TerserPlugin from 'terser-webpack-plugin';
 import baseConfig from './webpack.config.base';
-import CheckNodeEnv from '../../internals/scripts/CheckNodeEnv';
-import DeleteSourceMaps from '../../internals/scripts/DeleteSourceMaps';
+import CheckNodeEnv from '../internals/scripts/CheckNodeEnv';
+import DeleteSourceMaps from '../internals/scripts/DeleteSourceMaps';
 
 CheckNodeEnv('production');
 DeleteSourceMaps();
 
-console.log('Path:', path.join(__dirname, '..', 'index.js'));
+console.log('Path:', path.join(__dirname, '..', 'app/index.js'));
 
 export default merge(baseConfig, {
   devtool: process.env.DEBUG_PROD === 'true' ? 'source-map' : 'none',
@@ -28,7 +28,7 @@ export default merge(baseConfig, {
       ? 'electron-renderer'
       : 'electron-preload',
 
-  entry: ['core-js', 'regenerator-runtime/runtime', path.join(__dirname, '..', 'index.js')],
+  entry: ['core-js', 'regenerator-runtime/runtime', path.join(__dirname, '..', 'app/index.js')],
 
   output: {
     path: path.join(__dirname, '..', 'app/dist'),
