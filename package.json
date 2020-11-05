@@ -88,8 +88,10 @@
       "differentialPackage": true
     },
     "snap": {
-      "provider": "generic",
-      "url": "https://shock.network"
+      "publish": {
+        "provider": "generic",
+        "url": "https://shock.network"
+      }
     },
     "directories": {
       "buildResources": "resources",
