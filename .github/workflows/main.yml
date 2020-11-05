@@ -3,6 +3,9 @@ name: Increment Wizard Version
 on:
   repository_dispatch:
     types: [api-update]
+  push:
+    branches:
+      - "master"
 
 jobs:
   incrementVersion:
@@ -18,11 +21,20 @@ jobs:
         uses: "actions/setup-node@v1"
         with:
           node-version: 12
-      - name: 'Automated Version Bump'
-        uses: 'Emad-salah/gh-action-bump-version@patch-1'
+      - name: 'Automated Version Bump (/package.json)'
+        uses: 'phips28/gh-action-bump-version@master'
         with:
           tag-prefix: ''
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: 'Automated Version Bump (/app/package.json)'
+        uses: 'phips28/gh-action-bump-version@master'
+        with:
+          skip-tag: 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PACKAGEJSON_DIR: "app"
       - name: "cat package.json"
         run: cat ./package.json
+      - name: "cat app/package.json"
+        run: cat ./app/package.json
