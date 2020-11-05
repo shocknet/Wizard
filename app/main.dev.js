@@ -120,6 +120,7 @@ app.on('ready', async () => {
   mainWindow = new BrowserWindow({
     show: false,
     frame: false,
+    minHeight: 730,
     webPreferences: {
       nodeIntegration: true,
       worldSafeExecuteJavaScript: true,
@@ -211,6 +212,8 @@ app.on('ready', async () => {
 
     return result;
   });
+
+  ipcMain.handle('downloadRelease', async () => {});
 
   ipcMain.handle('hideFocusedWindow', async () => {
     const focusedWindow = BrowserWindow.getFocusedWindow();

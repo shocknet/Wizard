@@ -38,8 +38,10 @@ const downloadRelease = ({ repo, fileName, url, update = false }, progressCallba
     const writer = fs.createWriteStream(fileLocation);
     const releaseLink = url;
     logger.info('Release Link:', releaseLink);
+    const adapter = require('axios/lib/adapters/http');
     const downloadedRelease = await Http.get(releaseLink, {
       responseType: 'stream',
+      adapter,
     });
     downloadedRelease.data.pipe(writer);
     downloadedRelease.data.on('data', (buffer) => {
