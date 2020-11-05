@@ -46,4 +46,3 @@ install:
   - set CI=true
   - yarn
   - yarn package-ci
-  - yarn lint
