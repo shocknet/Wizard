@@ -33,3 +33,5 @@ jobs:
           PACKAGEJSON_DIR: "app"
       - name: "cat package.json"
         run: cat ./package.json
+      - name: "cat app/package.json"
+        run: cat ./app/package.json
