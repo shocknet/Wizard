@@ -3,6 +3,9 @@ name: Increment Wizard Version
 on:
   repository_dispatch:
     types: [api-update]
+  push:
+    branches:
+      - "master"
 
 jobs:
   incrementVersion:
