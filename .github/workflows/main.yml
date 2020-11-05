@@ -30,7 +30,7 @@ jobs:
       - name: 'Automated Version Bump (/app/package.json)'
         uses: 'phips28/gh-action-bump-version@master'
         with:
-          tag-prefix: ''
+          skip-tag: 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PACKAGEJSON_DIR: "app"
