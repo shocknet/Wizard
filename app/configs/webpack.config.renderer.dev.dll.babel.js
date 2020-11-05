@@ -62,7 +62,7 @@ export default merge(baseConfig, {
     new webpack.LoaderOptionsPlugin({
       debug: true,
       options: {
-        context: path.join(__dirname, '..', 'app'),
+        context: path.join(__dirname, '..'),
         output: {
           path: path.join(__dirname, '..', 'dll'),
         },
