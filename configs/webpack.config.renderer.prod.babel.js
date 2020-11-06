@@ -178,6 +178,10 @@ export default merge(baseConfig, {
     ],
   },
 
+  resolve: {
+    aliasFields: [],
+  },
+
   optimization: {
     minimizer: process.env.E2E_BUILD
       ? []
