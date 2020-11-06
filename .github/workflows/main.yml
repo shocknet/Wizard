@@ -22,13 +22,13 @@ jobs:
         with:
           node-version: 12
       - name: 'Automated Version Bump (/package.json)'
-        uses: 'phips28/gh-action-bump-version@master'
+        uses: 'Emad-salah/gh-action-bump-version@patch-2'
         with:
           tag-prefix: ''
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: 'Automated Version Bump (/app/package.json)'
-        uses: 'phips28/gh-action-bump-version@master'
+        uses: 'Emad-salah/gh-action-bump-version@patch-2'
         with:
           skip-tag: 'true'
         env:
