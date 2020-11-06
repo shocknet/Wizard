@@ -21,19 +21,19 @@ jobs:
         uses: "actions/setup-node@v1"
         with:
           node-version: 12
-      - name: 'Automated Version Bump (/package.json)'
-        uses: 'phips28/gh-action-bump-version@master'
-        with:
-          tag-prefix: ''
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: 'Automated Version Bump (/app/package.json)'
-        uses: 'phips28/gh-action-bump-version@master'
+        uses: 'Emad-salah/gh-action-bump-version@patch-2'
         with:
           skip-tag: 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PACKAGEJSON_DIR: "app"
+      - name: 'Automated Version Bump (/package.json)'
+        uses: 'Emad-salah/gh-action-bump-version@patch-2'
+        with:
+          tag-prefix: ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: "cat package.json"
         run: cat ./package.json
       - name: "cat app/package.json"
