@@ -263,7 +263,7 @@
     "electron-updater": "^4.0.0",
     "fs-extra": "^8.1.0",
     "google-proto-files": "^2.2.0",
-    "grpc": "^1.24.2",
+    "grpc": "^1.24.4",
     "history": "^4.7.2",
     "internal-ip": "^4.3.0",
     "localforage": "^1.7.3",
