@@ -227,14 +227,12 @@ const processLine = async (line) => {
           const serverConfig = {
             serverhost: '0.0.0.0',
             lndCertPath: `${lndDirectory}/tls.cert`,
-            macaroonPath: `${dataDir}/chain/bitcoin/${
-              networkType ? networkType : 'testnet'
-            }/admin.macaroon`,
+            macaroonPath: `${dataDir}/chain/bitcoin/mainnet/admin.macaroon`,
           };
 
           logger.info('ShockAPI Macaroon Path:', serverConfig.macaroonPath);
 
-          ipcRenderer.send('startServer', serverConfig);
+          ipcRenderer.invoke('startServer', serverConfig);
         } else if (key === 'walletUnlocked') {
           const downloadedBlocks = await localForage.getItem('downloadedBlocks');
           // eslint-disable-next-line no-new

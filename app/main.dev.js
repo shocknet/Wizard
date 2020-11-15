@@ -121,6 +121,7 @@ app.on('ready', async () => {
     show: false,
     frame: false,
     minHeight: 730,
+    height: 730,
     webPreferences: {
       nodeIntegration: true,
       worldSafeExecuteJavaScript: true,
@@ -175,7 +176,7 @@ app.on('ready', async () => {
     tray.setContextMenu(menuBuilder.buildContextMenu({ progress: data }));
   });
 
-  ipcMain.on('startServer', (event, data) => {
+  ipcMain.handle('startServer', (event, data) => {
     try {
       if (!serverInstance) {
         server(data);
