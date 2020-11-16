@@ -43,16 +43,7 @@ if (process.env.NODE_ENV === 'production' || process.env.DEBUG_PROD === 'true') 
       owner: 'shocknet',
       artifactName: 'ShockWizard-Setup-${version}.${ext}',
     });
-    autoUpdater.checkForUpdates().catch((err) => {
-      logger.log(err);
-    });
-    updateTimer = setInterval(() => {
-      if (!downloadingUpdate) {
-        autoUpdater.checkForUpdates().catch((err) => {
-          logger.log(err);
-        });
-      }
-    }, 20000); // Check for updates every 20 seconds
+    autoUpdater.checkForUpdates().catch((err) => {});
   } catch {}
 }
 
@@ -130,14 +121,6 @@ app.on('ready', async () => {
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
 
-  mainWindow.once('ready-to-show', () => {
-    setInterval(async () => {
-      const updateResult = await autoUpdater.checkForUpdatesAndNotify();
-    }, 60000);
-  });
-
-  // @TODO: Use 'ready-to-show' event
-  //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
   mainWindow.webContents.on('ready-to-show', async () => {
     if (!mainWindow) {
       throw new Error('"mainWindow" is not defined');
@@ -178,6 +161,7 @@ app.on('ready', async () => {
 
   ipcMain.handle('startServer', (event, data) => {
     try {
+      console.log(data);
       if (!serverInstance) {
         server(data);
         serverInstance = true;
@@ -190,7 +174,6 @@ app.on('ready', async () => {
   ipcMain.on('download-update', () => {
     downloadingUpdate = true;
     autoUpdater.downloadUpdate(updateCancelToken);
-    clearInterval(updateTimer);
   });
 
   ipcMain.on('cancel-update', () => {

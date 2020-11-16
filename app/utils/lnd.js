@@ -228,6 +228,7 @@ const processLine = async (line) => {
             serverhost: '0.0.0.0',
             lndCertPath: `${lndDirectory}/tls.cert`,
             macaroonPath: `${dataDir}/chain/bitcoin/mainnet/admin.macaroon`,
+            mainnet: true,
           };
 
           logger.info('ShockAPI Macaroon Path:', serverConfig.macaroonPath);
