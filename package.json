@@ -261,7 +261,7 @@
     "electron-log": "^4.2.4",
     "electron-unhandled": "^1.1.0",
     "electron-updater": "^4.0.0",
-    "fs-extra": "^8.1.0",
+    "fs-extra": "^9.0.1",
     "google-proto-files": "^2.2.0",
     "history": "^4.7.2",
     "internal-ip": "^4.3.0",
