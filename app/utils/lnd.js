@@ -229,9 +229,10 @@ const processLine = async (line) => {
             lndCertPath: `${lndDirectory}/tls.cert`,
             macaroonPath: `${dataDir}/chain/bitcoin/mainnet/admin.macaroon`,
             mainnet: true,
+            rootPath: await ipcRenderer.invoke('getUserData'),
           };
 
-          logger.info('ShockAPI Macaroon Path:', serverConfig.macaroonPath);
+          logger.info('ShockAPI Settings:', serverConfig);
 
           ipcRenderer.invoke('startServer', serverConfig);
         } else if (key === 'walletUnlocked') {

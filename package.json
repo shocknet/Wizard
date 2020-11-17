@@ -1,7 +1,7 @@
 {
   "name": "shockwizard",
   "productName": "ShockWizard",
-  "version": "0.0.232",
+  "version": "0.0.233",
   "description": "Setup a Lightning Node Automatically!",
   "scripts": {
     "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
@@ -76,12 +76,13 @@
     },
     "linux": {
       "target": [
-        "deb",
-        "rpm",
-        "snap",
-        "AppImage"
+        "deb"
       ],
-      "category": "Development"
+      "category": "Development",
+      "asar": true
+    },
+    "deb": {
+      "compression": "gz"
     },
     "nsis": {
       "oneClick": false,
@@ -119,18 +120,6 @@
     "email": "info@shock.network",
     "url": "https://shocknet.github.io"
   },
-  "contributors": [
-    {
-      "name": "Vikram Rangaraj",
-      "email": "vikr01@icloud.com",
-      "url": "https://github.com/vikr01"
-    },
-    {
-      "name": "Amila Welihinda",
-      "email": "amilajack@gmail.com",
-      "url": "https://github.com/amilajack"
-    }
-  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/shocknet/Wizard/issues"
