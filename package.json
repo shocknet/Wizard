@@ -76,7 +76,10 @@
     },
     "linux": {
       "target": [
-        "deb"
+        "deb",
+        "AppImage",
+        "snap",
+        "rpm"
       ],
       "category": "Development",
       "asar": true
