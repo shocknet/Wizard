@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { ipcRenderer } from 'electron';
 import styles from './css/Nav.css';
+import app from '../../package.json';
 
 export default class Nav extends Component {
   render() {
     return (
       <div className={styles.navContainer}>
-        <p className={styles.navTitle}>LND Server Setup</p>
+        <p className={styles.navTitle}>ShockWizard v{app.version}</p>
         <div
           className={styles.navControls}
           onClick={() => {

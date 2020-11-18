@@ -126,7 +126,7 @@ app.on('ready', async () => {
       throw new Error('"mainWindow" is not defined');
     }
     ipcMain.on('setupStatus', (event, data) => {
-      if (data) {
+      if (data === 'complete') {
         mainWindow.hide();
       } else {
         mainWindow.show();

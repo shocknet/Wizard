@@ -2,7 +2,7 @@
  * @NOTE: Prepend a `~` to css file paths that are in your node_modules
  *        See https://github.com/webpack-contrib/sass-loader#imports
  */
-@import "~@fortawesome/fontawesome-free/css/all.css";
+@import '~@fortawesome/fontawesome-free/css/all.css';
 
 html,
 body {
@@ -13,4 +13,54 @@ body {
   margin: 0;
   font-family: Montserrat, sans-serif;
   overflow: hidden;
+}
+
+p.error-details-title {
+  text-align: center;
+  margin: 0;
+  text-align: left;
+  font-weight: bold;
+  opacity: 0.8;
+}
+
+.error-container {
+  flex: 1;
+  background-color: #2d2d2d;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+div#root {
+  flex: 1;
+  height: 100%;
+}
+
+p.error-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+i.error-icon.fas.fa-exclamation-circle {
+  font-size: 50px;
+  margin-bottom: 8px;
+  color: #ff4f4f;
+}
+
+p.error-details-stacktrace {
+  font-size: 12px;
+  opacity: 0.6;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.error-details-container {
+  width: 70%;
+  margin-top: 30px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #212121;
 }

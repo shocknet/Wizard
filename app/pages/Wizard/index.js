@@ -133,6 +133,16 @@ export default class Home extends Component {
     }
   };
 
+  componentDidCatch(error) {
+    console.error('Error:', error);
+    return (
+      <div className="error-container">
+        <i className="error-icon fas fa-warning" />
+        <p className="error-title">An unknown error occurred</p>
+      </div>
+    );
+  }
+
   componentWillUnmount = () => {
     ipcRenderer.off('lnd-start', () => {
       logger.info('Unmounted');

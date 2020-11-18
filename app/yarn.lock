@@ -2536,9 +2536,9 @@ shock-common@17.x.x:
     redux-thunk "^2.3.0"
     uuid "3.x.x"
 
-"shockapi@git://github.com/shocknet/api.git#bug/proto-files":
+"shockapi@git://github.com/shocknet/api.git#e47828da2c949c6e8352387cb111139a568a7a98":
   version "1.0.0"
-  resolved "git://github.com/shocknet/api.git#e598c07a8f8f6086706739e128a9d760e6364cd6"
+  resolved "git://github.com/shocknet/api.git#e47828da2c949c6e8352387cb111139a568a7a98"
   dependencies:
     "@grpc/proto-loader" "^0.5.1"
     axios "^0.20.0"
