@@ -1,5 +1,13 @@
+# S H O C K W I Z A R D
+
+[![GitHub last commit](https://img.shields.io/github/last-commit/shocknet/Wizard?style=flat-square)](https://github.com/shocknet/wallet/commits/master)
+[![GitHub](https://img.shields.io/github/license/shocknet/Wizard?label=license&style=flat-square)](https://github.com/shocknet/wallet/blob/master/LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) 
+[![Chat](https://img.shields.io/badge/chat-on%20Telegram-blue?style=flat-square)](https://t.me/Shockwallet)
+[![Twitter Follow](https://img.shields.io/twitter/follow/ShockBTC?style=flat-square)](https://twitter.com/shockbtc)
+[![GitHub all releases](https://img.shields.io/github/downloads/shocknet/Wizard/total)
+
 <div align="center" style="display: flex; width: 100%; align-items: center; justify-content: center; flex-direction: column">
-  <span style="font-size: 24px;font-weight: bold;">S H O C K W I Z A R D</span><br>
   <img src="https://raw.githubusercontent.com/shocknet/Wizard/master/wizardSS_900.png" style="margin-bottom: 5px" /><br>
   <span style="font-size: 22px;font-weight: bold;">Run your own node and wallet server in a few clicks.</span>
   <div style="margin-top: 10px;">
