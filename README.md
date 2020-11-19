@@ -5,7 +5,7 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) 
 [![Chat](https://img.shields.io/badge/chat-on%20Telegram-blue?style=flat-square)](https://t.me/Shockwallet)
 [![Twitter Follow](https://img.shields.io/twitter/follow/ShockBTC?style=flat-square)](https://twitter.com/shockbtc)
-[![GitHub all releases](https://img.shields.io/github/downloads/shocknet/Wizard/total)
+![GitHub all releases](https://img.shields.io/github/downloads/shocknet/Wizard/total)
 
 <div align="center" style="display: flex; width: 100%; align-items: center; justify-content: center; flex-direction: column">
   <img src="https://raw.githubusercontent.com/shocknet/Wizard/master/wizardSS_900.png" style="margin-bottom: 5px" /><br>
