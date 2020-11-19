@@ -16,9 +16,12 @@ import path from 'path';
 import { autoUpdater, CancellationToken } from 'electron-updater';
 import server from 'shockapi';
 import MenuBuilder from './menu';
+import { version } from './package.json';
 
 autoUpdater.logger = logger;
 autoUpdater.logger.transports.file.level = 'info';
+
+logger.info('Initializing ShockWizard v' + version);
 
 unhandled();
 

@@ -314,7 +314,7 @@ const start = async () => {
 
 const terminate = () => {
   if (child) {
-    child.kill('SIGINT');
+    child.kill('SIGTERM');
   }
 };
 
