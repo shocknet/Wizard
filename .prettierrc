@@ -9,5 +9,6 @@
   ],
   "singleQuote": true,
   "eslintIntegration": true,
-  "printWidth": 100
+  "printWidth": 100,
+  "trailingComma": "none"
 }

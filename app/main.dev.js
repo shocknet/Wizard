@@ -44,7 +44,7 @@ if (process.env.NODE_ENV === 'production' || process.env.DEBUG_PROD === 'true') 
       provider: 'github',
       repo: 'Wizard',
       owner: 'shocknet',
-      artifactName: 'ShockWizard-Setup-${version}.${ext}',
+      artifactName: 'ShockWizard-Setup-${version}.${ext}'
     });
     autoUpdater.checkForUpdates().catch((err) => {});
   } catch {}
@@ -67,7 +67,8 @@ const installExtensions = async () => {
 const getLndStatus = (data) => {
   if (
     data.downloadedBlocks !== data.downloadedBlockHeightsLength &&
-    data.downloadedBlockHeightsLength !== 0
+    data.downloadedBlockHeightsLength !== 0 &&
+    !data.walletUnlocked
   ) {
     const downloadProgress = Math.trunc(
       (data.downloadedBlocks / data.downloadedBlockHeightsLength) * 100
@@ -96,6 +97,7 @@ app.setAppUserModelId(process.execPath);
 app.on('window-all-closed', () => {
   // Respect the OSX convention of having the application in memory even
   // after all windows have been closed
+  mainWindow.webContents.send('lnd-terminate');
   if (process.platform !== 'darwin') {
     app.quit();
   }
@@ -114,12 +116,12 @@ app.on('ready', async () => {
   mainWindow = new BrowserWindow({
     show: false,
     frame: false,
-    minHeight: 730,
-    height: 730,
+    minHeight: 800,
+    height: 800,
     webPreferences: {
       nodeIntegration: true,
-      worldSafeExecuteJavaScript: true,
-    },
+      worldSafeExecuteJavaScript: true
+    }
   });
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
@@ -171,6 +173,7 @@ app.on('ready', async () => {
       }
     } catch (err) {
       logger.error(err);
+      serverInstance = false;
     }
   });
 
@@ -194,7 +197,7 @@ app.on('ready', async () => {
 
   ipcMain.handle('showOpenDialog', async (event, options = {}) => {
     const result = await dialog.showOpenDialog({
-      properties: options.properties,
+      properties: options.properties
     });
 
     return result;
@@ -221,6 +224,7 @@ app.on('ready', async () => {
   });
 
   ipcMain.handle('quitApp', async () => {
+    mainWindow.webContents.send('lnd-terminate');
     app.quit();
 
     return true;
@@ -253,7 +257,7 @@ autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
     title: 'Application Update',
     message: process.platform === 'win32' ? releaseNotes : releaseName,
     detail:
-      'A new version of ShockWizard has been downloaded. Restart the application to apply the update.',
+      'A new version of ShockWizard has been downloaded. Restart the application to apply the update.'
   };
 
   dialog
@@ -278,12 +282,12 @@ let diffDown = {
   percent: 0,
   bytesPerSecond: 0,
   total: 0,
-  transferred: 0,
+  transferred: 0
 };
 let diffDownHelper = {
   startTime: 0,
   lastTime: 0,
-  lastSize: 0,
+  lastSize: 0
 };
 
 logger.hooks.push((msg, transport) => {
@@ -302,12 +306,12 @@ logger.hooks.push((msg, transport) => {
       percent: 0,
       bytesPerSecond: 0,
       total: Number(match[3].split(',').join('')) * multiplier,
-      transferred: 0,
+      transferred: 0
     };
     diffDownHelper = {
       startTime: Date.now(),
       lastTime: Date.now(),
-      lastSize: 0,
+      lastSize: 0
     };
     return msg;
   }
