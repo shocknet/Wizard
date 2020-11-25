@@ -3,16 +3,17 @@ import localForage from 'localforage';
 import localIP from 'internal-ip';
 import { QRCode } from 'react-qrcode-logo';
 import logger from 'electron-log';
-import Lnd from '../../utils/lnd';
-import Bitcoind from '../../utils/bitcoind';
+import Http from 'axios';
 import styles from './css/index.css';
+
+const SERVER_STATUS_PING_MS = 1000;
 
 export default class WalletQRStep extends Component {
   state = {
     activeTab: 'info',
     internalIP: '',
     externalIP: '',
-    walletPort: '9835',
+    walletPort: '9835'
   };
 
   componentDidMount = async () => {
@@ -20,11 +21,76 @@ export default class WalletQRStep extends Component {
     const internalIP = await localIP.v4();
     this.setOption('internalIP', internalIP);
     this.setOption('externalIP', externalIP);
+
+    if (!this.props.loadingServer) {
+      this.startServerStatusPing();
+    }
   };
+
+  componentDidUpdate(oldProps) {
+    const serverStatusUpdate = oldProps.loadingServer !== this.props.loadingServer;
+
+    if (serverStatusUpdate && !this.props.loadingServer && !this.pingTimer) {
+      this.startServerStatusPing();
+    }
+
+    if (serverStatusUpdate && this.props.loadingServer) {
+      this.stopServerStatusPing();
+    }
+  }
 
   componentWillUnmount = () => {
     const { networkType } = this.state;
+    this.stopServerStatusPing();
     this.setOption('networkType', networkType);
+  };
+
+  pingTimer = null;
+
+  startServerStatusPing = async () => {
+    try {
+      const { internalIP, walletPort } = this.state;
+      const { data } = await Http.get(`http://${internalIP}:${walletPort}/healthz`);
+      const lndStatusType =
+        !data.LNDStatus.message.synced_to_graph ||
+        !data.LNDStatus.message.synced_to_chain ||
+        data.LNDStatus.walletStatus === 'locked'
+          ? 'warning'
+          : 'success';
+      const apiStatusType = data.APIStatus.success ? 'success' : 'error';
+      const lndStatus = !data.LNDStatus.message.synced_to_graph
+        ? 'Syncing to graph...'
+        : data.LNDStatus.message.synced_to_chain
+        ? 'Syncing to chain...'
+        : data.LNDStatus.walletStatus === 'locked'
+        ? 'Wallet Locked'
+        : data.LNDStatus.walletStatus === 'unlocked'
+        ? 'Wallet Unlocked'
+        : 'Active';
+      const apiStatus = data.APIStatus.success ? 'Active' : 'An error has occurred';
+
+      this.setState({
+        apiStatusType,
+        lndStatusType,
+        apiStatus,
+        lndStatus
+      });
+    } catch (err) {
+      this.setState({
+        apiStatusType: 'error',
+        lndStatusType: 'error',
+        apiStatus: 'Unreachable',
+        lndStatus: 'Unreachable'
+      });
+    } finally {
+      this.pingTimer = setTimeout(() => {
+        this.startServerStatusPing();
+      }, SERVER_STATUS_PING_MS);
+    }
+  };
+
+  stopServerStatusPing = () => {
+    clearInterval(this.pingTimer);
   };
 
   setOption = async (key, value) => {
@@ -78,20 +144,20 @@ export default class WalletQRStep extends Component {
     lndProgress = 0,
     bitcoindProgress = 0,
     lndDownloadProgress = 0,
-    bitcoindDownloadProgress = 0,
+    bitcoindDownloadProgress = 0
   }) => {
     if (type === 'bitcoind') {
       return {
         totalProgress: (lndProgress + bitcoindProgress) / 2,
         downloadCompleted: bitcoindDownloadProgress === 100,
-        syncProgress: bitcoindDownloadProgress,
+        syncProgress: bitcoindDownloadProgress
       };
     }
 
     return {
       totalProgress: lndProgress,
       downloadCompleted: lndDownloadProgress === 100,
-      syncProgress: lndDownloadProgress,
+      syncProgress: lndDownloadProgress
     };
   };
 
@@ -103,7 +169,7 @@ export default class WalletQRStep extends Component {
       lndDownloadProgress,
       bitcoindDownloadProgress,
       lndType,
-      downloadType,
+      downloadType
     } = this.props;
     const { externalIP, internalIP, walletPort } = this.state;
     const { totalProgress, downloadCompleted, syncProgress } = this.getProgressRate({
@@ -111,7 +177,7 @@ export default class WalletQRStep extends Component {
       lndProgress,
       bitcoindProgress,
       lndDownloadProgress,
-      bitcoindDownloadProgress,
+      bitcoindDownloadProgress
     });
     if (loadingServer) {
       if (downloadType === 'download') {
@@ -154,7 +220,7 @@ export default class WalletQRStep extends Component {
   };
 
   renderQRCode = () => {
-    const { internalIP, walletPort, externalIP, activeTab } = this.state;
+    const { internalIP, walletPort, externalIP, activeTab, apiStatus, lndStatus } = this.state;
     const {
       loadingServer,
       showNodeInfo,
@@ -163,40 +229,19 @@ export default class WalletQRStep extends Component {
       lndDownloadProgress,
       bitcoindDownloadProgress,
       lndType,
-      downloadType,
+      downloadType
     } = this.props;
     return (
       <>
-        <p className={styles.stepDescription} style={{ marginBottom: 20 }}>
-          Scan the QR Code with the mobile app to import your IP addresses.
-          <br />
-          <br />
-          Reminder: Your network may require NAT Forwarding/Firewall Rules
-        </p>
-        <div className={styles.walletInfo}>
-          <label
-            htmlFor=""
-            style={{
-              display: 'block',
-              padding: '0px 0px',
-              margin: 'auto',
-              fontWeight: 600,
-            }}
-          >
-            Internal IP: {internalIP}
-          </label>
-          <label
-            htmlFor=""
-            style={{
-              display: 'block',
-              padding: '0px 0px',
-              margin: 'auto',
-              fontWeight: 600,
-            }}
-          >
-            External IP: {externalIP}
-          </label>
+        <div className={styles.reminderContainer}>
+          <i className={[styles.reminderIcon, ' fas fa-info-circle'].join(' ')} />
+          <p className={styles.reminderText}>
+            Reminder: Your network may require NAT Forwarding/Firewall Rules
+          </p>
         </div>
+        <p className={styles.stepDescription}>
+          Scan the QR Code with the mobile app to import your IP addresses.
+        </p>
         <div className={styles.walletQRCode}>
           <p className={styles.QRCodeDesc}>Scan QR Code with ShockWallet:</p>
           {loadingServer ? (
@@ -221,6 +266,34 @@ export default class WalletQRStep extends Component {
             />
           )}
         </div>
+        {!loadingServer && lndDownloadProgress === 100 ? (
+          <div className={styles.wizardStatusContainer}>
+            <div className={styles.wizardStatusHeader}>
+              <p>Status</p>
+            </div>
+            <div className={styles.wizardStatusSections}>
+              <div className={styles.wizardStatusSection}>
+                <p className={styles.wizardStatusSectionHead}>Networking</p>
+                <label htmlFor="" className={styles.wizardStatusText}>
+                  Internal IP: {internalIP}
+                </label>
+                <label htmlFor="" className={styles.wizardStatusText}>
+                  External IP: {externalIP}
+                </label>
+              </div>
+              <div className={styles.wizardStatusSectionDivider}></div>
+              <div className={styles.wizardStatusSection}>
+                <p className={styles.wizardStatusSectionHead}>ShockAPI</p>
+                <label htmlFor="" className={styles.wizardStatusText}>
+                  API Status: {apiStatus ?? 'N/A'}
+                </label>
+                <label htmlFor="" className={styles.wizardStatusText}>
+                  LND Status: {lndStatus ?? 'N/A'}
+                </label>
+              </div>
+            </div>
+          </div>
+        ) : null}
       </>
     );
   };
@@ -230,7 +303,7 @@ export default class WalletQRStep extends Component {
     return (
       <div
         className={styles.lndLogsContainer}
-        style={{ height: `calc(${showNodeInfo ? '100vh - 209px' : '100vh - 289px'})` }}
+        style={{ height: `calc(${showNodeInfo ? '100vh - 215px' : '100vh - 295px'})` }}
       >
         <div className={styles.logsBox} ref={this.props.logBox}>
           {lndLogLines
@@ -266,8 +339,9 @@ export default class WalletQRStep extends Component {
           <div
             className={[styles.lndTypeContainer, styles.nodeInfo].join(' ')}
             style={{
-              height: '60%',
+              height: showNodeInfo ? '100%' : 'calc(100% - 80px)',
               justifyContent: 'flex-start',
+              overflow: 'auto'
             }}
           >
             <p className={styles.stepTitle}>

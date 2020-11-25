@@ -57,7 +57,7 @@ button:focus {
   align-items: center;
   justify-content: center;
   height: 100%;
-  padding-top: 47px;
+  padding-top: 132px;
   background-image: url('../../../img/wizard-bg.svg');
   background-size: cover;
 }
@@ -112,7 +112,6 @@ button:focus {
 
 .lndTypeContainer.nodeInfo {
   width: 100%;
-  margin-top: 81px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -200,7 +199,7 @@ button:focus {
   text-align: center;
   margin: auto;
   margin-bottom: 0;
-  margin-top: 30px;
+  margin-top: 20px;
   font-weight: 500;
 }
 
@@ -221,7 +220,7 @@ button:focus {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 10px;
   text-align: center;
 }
 
@@ -531,4 +530,101 @@ p.updateDialogText {
 .updateDialogProgressCancel i {
   line-height: 8px;
   margin-bottom: 2px;
+}
+
+.reminderIcon {
+  font-size: 20px;
+  width: 49px;
+  height: 100%;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  background-color: #30353e;
+  color: #ffffffc2;
+  flex-shrink: 0;
+}
+
+.reminderText {
+  margin: 13px 20px;
+  font-weight: bold;
+  font-size: 14px;
+  text-align: center;
+  width: 100%;
+  opacity: 0.7;
+}
+
+.reminderContainer {
+  display: flex;
+  align-items: center;
+  border-radius: 0;
+  width: 100%;
+  overflow: hidden;
+  background-color: #21252b;
+  /* height: 40px; */
+  flex-shrink: 0;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.status-text {
+  display: block;
+  padding: 0px;
+  margin: auto;
+  font-weight: bold;
+  color: #ffffffcc;
+}
+
+.wizardStatusSectionDivider {
+  height: 80%;
+  width: 2px;
+  background-color: #ffffff1f;
+}
+
+.wizardStatusSection {
+  padding: 20px 25px;
+  width: 48%;
+}
+
+.wizardStatusSection p {
+  margin: 0;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: rgb(66 136 189);
+  font-size: 16px;
+}
+
+.wizardStatusText {
+  display: block;
+  padding: 0px;
+  margin: auto;
+  font-weight: 600;
+  color: #ffffff96;
+  font-size: 13px;
+}
+
+.wizardStatusSections {
+  display: flex;
+  justify-content: space-between;
+  /* padding: 20px 15px; */
+  align-items: center;
+}
+
+.wizardStatusContainer {
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  overflow: hidden;
+  min-width: 480px;
+  flex-shrink: 0;
+  background-color: #21252b;
+  margin-top: 25px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+}
+
+.wizardStatusHeader p {
+  margin: 0;
+  padding: 10px 20px;
+  font-weight: bold;
+  color: #ffffffc9;
+  border-radius: 8px 8px 0 0;
+  background-color: #313740;
 }

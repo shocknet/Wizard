@@ -17,17 +17,17 @@ export default {
         use: {
           loader: 'babel-loader',
           options: {
-            cacheDirectory: true,
-          },
-        },
-      },
-    ],
+            cacheDirectory: true
+          }
+        }
+      }
+    ]
   },
 
   output: {
     path: path.join(__dirname, '..', 'app'),
     // https://github.com/webpack/webpack/issues/1114
-    libraryTarget: 'commonjs2',
+    libraryTarget: 'commonjs2'
   },
 
   /**
@@ -38,15 +38,15 @@ export default {
     modules: [
       'node_modules',
       path.join(__dirname, '..', 'app', 'node_modules'),
-      path.join(__dirname, '..', 'app'),
-    ],
+      path.join(__dirname, '..', 'app')
+    ]
   },
 
   plugins: [
     new webpack.EnvironmentPlugin({
-      NODE_ENV: 'production',
+      NODE_ENV: 'production'
     }),
 
-    new webpack.NamedModulesPlugin(),
-  ],
+    new webpack.NamedModulesPlugin()
+  ]
 };
