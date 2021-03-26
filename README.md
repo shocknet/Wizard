@@ -43,7 +43,7 @@ Windows users should install "as Administrator"
 - Scan with ShockWallet to automatically connect
 - This method will configure the app to automatically switch between your internal and external* IP addresses when you leave your home network.
 
-**Port `9835` is used by default and may require a Firewall/NAT Forwarding Rule to be set on your router.*
+**If not using the tunnel service, port `9835` is used by default and may require a Firewall/NAT Forwarding Rule to be set on your router.*
 
 ## Packaging from Source
 
