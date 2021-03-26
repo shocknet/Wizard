@@ -256,7 +256,7 @@
     "fs-extra": "^8.1.0",
     "google-proto-files": "^2.2.0",
     "history": "^4.7.2",
-    "internal-ip": "^4.3.0",
+    "internal-ip": "^6.2.0",
     "localforage": "^1.7.3",
     "ps": "^1.0.0",
     "ps-node": "^0.1.6",
