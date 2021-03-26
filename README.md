@@ -59,4 +59,4 @@ $ yarn package
 **If you find any issues with this project, or would like to suggest an enhancement, please [tell us](https://github.com/shocknet/Wizard/issues).**
 
 [ISC License](https://opensource.org/licenses/ISC)
-© 2020 [Shock Network, Inc.](http://shock.network)
+© 2021 [Shock Network, Inc.](http://shock.network)
