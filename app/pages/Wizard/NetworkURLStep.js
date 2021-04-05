@@ -43,7 +43,7 @@ export default class NetworkURLStep extends Component {
                 textAlign: 'left',
               }}
             >
-              Please specify the neutrino peer you wish to synch the blockchain from:
+              Please specify the neutrino peer you wish to fetch blocks from from:
             </p>
             <div
               className={styles.stepInputContainer}
