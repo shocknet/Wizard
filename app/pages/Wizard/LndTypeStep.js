@@ -31,7 +31,7 @@ export default class LndTypeStep extends Component {
       <div className={styles.container}>
         <div className={styles.wizardStepContainer}>
           <div className={styles.lndTypeContainer}>
-            <p className={styles.stepTitle}>BLOCK DOWNLOAD METHOD</p>
+            <p className={styles.stepTitle}>CHAIN SYNC METHOD</p>
             <div className={styles.stepChoices}>
               <label className={styles.stepChoice}>
                 <input
@@ -45,9 +45,8 @@ export default class LndTypeStep extends Component {
                 <div className={styles.choiceInfoContainer}>
                   <b>Neutrino</b>
                   <p className={styles.radioDesc}>
-                    A privacy preserving protocol for reading compressed blockchain data. Shock
-                    Network provides default public Neutrino servers on Mainnet or Testnet.
-                    Alternatively, you can specify different servers.
+                    A privacy preserving protocol for reading compressed blockchain data instantly. Shock
+                    Network provides public Neutrino servers by default. Alternatively, you can specify different servers.
                   </p>
                 </div>
               </label>
@@ -63,9 +62,9 @@ export default class LndTypeStep extends Component {
                 <div className={styles.choiceInfoContainer}>
                   <b>Bitcoin Core</b>
                   <p className={styles.radioDesc}>
-                    Discerning users that require a fully-validating, trustless node, should opt to
-                    install Bitcoin Core. This currently requires at minimum 300GB of disk space,
-                    and may require from 8-24 hours to fully synchronize.
+                    Discerning users that require a fully-validating node may opt to
+                    install Bitcoin Core. This currently requires at minimum 400GB of disk space,
+                    and may take day or more to fully synchronize.
                   </p>
                 </div>
               </label>
