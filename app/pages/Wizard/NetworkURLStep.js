@@ -36,7 +36,7 @@ export default class NetworkURLStep extends Component {
       <div className={styles.container}>
         <div className={styles.wizardStepContainer}>
           <div className={styles.lndTypeContainer}>
-            <p className={styles.stepTitle}>BITCOIN NETWORK TYPE</p>
+            <p className={styles.stepTitle}>NEUTRINO SYNC</p>
             <p
               className={styles.stepDescription}
               style={{
