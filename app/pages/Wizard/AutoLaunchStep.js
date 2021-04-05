@@ -26,7 +26,7 @@ export default class LndTypeStep extends Component {
       <div className={styles.container}>
         <div className={styles.wizardStepContainer}>
           <div className={styles.lndTypeContainer}>
-            <p className={styles.stepTitle}>AUTO-STARTUP</p>
+            <p className={styles.stepTitle}>AUTOMATIC STARTUP</p>
             <p
               className={styles.stepDescription}
               style={{
@@ -57,6 +57,14 @@ export default class LndTypeStep extends Component {
                 <span className={styles.checkmark} />
                 No
               </label>
+            <p
+              className={styles.stepDescription}
+              style={{
+                textAlign: 'left',
+              }}
+            >
+              You may still need to configure your operating system to automatically log in as the installing user.
+            </p>
             </div>
           </div>
         </div>
