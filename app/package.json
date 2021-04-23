@@ -1,7 +1,7 @@
 {
   "name": "shockwizard",
   "productName": "ShockWizard",
-  "version": "0.1.224",
+  "version": "0.1.225",
   "description": "Setup a Lightning Node Automatically!",
   "main": "./main.prod.js",
   "author": {
