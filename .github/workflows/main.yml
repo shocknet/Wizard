@@ -22,11 +22,11 @@ jobs:
         with:
           node-version: 12
       - name: "cd app"
-        run: cd app && apk add --no-cache git
+        run: cd app && apt install git -y
       - name: Yarn CLI
         uses: CultureHQ/actions-yarn@v1.0.1
         with:
-          args: add shockapi@git://github.com/shocknet/api.git#${{ github.event.client_payload }}
+          args: add shockapi@git://github.com/shocknet/api.git#${{ github.event.client_payload.ref }}
       - name: "cd ../"
         run: cd ../
       - name: 'Automated Version Bump (/app/package.json)'
