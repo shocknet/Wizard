@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: 12
       - name: "cd app"
-        run: cd app && apt install git -y
+        run: cd app
       - name: Yarn CLI
         uses: CultureHQ/actions-yarn@v1.0.1
         with:
