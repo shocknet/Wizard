@@ -361,6 +361,10 @@ export default class Home extends Component {
         body:
           'The setup will now run in the background and download all the required files and notify you once everything is done!',
       });
+    } else if (step === 1){
+      this.setState({
+        step: step + 2, //skip step 2
+      });
     } else {
       this.setState({
         step: step + 1,
@@ -370,9 +374,15 @@ export default class Home extends Component {
 
   prevStep = () => {
     const { step } = this.state;
-    this.setState({
-      step: step - 1,
-    });
+    if(step === 3) {
+      this.setState({
+        step: step - 2, //skip step 2
+      });
+    } else {
+      this.setState({
+        step: step - 1,
+      });
+    }
   };
 
   renderStep = () => {
@@ -394,7 +404,7 @@ export default class Home extends Component {
       return <IntroStep />;
     }
 
-    if (step === 2) {
+    if (step === 2) { //Step 2 Is Skipped.
       return <NetworkStep />;
     }
 

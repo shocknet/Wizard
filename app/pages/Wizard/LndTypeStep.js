@@ -6,10 +6,12 @@ import styles from './css/index.css';
 export default class LndTypeStep extends Component {
   state = {
     lndType: 'neutrino',
+    networkType:'mainnet'
   };
 
   componentDidMount = () => {
     this.setOption('lndType', 'neutrino');
+    this.setOption('networkType', 'mainnet');
   };
 
   componentWillUnmount = () => {
