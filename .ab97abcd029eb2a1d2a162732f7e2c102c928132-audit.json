@@ -6,11 +6,6 @@
     "auditLog": ".ab97abcd029eb2a1d2a162732f7e2c102c928132-audit.json",
     "files": [
         {
-            "date": 1602334988179,
-            "name": "shockapi.log.2020-10-10",
-            "hash": "23f4b6c92a22a6e964f39ce09cef73d8"
-        },
-        {
             "date": 1602497785728,
             "name": "shockapi.log.2020-10-12",
             "hash": "b9ce58ab482284d545b0a75a0b9b9bc3"
@@ -24,6 +19,26 @@
             "date": 1602853197996,
             "name": "shockapi.log.2020-10-16",
             "hash": "884068d1591ce0e2e5d9cfc22124a6fc"
+        },
+        {
+            "date": 1621356340100,
+            "name": "shockapi.log.2021-05-18",
+            "hash": "98333b450e017559ba28868af2638164"
+        },
+        {
+            "date": 1621357751904,
+            "name": "shockapi.log.2021-05-18.1",
+            "hash": "89e8576c7c6063ce11ca4a0f6e9660a2"
+        },
+        {
+            "date": 1621359141812,
+            "name": "shockapi.log.2021-05-18.2",
+            "hash": "2c9c0ba27b4cf3abe70d459e771465fb"
+        },
+        {
+            "date": 1621444137602,
+            "name": "shockapi.log.2021-05-19",
+            "hash": "b48e36950d175ed0ef6d6120d38b5cd4"
         }
     ]
 }

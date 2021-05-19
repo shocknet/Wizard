@@ -211,10 +211,11 @@ const processLine = async (line) => {
         const value = await conditions.value();
         await setStatus(conditions.key, value);
         if (key === 'syncedBlocks') {
-          const [walletUnlocked, networkType, dataDir] = await Promise.all([
+          const [walletUnlocked, networkType, dataDir,useTunnel] = await Promise.all([
             localForage.getItem('walletUnlocked'),
             localForage.getItem('networkType'),
             getDataDir(),
+            localForage.getItem('useTunnel'),
           ]);
 
           // eslint-disable-next-line no-new
@@ -231,6 +232,9 @@ const processLine = async (line) => {
             mainnet: true,
             rootPath: await ipcRenderer.invoke('getUserData'),
           };
+          if(useTunnel === 'yes') {
+            serverConfig.tunnel = true
+          }
 
           logger.info('ShockAPI Settings:', serverConfig);
 
