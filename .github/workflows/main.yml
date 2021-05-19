@@ -26,7 +26,7 @@ jobs:
       - name: Yarn CLI
         uses: CultureHQ/actions-yarn@v1.0.1
         with:
-          args: add shockapi@git://github.com/shocknet/api.git#${{ github.event.client_payload.ref }}
+          args: add shockapi@shocknet/api#${{ github.event.client_payload.ref }}
       - name: "cd ../"
         run: cd ../
       - name: 'Automated Version Bump (/app/package.json)'
