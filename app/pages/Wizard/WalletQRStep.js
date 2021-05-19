@@ -13,14 +13,18 @@ export default class WalletQRStep extends Component {
     activeTab: 'info',
     internalIP: '',
     externalIP: '',
-    walletPort: '9835'
+    walletPort: '9835',
+    useTunnel: 'yes',
+    tunnelUrl:''
   };
 
   componentDidMount = async () => {
     const externalIP = await localForage.getItem('externalIP');
+    const useTunnel = await localForage.getItem('useTunnel');
     const internalIP = await localIP.v4();
     this.setOption('internalIP', internalIP);
     this.setOption('externalIP', externalIP);
+    this.setOption('useTunnel', useTunnel);
 
     if (!this.props.loadingServer) {
       this.startServerStatusPing();
@@ -49,8 +53,12 @@ export default class WalletQRStep extends Component {
 
   startServerStatusPing = async () => {
     try {
-      const { internalIP, walletPort } = this.state;
+      const { internalIP, walletPort, useTunnel } = this.state;
       const { data } = await Http.get(`http://${internalIP}:${walletPort}/healthz`);
+      if(useTunnel === 'yes'){
+        const { data } = await Http.get(`http://${internalIP}:${walletPort}/tunnel/status`);
+        this.setOption('tunnelUrl',data.uri)
+      }
       const lndStatusType =
         !data.LNDStatus.message.synced_to_graph ||
         !data.LNDStatus.message.synced_to_chain ||
@@ -171,7 +179,7 @@ export default class WalletQRStep extends Component {
       lndType,
       downloadType
     } = this.props;
-    const { externalIP, internalIP, walletPort } = this.state;
+    const { externalIP, internalIP, walletPort, tunnelUrl } = this.state;
     const { totalProgress, downloadCompleted, syncProgress } = this.getProgressRate({
       type: lndType,
       lndProgress,
@@ -213,7 +221,7 @@ export default class WalletQRStep extends Component {
       <QRCode
         bgColor="#F5A623"
         fgColor="#21355a"
-        value={`{ "externalIP": "${externalIP}", "internalIP": "${internalIP}", "walletPort": "${walletPort}" }`}
+        value={`{ "externalIP": "${tunnelUrl || externalIP}", "internalIP": "${tunnelUrl || internalIP}", "walletPort": "${walletPort}" }`}
         ecLevel="M"
       />
     );
@@ -229,7 +237,8 @@ export default class WalletQRStep extends Component {
       lndDownloadProgress,
       bitcoindDownloadProgress,
       lndType,
-      downloadType
+      downloadType,
+      tunnelUrl
     } = this.props;
     return (
       <>
@@ -261,7 +270,7 @@ export default class WalletQRStep extends Component {
             <QRCode
               bgColor="#4285b9"
               fgColor="#001220"
-              value={`{ "externalIP": "${externalIP}", "internalIP": "${internalIP}", "walletPort": "${walletPort}" }`}
+              value={`{ "externalIP": "${tunnelUrl || externalIP}", "internalIP": "${tunnelUrl || internalIP}", "walletPort": "${walletPort}" }`}
               ecLevel="M"
             />
           )}
