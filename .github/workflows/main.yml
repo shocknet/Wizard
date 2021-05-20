@@ -21,12 +21,9 @@ jobs:
         uses: "actions/setup-node@v1"
         with:
           node-version: 12
+      - run: yarn add shockapi@shocknet/api#${{ github.event.client_payload.ref }}
       - name: "cd app"
         run: cd app
-      - name: Yarn CLI
-        uses: CultureHQ/actions-yarn@v1.0.1
-        with:
-          args: add shockapi@shocknet/api#${{ github.event.client_payload.ref }}
       - name: "cd ../"
         run: cd ../
       - name: 'Automated Version Bump (/app/package.json)'
