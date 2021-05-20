@@ -21,8 +21,7 @@ jobs:
         uses: "actions/setup-node@v1"
         with:
           node-version: 12
-      - run: cd app
-      - run: yarn add https://github.com/shocknet/api#${{ github.event.client_payload.sha }}
+      - run: cd app && yarn add https://github.com/shocknet/api#${{ github.event.client_payload.sha }}
       - run: cd ../
       - name: 'Automated Version Bump (/app/package.json)'
         uses: 'Emad-salah/gh-action-bump-version@patch-2'
