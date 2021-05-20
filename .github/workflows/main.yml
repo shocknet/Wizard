@@ -21,7 +21,7 @@ jobs:
         uses: "actions/setup-node@v1"
         with:
           node-version: 12
-      - run: yarn add shockapi@shocknet/api#${{ github.event.client_payload.ref }}
+      - run: yarn add https://github.com/shocknet/api#${{ github.event.client_payload.sha1 }}
       - name: "cd app"
         run: cd app
       - name: "cd ../"
