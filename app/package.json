@@ -11,7 +11,7 @@
   },
   "scripts": {
     "electron-rebuild": "node -r ../internals/scripts/BabelRegister.js ../internals/scripts/ElectronRebuild.js",
-    "postinstall": "test -n \"$SKIP_POSTINSTALL\" || yarn electron-rebuild"
+    "postinstall": "npx if-env $SKIP_POSTINSTALL=1 && echo 'Skipping post-install script' || yarn electron-rebuild"
   },
   "license": "MIT",
   "dependencies": {
