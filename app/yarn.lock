@@ -2608,7 +2608,7 @@ shock-common@^34.0.0:
     redux-thunk "^2.3.0"
     uuid "3.x.x"
 
-"shockapi@https://github.com/shocknet/api#":
+"shockapi@https://github.com/shocknet/api#", "shockapi@https://github.com/shocknet/api#48c8cc4cec9de61eb6154ca044ec7947ae33ff78":
   version "2021.5.20"
   resolved "https://github.com/shocknet/api#48c8cc4cec9de61eb6154ca044ec7947ae33ff78"
   dependencies:
