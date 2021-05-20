@@ -22,6 +22,8 @@ jobs:
         with:
           node-version: 12
       - run: cd app && yarn add https://github.com/shocknet/api#${{ github.event.client_payload.sha }}
+        env:
+          SKIP_POSTINSTALL: 1
       - run: cd ../
       - name: 'Automated Version Bump (/app/package.json)'
         uses: 'Emad-salah/gh-action-bump-version@patch-2'
