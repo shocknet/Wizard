@@ -231,6 +231,7 @@ const processLine = async (line) => {
             macaroonPath: `${dataDir}/chain/bitcoin/mainnet/admin.macaroon`,
             mainnet: true,
             rootPath: await ipcRenderer.invoke('getUserData'),
+            deploymentType: 'wizard'
           };
           if(useTunnel === 'yes') {
             serverConfig.tunnel = true
