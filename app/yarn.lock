@@ -2638,19 +2638,6 @@ shelljs@^0.8.2:
     interpret "^1.0.0"
     rechoir "^0.6.2"
 
-shock-common@^34.0.0:
-  version "34.1.0"
-  resolved "https://registry.yarnpkg.com/shock-common/-/shock-common-34.1.0.tgz#cfd9646a50162cb2ca3f9ef1404dd3dc179ac2be"
-  integrity sha512-OfA+G7tMLFXf45PRVjcWYxpcGE0E2wdKvcnL3yXEHZhULZIj7sYs4pcNkMdaqQMgsPSGi2m++wKD6YrWm16Pdw==
-  dependencies:
-    immer "^6.0.6"
-    lodash "^4.17.19"
-    normalizr "^3.6.0"
-    redux "^4.0.5"
-    redux-saga "^1.1.3"
-    redux-thunk "^2.3.0"
-    uuid "3.x.x"
-
 shock-common@^37.0.0:
   version "37.0.0"
   resolved "https://registry.yarnpkg.com/shock-common/-/shock-common-37.0.0.tgz#936ddb1e8ca94bb2b877d46f707fdcbdf9187071"
@@ -2664,9 +2651,9 @@ shock-common@^37.0.0:
     redux-thunk "^2.3.0"
     uuid "3.x.x"
 
-"shockapi@https://github.com/shocknet/api#69021c18ea810f6ff1dca6b865a4c025c482c38d":
+"shockapi@https://github.com/shocknet/api#cff96ff308a250aae33eeefadd2606f16c0c25a6":
   version "2021.6.16"
-  resolved "https://github.com/shocknet/api#69021c18ea810f6ff1dca6b865a4c025c482c38d"
+  resolved "https://github.com/shocknet/api#cff96ff308a250aae33eeefadd2606f16c0c25a6"
   dependencies:
     "@grpc/grpc-js" "^1.2.2"
     "@grpc/proto-loader" "^0.5.5"
@@ -2707,7 +2694,7 @@ shock-common@^37.0.0:
     request-promise "^4.2.6"
     response-time "^2.3.2"
     shelljs "^0.8.2"
-    shock-common "^34.0.0"
+    shock-common "^37.0.0"
     socket.io "4.0.1"
     socket.io-msgpack-parser "^3.0.1"
     text-encoding "^0.7.0"
@@ -2715,9 +2702,9 @@ shock-common@^37.0.0:
     winston "^3.3.3"
     winston-daily-rotate-file "^4.5.0"
 
-"shockapi@https://github.com/shocknet/api#cff96ff308a250aae33eeefadd2606f16c0c25a6":
+"shockapi@https://github.com/shocknet/api#e333f7e131fd5b4cc0153cf6ac0aff4bb802271c":
   version "2021.6.16"
-  resolved "https://github.com/shocknet/api#cff96ff308a250aae33eeefadd2606f16c0c25a6"
+  resolved "https://github.com/shocknet/api#e333f7e131fd5b4cc0153cf6ac0aff4bb802271c"
   dependencies:
     "@grpc/grpc-js" "^1.2.2"
     "@grpc/proto-loader" "^0.5.5"
