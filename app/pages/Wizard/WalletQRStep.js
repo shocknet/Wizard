@@ -228,7 +228,7 @@ export default class WalletQRStep extends Component {
   };
 
   renderQRCode = () => {
-    const { internalIP, walletPort, externalIP, activeTab, apiStatus, lndStatus } = this.state;
+    const { internalIP, walletPort, externalIP, activeTab, apiStatus, lndStatus,tunnelUrl } = this.state;
     const {
       loadingServer,
       showNodeInfo,
@@ -237,8 +237,7 @@ export default class WalletQRStep extends Component {
       lndDownloadProgress,
       bitcoindDownloadProgress,
       lndType,
-      downloadType,
-      tunnelUrl
+      downloadType
     } = this.props;
     return (
       <>
@@ -289,6 +288,9 @@ export default class WalletQRStep extends Component {
                 <label htmlFor="" className={styles.wizardStatusText}>
                   External IP: {externalIP}
                 </label>
+                {tunnelUrl && <label htmlFor="" className={styles.wizardStatusText}>
+                  External IP: {tunnelUrl}
+                </label>}
               </div>
               <div className={styles.wizardStatusSectionDivider}></div>
               <div className={styles.wizardStatusSection}>
