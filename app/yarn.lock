@@ -1509,14 +1509,6 @@ husky@^4.2.5:
     socket.io-client "^4.1.2"
     socket.io-msgpack-parser "^3.0.1"
 
-"hybrid-relay-client@git://github.com/shocknet/hybridRelayClient#b84b959f7ce70a07f9e4a313afedbca6453d17d1":
-  version "1.0.0"
-  resolved "git://github.com/shocknet/hybridRelayClient#b84b959f7ce70a07f9e4a313afedbca6453d17d1"
-  dependencies:
-    node-fetch "^2.6.1"
-    socket.io-client "^4.1.2"
-    socket.io-msgpack-parser "^3.0.1"
-
 iconv-lite@0.4.24, iconv-lite@^0.4.4:
   version "0.4.24"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.24.tgz#2022b4b25fbddc21d2f524974a474aafe733908b"
@@ -2659,9 +2651,9 @@ shock-common@^37.0.0:
     redux-thunk "^2.3.0"
     uuid "3.x.x"
 
-"shockapi@https://github.com/shocknet/api#21a1a088682cb74754f9d263d22fed2500184f5a":
-  version "2021.6.16"
-  resolved "https://github.com/shocknet/api#21a1a088682cb74754f9d263d22fed2500184f5a"
+"shockapi@https://github.com/shocknet/api#7f528b8c3b305c20c69504c6ffd62310207c833d":
+  version "2021.6.21"
+  resolved "https://github.com/shocknet/api#7f528b8c3b305c20c69504c6ffd62310207c833d"
   dependencies:
     "@grpc/grpc-js" "^1.2.2"
     "@grpc/proto-loader" "^0.5.5"
@@ -2687,7 +2679,7 @@ shock-common@^37.0.0:
     grpc "1.24.4"
     gun "git://github.com/amark/gun#97aa976c97e6219a9f93095d32c220dcd371ca62"
     husky "^4.2.5"
-    hybrid-relay-client "git://github.com/shocknet/hybridRelayClient#b84b959f7ce70a07f9e4a313afedbca6453d17d1"
+    hybrid-relay-client "git://github.com/shocknet/hybridRelayClient#a99e57794cf7a62f0f5b6aef53a35d6b77d0a889"
     jsonfile "^4.0.0"
     jsonwebtoken "^8.3.0"
     localtunnel "git://github.com/shocknet/localtunnel#40cc2c2a46b05da2217bf2e20da11a5343a5cce7"
@@ -2710,9 +2702,9 @@ shock-common@^37.0.0:
     winston "^3.3.3"
     winston-daily-rotate-file "^4.5.0"
 
-"shockapi@https://github.com/shocknet/api#7f528b8c3b305c20c69504c6ffd62310207c833d":
+"shockapi@https://github.com/shocknet/api#ec8592833444787641f8d627a0475e3e41a0fccf":
   version "2021.6.21"
-  resolved "https://github.com/shocknet/api#7f528b8c3b305c20c69504c6ffd62310207c833d"
+  resolved "https://github.com/shocknet/api#ec8592833444787641f8d627a0475e3e41a0fccf"
   dependencies:
     "@grpc/grpc-js" "^1.2.2"
     "@grpc/proto-loader" "^0.5.5"
