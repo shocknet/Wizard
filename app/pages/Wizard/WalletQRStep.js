@@ -221,7 +221,7 @@ export default class WalletQRStep extends Component {
       <QRCode
         bgColor="#F5A623"
         fgColor="#21355a"
-        value={`{ "externalIP": "${tunnelUrl || externalIP}", "internalIP": "${tunnelUrl || internalIP}", "walletPort": "${walletPort}" }`}
+        value={`{ "externalIP": "${tunnelUrl || externalIP}", "internalIP": "${tunnelUrl || internalIP}", "walletPort": "${tunnelUrl ? 443 : walletPort}" }`}
         ecLevel="M"
       />
     );
@@ -270,7 +270,7 @@ export default class WalletQRStep extends Component {
             <QRCode
               bgColor="#4285b9"
               fgColor="#001220"
-              value={`{ "externalIP": "${tunnelUrl || externalIP}", "internalIP": "${tunnelUrl || internalIP}", "walletPort": "${walletPort}" }`}
+              value={`{ "externalIP": "${tunnelUrl || externalIP}", "internalIP": "${tunnelUrl || internalIP}", "walletPort": "${tunnelUrl ? 443 : walletPort}" }`}
               ecLevel="M"
             />
           )}
