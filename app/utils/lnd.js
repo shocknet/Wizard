@@ -300,6 +300,7 @@ const start = async () => {
           '--bitcoind.rpchost=localhost',
         ]
       : [`--neutrino.connect=${networkUrl}`]),
+      '--feeurl=https://nodes.lightning.computer/fees/v1/btc-fee-estimates.json',
   ]);
   ipcRenderer.send('lndPID', child.pid);
   child.stdout.on('data', (data) => {
