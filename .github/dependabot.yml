@@ -1,0 +1,27 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: "@babel/register"
+    versions:
+    - 7.12.10
+    - 7.12.13
+    - 7.13.0
+    - 7.13.14
+    - 7.13.8
+  - dependency-name: electron-devtools-installer
+    versions:
+    - 3.1.1
+  - dependency-name: node-notifier
+    versions:
+    - 8.0.1
+  - dependency-name: electron-rebuild
+    versions:
+    - 2.3.4
+  - dependency-name: eslint-config-airbnb-typescript
+    versions:
+    - 12.0.0
