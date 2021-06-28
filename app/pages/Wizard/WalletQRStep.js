@@ -230,7 +230,7 @@ export default class WalletQRStep extends Component {
   };
 
   renderQRCode = () => {
-    const { internalIP, walletPort, externalIP, activeTab, apiStatus, lndStatus,copiedTunnelUrl } = this.state;
+    const { internalIP, walletPort, externalIP, activeTab, apiStatus, lndStatus,copiedTunnelUrl,tunnelUrl } = this.state;
     const {
       loadingServer,
       showNodeInfo,
@@ -239,8 +239,7 @@ export default class WalletQRStep extends Component {
       lndDownloadProgress,
       bitcoindDownloadProgress,
       lndType,
-      downloadType,
-      tunnelUrl
+      downloadType
     } = this.props;
     return (
       <>
