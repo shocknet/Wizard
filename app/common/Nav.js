@@ -22,7 +22,7 @@ export default class Nav extends Component {
           <div
             className={[styles.navControl]}
             onClick={() => {
-              ipcRenderer.invoke('quitApp');
+              ipcRenderer.invoke('minimize');
             }}
             role="button"
             tabIndex={0}
