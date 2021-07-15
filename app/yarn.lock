@@ -2651,9 +2651,9 @@ shock-common@^37.0.0:
     redux-thunk "^2.3.0"
     uuid "3.x.x"
 
-"shockapi@https://github.com/shocknet/api#872904d666d48d9663af2b54e30e5e11da128908":
-  version "2021.6.28"
-  resolved "https://github.com/shocknet/api#872904d666d48d9663af2b54e30e5e11da128908"
+"shockapi@https://github.com/shocknet/api#b6e3a8a904d335eeb9a4ced27fdc23d9daf9fed2":
+  version "21.7.14"
+  resolved "https://github.com/shocknet/api#b6e3a8a904d335eeb9a4ced27fdc23d9daf9fed2"
   dependencies:
     "@grpc/grpc-js" "^1.2.2"
     "@grpc/proto-loader" "^0.5.5"
@@ -2702,9 +2702,9 @@ shock-common@^37.0.0:
     winston "^3.3.3"
     winston-daily-rotate-file "^4.5.0"
 
-"shockapi@https://github.com/shocknet/api#b6e3a8a904d335eeb9a4ced27fdc23d9daf9fed2":
-  version "21.7.14"
-  resolved "https://github.com/shocknet/api#b6e3a8a904d335eeb9a4ced27fdc23d9daf9fed2"
+"shockapi@https://github.com/shocknet/api#d71a51b3055df804732afa3cff796e245ffda8a0":
+  version "21.7.15"
+  resolved "https://github.com/shocknet/api#d71a51b3055df804732afa3cff796e245ffda8a0"
   dependencies:
     "@grpc/grpc-js" "^1.2.2"
     "@grpc/proto-loader" "^0.5.5"
