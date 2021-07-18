@@ -334,3 +334,11 @@ logger.hooks.push((msg, transport) => {
   }
   return msg;
 });
+
+process.on('unhandledRejection', function (err) {
+  logger.info('Unhandled Rejection:', err);
+});
+
+process.on('uncaughtException', function (err) {
+  logger.info('Uncaught Exception:', err);
+});
