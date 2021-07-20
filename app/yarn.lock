@@ -2702,9 +2702,9 @@ shock-common@^37.0.0:
     winston "^3.3.3"
     winston-daily-rotate-file "^4.5.0"
 
-"shockapi@https://github.com/shocknet/api#98c26bd03497a48867182b1f5314622bbac362bc":
+"shockapi@https://github.com/shocknet/api#88981af0e606e1276bad33b856805afdfc5a6c73":
   version "2021.7.18"
-  resolved "https://github.com/shocknet/api#98c26bd03497a48867182b1f5314622bbac362bc"
+  resolved "https://github.com/shocknet/api#88981af0e606e1276bad33b856805afdfc5a6c73"
   dependencies:
     "@grpc/grpc-js" "^1.2.2"
     "@grpc/proto-loader" "^0.5.5"
