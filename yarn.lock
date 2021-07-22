@@ -14208,10 +14208,10 @@ uuid@^8.3.0:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
 
-uws@10.148.1:
-  version "10.148.1"
-  resolved "https://registry.yarnpkg.com/uws/-/uws-10.148.1.tgz#fd1a79cf6118a388e0a1bed8a1397030d2c4fd2c"
-  integrity sha1-/Rp5z2EYo4jgob7YoTlwMNLE/Sw=
+uws@200.0.0:
+  version "200.0.0"
+  resolved "https://registry.yarnpkg.com/uws/-/uws-200.0.0.tgz#5f8a72b9b25c0aa98b0c48458f532c29bc0e4135"
+  integrity sha512-A2j/p+tJBHZ2MtRoMjVqXMzstpyiZkHcV+XzLQ021h63aqHt5P6l0QkR87L0OASvesjMG42Qo97uyEmPB98+3g==
 
 v8-compile-cache@^2.0.3, v8-compile-cache@^2.1.1:
   version "2.1.1"
