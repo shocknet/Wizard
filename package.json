@@ -274,7 +274,7 @@
     "source-map-support": "^0.5.9",
     "tar": "^4.4.10",
     "unzipper": "^0.10.5",
-    "uws": "10.148.1"
+    "uws": "200.0.0"
   },
   "devEngines": {
     "node": ">=7.x",
