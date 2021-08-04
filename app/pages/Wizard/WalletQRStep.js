@@ -253,7 +253,7 @@ export default class WalletQRStep extends Component {
           Scan the QR Code with the mobile app to import your IP addresses.
         </p>
         <div className={styles.walletQRCode}>
-          <p className={styles.QRCodeDesc}>Scan QR Code with ShockWallet:</p>
+          <p className={styles.QRCodeDesc}>Scan QR Code with My.Lightning.Page:</p>
           {loadingServer ? (
             <span>
               Please wait while we're downloading LND and/or Bitcoind...
