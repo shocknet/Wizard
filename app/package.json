@@ -5,7 +5,7 @@
   "description": "Setup a Lightning Node Automatically!",
   "main": "./main.prod.js",
   "author": {
-    "name": "ShockWallet",
+    "name": "Lightning.Page",
     "email": "info@shock.network",
     "url": "https://shock.network"
   },
