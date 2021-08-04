@@ -198,7 +198,7 @@ const processLine = async (line) => {
             // eslint-disable-next-line no-new
             new Notification('Network sync is complete!', {
               body: `Node has completed initial sync with the Bitcoin network! ${
-                walletUnlocked ? '' : 'Connect with ShockWallet to interact with it'
+                walletUnlocked ? '' : 'Connect with My.Lightning.Page to interact with it'
               }`,
             });
           }
@@ -221,7 +221,7 @@ const processLine = async (line) => {
           // eslint-disable-next-line no-new
           new Notification('Network sync is complete!', {
             body: `Node has completed initial sync with the Bitcoin network! ${
-              walletUnlocked ? '' : 'Connect with ShockWallet to interact with it'
+              walletUnlocked ? '' : 'Connect with My.Lightning.Page to interact with it'
             }`,
           });
 
