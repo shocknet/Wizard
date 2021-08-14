@@ -42,7 +42,7 @@ clone_depth: 1
 
 install:
   - cmd: powershell Install-Product node $env:nodejs_version x64
-  - sh: sudo bash ./prebuild.sh
+  - sh: ./prebuild.sh
   - set CI=true
   - yarn
   - yarn package-ci
