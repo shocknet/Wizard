@@ -42,8 +42,7 @@ clone_depth: 1
 
 install:
   - cmd: powershell Install-Product node $env:nodejs_version x64
-  - sh: nvm install $nodejs_version
-  - sh: sudo apt update && sudo apt-get install alien -y && sudo snap install snapcraft --classic
+  - sh: ./prebuild.sh
   - set CI=true
   - yarn
   - yarn package-ci
