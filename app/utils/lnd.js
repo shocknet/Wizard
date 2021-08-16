@@ -7,7 +7,6 @@ import { ipcRenderer } from 'electron';
 import logger from 'electron-log';
 import Http from 'axios';
 import Downloader from './downloader';
-import { TARGET_LND_VERSION } from '../constants/lnd.json';
 import { getFolderPath, getDataDir, getUserPlatform, getUserArchitecture } from './os';
 
 const regexExpressions = {
