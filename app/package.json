@@ -1,11 +1,11 @@
 {
   "name": "shockwizard",
   "productName": "ShockWizard",
-  "version": "0.1.285",
+  "version": "0.1.309",
   "description": "Setup a Lightning Node Automatically!",
   "main": "./main.prod.js",
   "author": {
-    "name": "ShockWallet",
+    "name": "Lightning.Page",
     "email": "info@shock.network",
     "url": "https://shock.network"
   },
@@ -17,6 +17,6 @@
   "dependencies": {
     "google-proto-files": "^2.2.0",
     "grpc": "^1.24.4",
-    "shockapi": "https://github.com/shocknet/api#d71a51b3055df804732afa3cff796e245ffda8a0"
+    "shockapi": "https://github.com/shocknet/api#48423ea544d72fc5f8033c5453b1b8f4d86a301d"
   }
 }

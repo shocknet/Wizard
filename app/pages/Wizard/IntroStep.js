@@ -8,7 +8,7 @@ export default class IntroStep extends Component {
       <div className={styles.container}>
         <div className={styles.wizardStepContainer}>
           <p className={styles.stepDescription}>
-            Welcome to the ShockWallet Wizard.
+            Welcome to the Lightning Page Wizard.
             <br />
             <br />
             This tool will walk you through the setup of your own Lightning node for use with the
