@@ -22,6 +22,14 @@ export const getUserPlatform = (shortNames = false) => {
   return platform;
 };
 
+export const getUserArchitecture = () =>
+  new Promise((resolve) => {
+    exec('uname -m', function (error, stdout, stderr) {
+      if (error) resolve('amd64');
+      resolve(stdout?.replace('x86_', 'amd') ?? 'amd64');
+    });
+  });
+
 export const getFolderPath = async () => {
   const [folderPath, userData] = await Promise.all([
     localForage.getItem('installLocation'),

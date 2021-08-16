@@ -120,7 +120,7 @@ const extractFile = (filePath, destination, folderName, extractedFolderName, upd
       : filePath.split('.').slice(0, archiveFormatIndex).join('.');
     const readStream = fs.createReadStream(filePath);
     logger.info(filePath, sourceFolderPath, destination);
-    if (os !== 'linux') {
+    if (os === 'windows') {
       readStream.pipe(Unzip.Extract({ path: destination }));
     } else {
       readStream.pipe(Tar.x({ cwd: destination }));

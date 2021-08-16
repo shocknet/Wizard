@@ -8,7 +8,7 @@ import logger from 'electron-log';
 import Http from 'axios';
 import Downloader from './downloader';
 import { TARGET_LND_VERSION } from '../constants/lnd.json';
-import { getFolderPath, getDataDir, getUserPlatform } from './os';
+import { getFolderPath, getDataDir, getUserPlatform, getUserArchitecture } from './os';
 
 const regexExpressions = {
   blockHeightLength: {
@@ -56,17 +56,19 @@ const getLndDirectory = () => {
     return `${homeDir}/.lnd`;
   }
 
-  return path.resolve(process.env.APPDATA, '../Local/Lnd'); // Windows not implemented yet
+  return path.resolve(process.env.APPDATA, '../Local/Lnd');
 };
 
 const lndDirectory = getLndDirectory();
 
 const getLatestRelease = async ({ user, repo, os: operatingSystem }) => {
   try {
+    const arch = await getUserArchitecture();
     const { data } = await Http.get(`https://api.github.com/repos/${user}/${repo}/releases/latest`);
     const [currentBuild] = data.assets.filter((asset) =>
-      asset.name.includes(`${operatingSystem}-amd64`)
+      asset.name.includes(`${operatingSystem}-${arch}`)
     );
+
     return {
       tag: data.tag_name,
       currentBuild: currentBuild.browser_download_url,
@@ -80,7 +82,7 @@ const getLatestRelease = async ({ user, repo, os: operatingSystem }) => {
 
 const getLNDVersion = () =>
   new Promise((resolve, reject) => {
-    const lndExe = path.resolve(folderPath, 'lnd', `lnd${os !== 'linux' ? '.exe' : ''}`);
+    const lndExe = path.resolve(folderPath, 'lnd', `lnd${os.platform() === 'win32' ? '.exe' : ''}`);
     child = spawn(lndExe, ['--version']);
     ipcRenderer.send('lndPID', child.pid);
     child.stdout.on('data', (data) => {
@@ -211,7 +213,7 @@ const processLine = async (line) => {
         const value = await conditions.value();
         await setStatus(conditions.key, value);
         if (key === 'syncedBlocks') {
-          const [walletUnlocked, networkType, dataDir,useTunnel] = await Promise.all([
+          const [walletUnlocked, networkType, dataDir, useTunnel] = await Promise.all([
             localForage.getItem('walletUnlocked'),
             localForage.getItem('networkType'),
             getDataDir(),
@@ -232,8 +234,8 @@ const processLine = async (line) => {
             mainnet: true,
             rootPath: await ipcRenderer.invoke('getUserData'),
           };
-          if(useTunnel === 'yes') {
-            serverConfig.tunnel = true
+          if (useTunnel === 'yes') {
+            serverConfig.tunnel = true;
           }
 
           logger.info('ShockAPI Settings:', serverConfig);
@@ -276,7 +278,7 @@ const processLine = async (line) => {
 const start = async () => {
   const folderPath = await getFolderPath();
   const os = getUserPlatform();
-  const lndExe = path.resolve(folderPath, 'lnd', `lnd${os !== 'linux' ? '.exe' : ''}`);
+  const lndExe = path.resolve(folderPath, 'lnd', `lnd${os === 'windows' ? '.exe' : ''}`);
   const networkType = await localForage.getItem('networkType');
   const networkUrl = await localForage.getItem('networkUrl');
   const lndType = (await localForage.getItem('lndType')) || 'neutrino';
@@ -300,7 +302,7 @@ const start = async () => {
           '--bitcoind.rpchost=localhost',
         ]
       : [`--neutrino.connect=${networkUrl}`]),
-      '--feeurl=https://nodes.lightning.computer/fees/v1/btc-fee-estimates.json',
+    '--feeurl=https://nodes.lightning.computer/fees/v1/btc-fee-estimates.json',
   ]);
   ipcRenderer.send('lndPID', child.pid);
   child.stdout.on('data', (data) => {

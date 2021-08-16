@@ -10,5 +10,5 @@
   "singleQuote": true,
   "eslintIntegration": true,
   "printWidth": 100,
-  "trailingComma": "none"
+  "trailingComma": "es5"
 }
