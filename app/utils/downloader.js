@@ -29,7 +29,7 @@ const downloadRelease = ({ repo, fileName, url, update = false }, progressCallba
     logger.info('File Location:', fileLocation);
     logger.info('Downloaded File Name:', fileName);
     if (update) {
-      await deleteRelease(path.resolve(downloadLocation, repo, '*.exe'));
+      await deleteRelease(path.resolve(downloadLocation, repo, '*'));
     }
     if (!fs.existsSync(fileLocation) && !fs.existsSync(downloadLocation)) {
       logger.info('Creating new folders:', downloadLocation);

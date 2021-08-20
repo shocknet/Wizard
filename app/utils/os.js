@@ -26,7 +26,10 @@ export const getUserArchitecture = () =>
   new Promise((resolve) => {
     exec('uname -m', function (error, stdout, stderr) {
       if (error) resolve('amd64');
-      resolve(stdout?.replace('x86_', 'amd') ?? 'amd64');
+      const arch = process.arch?.startsWith('arm')
+        ? process.arch.slice(0, 5) // Some machines return "armv71" instead of "armv7"
+        : stdout?.replace('x86_', 'amd') ?? 'amd64';
+      resolve(arch);
     });
   });
 

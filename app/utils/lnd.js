@@ -92,6 +92,7 @@ const getLNDVersion = () =>
     });
     setTimeout(() => {
       resolve(null);
+      child?.kill();
     }, 5000);
   });
 
@@ -113,7 +114,7 @@ const download = async ({ version, os: operatingSystem }, progressCallback) => {
   const repo = 'lnd';
   const user = 'shocknet';
   const folderPath = await getFolderPath();
-  const LNDExists = operatingSystem.includes('win')
+  const LNDExists = operatingSystem.startsWith('win')
     ? fs.existsSync(path.resolve(folderPath, 'lnd', 'lnd.exe'))
     : fs.existsSync(path.resolve(folderPath, 'lnd', 'lnd'));
   const LNDRelease = await getLatestRelease({ user, repo, os: operatingSystem });
