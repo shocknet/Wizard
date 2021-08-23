@@ -4,7 +4,7 @@ import localIP from 'internal-ip';
 import { QRCode } from 'react-qrcode-logo';
 import logger from 'electron-log';
 import Http from 'axios';
-import {clipboard} from 'electron'
+import { clipboard } from 'electron';
 import styles from './css/index.css';
 
 const SERVER_STATUS_PING_MS = 1000;
@@ -16,8 +16,8 @@ export default class WalletQRStep extends Component {
     externalIP: '',
     walletPort: '9835',
     useTunnel: 'yes',
-    tunnelUrl:'',
-    copiedTunnelUrl:true,
+    tunnelUrl: '',
+    copiedTunnelUrl: true,
   };
 
   componentDidMount = async () => {
@@ -57,9 +57,9 @@ export default class WalletQRStep extends Component {
     try {
       const { internalIP, walletPort, useTunnel } = this.state;
       const { data } = await Http.get(`http://${internalIP}:${walletPort}/healthz`);
-      if(useTunnel === 'yes'){
+      if (useTunnel === 'yes') {
         const { data } = await Http.get(`http://${internalIP}:${walletPort}/tunnel/status`);
-        this.setOption('tunnelUrl',data.uri)
+        this.setOption('tunnelUrl', data.uri);
       }
       const lndStatusType =
         !data.LNDStatus.message.synced_to_graph ||
@@ -83,14 +83,14 @@ export default class WalletQRStep extends Component {
         apiStatusType,
         lndStatusType,
         apiStatus,
-        lndStatus
+        lndStatus,
       });
     } catch (err) {
       this.setState({
         apiStatusType: 'error',
         lndStatusType: 'error',
-        apiStatus: 'Unreachable',
-        lndStatus: 'Unreachable'
+        apiStatus: null,
+        lndStatus: null,
       });
     } finally {
       this.pingTimer = setTimeout(() => {
@@ -154,20 +154,20 @@ export default class WalletQRStep extends Component {
     lndProgress = 0,
     bitcoindProgress = 0,
     lndDownloadProgress = 0,
-    bitcoindDownloadProgress = 0
+    bitcoindDownloadProgress = 0,
   }) => {
     if (type === 'bitcoind') {
       return {
         totalProgress: (lndProgress + bitcoindProgress) / 2,
         downloadCompleted: bitcoindDownloadProgress === 100,
-        syncProgress: bitcoindDownloadProgress
+        syncProgress: bitcoindDownloadProgress,
       };
     }
 
     return {
       totalProgress: lndProgress,
       downloadCompleted: lndDownloadProgress === 100,
-      syncProgress: lndDownloadProgress
+      syncProgress: lndDownloadProgress,
     };
   };
 
@@ -179,7 +179,7 @@ export default class WalletQRStep extends Component {
       lndDownloadProgress,
       bitcoindDownloadProgress,
       lndType,
-      downloadType
+      downloadType,
     } = this.props;
     const { externalIP, internalIP, walletPort, tunnelUrl } = this.state;
     const { totalProgress, downloadCompleted, syncProgress } = this.getProgressRate({
@@ -187,7 +187,7 @@ export default class WalletQRStep extends Component {
       lndProgress,
       bitcoindProgress,
       lndDownloadProgress,
-      bitcoindDownloadProgress
+      bitcoindDownloadProgress,
     });
     if (loadingServer) {
       if (downloadType === 'download') {
@@ -223,14 +223,25 @@ export default class WalletQRStep extends Component {
       <QRCode
         bgColor="#F5A623"
         fgColor="#21355a"
-        value={`{ "externalIP": "${tunnelUrl || externalIP}", "internalIP": "${tunnelUrl || internalIP}", "walletPort": "${tunnelUrl ? 443 : walletPort}" }`}
+        value={`{ "externalIP": "${tunnelUrl || externalIP}", "internalIP": "${
+          tunnelUrl || internalIP
+        }", "walletPort": "${tunnelUrl ? 443 : walletPort}" }`}
         ecLevel="M"
       />
     );
   };
 
   renderQRCode = () => {
-    const { internalIP, walletPort, externalIP, activeTab, apiStatus, lndStatus,copiedTunnelUrl,tunnelUrl } = this.state;
+    const {
+      internalIP,
+      walletPort,
+      externalIP,
+      activeTab,
+      apiStatus,
+      lndStatus,
+      copiedTunnelUrl,
+      tunnelUrl,
+    } = this.state;
     const {
       loadingServer,
       showNodeInfo,
@@ -239,7 +250,7 @@ export default class WalletQRStep extends Component {
       lndDownloadProgress,
       bitcoindDownloadProgress,
       lndType,
-      downloadType
+      downloadType,
     } = this.props;
     return (
       <>
@@ -268,11 +279,13 @@ export default class WalletQRStep extends Component {
               {lndType === 'bitcoind' ? bitcoindDownloadProgress : lndDownloadProgress}%
             </span>
           ) : (
-            <div onClick={this.copyTunnelUrl} style={{cursor:'pointer'}}>
+            <div onClick={this.copyTunnelUrl} style={{ cursor: 'pointer' }}>
               <QRCode
                 bgColor="#FFFFFF"
                 fgColor="#000000"
-                value={`{ "externalIP": "${tunnelUrl || externalIP}", "internalIP": "${tunnelUrl || internalIP}", "walletPort": "${tunnelUrl ? 443 : walletPort}" }`}
+                value={`{ "externalIP": "${tunnelUrl || externalIP}", "internalIP": "${
+                  tunnelUrl || internalIP
+                }", "walletPort": "${tunnelUrl ? 443 : walletPort}" }`}
                 ecLevel="M"
               />
             </div>
@@ -282,6 +295,11 @@ export default class WalletQRStep extends Component {
           <div className={styles.wizardStatusContainer}>
             <div className={styles.wizardStatusHeader}>
               <p>Status</p>
+              <div
+                className={
+                  styles[`statusIndicator${!apiStatus || !lndStatus ? 'Warn' : 'Success'}`]
+                }
+              />
             </div>
             <div className={styles.wizardStatusSections}>
               <div className={styles.wizardStatusSection}>
@@ -292,23 +310,25 @@ export default class WalletQRStep extends Component {
                 <label htmlFor="" className={styles.wizardStatusText}>
                   External IP: {externalIP}
                 </label>
-                {tunnelUrl && <label htmlFor="" className={styles.wizardStatusText}>
-                  Tunnel URL: {tunnelUrl} {" "}
-                  <i
-                    style={{color:'white',cursor:'pointer'}}
-                    className={copiedTunnelUrl ? "fas fa-check" : "fas fa-copy"}
-                    onClick={this.copyTunnelUrl}
-                  ></i>
-                </label>}
+                {tunnelUrl && (
+                  <label htmlFor="" className={styles.wizardStatusText}>
+                    Tunnel URL: {tunnelUrl}{' '}
+                    <i
+                      style={{ color: 'white', cursor: 'pointer' }}
+                      className={copiedTunnelUrl ? 'fas fa-check' : 'fas fa-copy'}
+                      onClick={this.copyTunnelUrl}
+                    ></i>
+                  </label>
+                )}
               </div>
               <div className={styles.wizardStatusSectionDivider}></div>
               <div className={styles.wizardStatusSection}>
                 <p className={styles.wizardStatusSectionHead}>ShockAPI</p>
                 <label htmlFor="" className={styles.wizardStatusText}>
-                  API Status: {apiStatus ?? 'N/A'}
+                  API Status: {apiStatus ?? 'Unreachable'}
                 </label>
                 <label htmlFor="" className={styles.wizardStatusText}>
-                  LND Status: {lndStatus ?? 'N/A'}
+                  LND Status: {lndStatus ?? 'Unreachable'}
                 </label>
               </div>
             </div>
@@ -323,7 +343,7 @@ export default class WalletQRStep extends Component {
     return (
       <div
         className={styles.lndLogsContainer}
-        style={{ height: `calc(${showNodeInfo ? '100vh - 215px' : '100vh - 295px'})` }}
+        style={{ height: `calc(${showNodeInfo ? '100vh - 235px' : '100vh - 315px'})` }}
       >
         <div className={styles.logsBox} ref={this.props.logBox}>
           {lndLogLines
@@ -351,13 +371,13 @@ export default class WalletQRStep extends Component {
   };
 
   copyTunnelUrl = () => {
-    const {tunnelUrl} = this.state
-    if(!tunnelUrl) {
-      return
+    const { tunnelUrl } = this.state;
+    if (!tunnelUrl) {
+      return;
     }
-    clipboard.writeText(tunnelUrl)
-    this.setState({copiedTunnelUrl:true})
-  }
+    clipboard.writeText(tunnelUrl);
+    this.setState({ copiedTunnelUrl: true });
+  };
 
   render() {
     const { activeTab } = this.state;
@@ -370,7 +390,7 @@ export default class WalletQRStep extends Component {
             style={{
               height: showNodeInfo ? '100%' : 'calc(100% - 80px)',
               justifyContent: 'flex-start',
-              overflow: 'auto'
+              overflow: 'auto',
             }}
           >
             <p className={styles.stepTitle}>

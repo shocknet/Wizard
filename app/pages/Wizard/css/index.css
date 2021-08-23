@@ -57,7 +57,7 @@ button:focus {
   align-items: center;
   justify-content: center;
   height: 100%;
-  padding-top: 132px;
+  padding-top: 150px;
   background-image: url('../../../img/wizard-bg.svg');
   background-size: cover;
 }
@@ -171,7 +171,7 @@ button:focus {
 
 .stepTitle {
   position: fixed;
-  top: 101px;
+  top: 119px;
   left: 0;
   width: 100%;
   padding: 15px 10px;
@@ -207,6 +207,10 @@ button:focus {
   width: 60%;
   margin: 0 auto;
   margin-top: 20px;
+}
+
+.stepChoices .stepDescription {
+  width: 100%;
 }
 
 .walletInfo {
@@ -592,13 +596,40 @@ p.updateDialogText {
   font-size: 16px;
 }
 
+.wizardStatusHeader {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 10px 20px;
+  border-radius: 8px 8px 0 0;
+  background-color: #313740;
+  align-items: center;
+}
+
 .wizardStatusText {
-  display: block;
+  display: flex;
+  justify-content: space-between;
   padding: 0px;
   margin: auto;
   font-weight: 600;
   color: #ffffff96;
   font-size: 13px;
+}
+
+.statusIndicator {
+  width: 15px;
+  height: 15px;
+  border-radius: 100px;
+  background-color: #32f087;
+}
+
+.statusIndicatorWarn {
+  composes: statusIndicator;
+  background-color: rgb(255, 208, 0);
+}
+
+.statusIndicatorSuccess {
+  composes: statusIndicator;
 }
 
 .wizardStatusSections {
@@ -622,9 +653,6 @@ p.updateDialogText {
 
 .wizardStatusHeader p {
   margin: 0;
-  padding: 10px 20px;
   font-weight: bold;
   color: #ffffffc9;
-  border-radius: 8px 8px 0 0;
-  background-color: #313740;
 }
