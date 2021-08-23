@@ -89,8 +89,8 @@ export default class WalletQRStep extends Component {
       this.setState({
         apiStatusType: 'error',
         lndStatusType: 'error',
-        apiStatus: 'Unreachable',
-        lndStatus: 'Unreachable',
+        apiStatus: null,
+        lndStatus: null,
       });
     } finally {
       this.pingTimer = setTimeout(() => {
@@ -325,10 +325,10 @@ export default class WalletQRStep extends Component {
               <div className={styles.wizardStatusSection}>
                 <p className={styles.wizardStatusSectionHead}>ShockAPI</p>
                 <label htmlFor="" className={styles.wizardStatusText}>
-                  API Status: {apiStatus ?? 'N/A'}
+                  API Status: {apiStatus ?? 'Unreachable'}
                 </label>
                 <label htmlFor="" className={styles.wizardStatusText}>
-                  LND Status: {lndStatus ?? 'N/A'}
+                  LND Status: {lndStatus ?? 'Unreachable'}
                 </label>
               </div>
             </div>
