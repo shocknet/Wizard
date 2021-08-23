@@ -4,6 +4,7 @@ import fs from 'fs';
 import { ipcRenderer } from 'electron';
 import logger from 'electron-log';
 import localForage from 'localforage';
+import { exec } from 'child_process';
 
 export const getUserPlatform = (shortNames = false) => {
   const platform = os.platform();
@@ -29,7 +30,7 @@ export const getUserArchitecture = () =>
       const arch = process.arch?.startsWith('arm')
         ? process.arch.slice(0, 5) // Some machines return "armv71" instead of "armv7"
         : stdout?.replace('x86_', 'amd') ?? 'amd64';
-      resolve(arch);
+      resolve(arch.trim());
     });
   });
 
