@@ -42,7 +42,7 @@ clone_depth: 1
 
 install:
   - cmd: powershell Install-Product node $env:nodejs_version x64
-  - sh: nvm install $nodejs_version && if [[ "$OSTYPE" != "darwin"* ]]; then   sudo apt update && sudo apt-get install alien -y && sudo snap install snapcraft --classic; else brew style --fix /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula && brew install openssl && export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib" && export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include" && export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"; fi
+  - sh: nvm install $nodejs_version && if [[ "$OSTYPE" != "darwin"* ]]; then   sudo apt update && sudo apt-get install alien -y && sudo snap install snapcraft --classic; else brew install openssl && export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib" && export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include" && export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"; fi
   - npm install --global yarn
   - set CI=true
   - yarn
