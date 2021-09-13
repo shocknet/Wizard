@@ -100,8 +100,8 @@ const getLNDOutdated = async (currentVersion) => {
   try {
     const LNDVersion = await localForage.getItem('lnd-version');
     const parsedVersion = LNDVersion ?? '0.0.0';
-    console.log('LND Version:', LNDVersion);
-    console.log('Target LND Version:', currentVersion);
+    logger.log('LND Version:', LNDVersion);
+    logger.log('Target LND Version:', currentVersion);
 
     return !parsedVersion.includes(currentVersion);
   } catch (err) {

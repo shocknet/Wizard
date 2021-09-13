@@ -20,6 +20,9 @@ import { version } from './package.json';
 
 autoUpdater.logger = logger;
 autoUpdater.logger.transports.file.level = 'info';
+logger.transports.file.format = '{h}:{i}:{s}:{ms} {text}';
+logger.transports.file.maxSize = 5 * 1024 * 1024;
+logger.transports.file.level = 'info';
 
 logger.info('Initializing ShockWizard v' + version);
 
@@ -44,7 +47,7 @@ if (process.env.NODE_ENV === 'production' || process.env.DEBUG_PROD === 'true') 
       provider: 'github',
       repo: 'Wizard',
       owner: 'shocknet',
-      artifactName: 'ShockWizard-Setup-${version}.${ext}'
+      artifactName: 'ShockWizard-Setup-${version}.${ext}',
     });
     autoUpdater.checkForUpdates().catch((err) => {});
   } catch {}
@@ -120,8 +123,8 @@ app.on('ready', async () => {
     height: 800,
     webPreferences: {
       nodeIntegration: true,
-      worldSafeExecuteJavaScript: true
-    }
+      worldSafeExecuteJavaScript: true,
+    },
   });
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
@@ -197,7 +200,7 @@ app.on('ready', async () => {
 
   ipcMain.handle('showOpenDialog', async (event, options = {}) => {
     const result = await dialog.showOpenDialog({
-      properties: options.properties
+      properties: options.properties,
     });
 
     return result;
@@ -257,7 +260,7 @@ autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
     title: 'Application Update',
     message: process.platform === 'win32' ? releaseNotes : releaseName,
     detail:
-      'A new version of ShockWizard has been downloaded. Restart the application to apply the update.'
+      'A new version of ShockWizard has been downloaded. Restart the application to apply the update.',
   };
 
   dialog
@@ -282,12 +285,12 @@ let diffDown = {
   percent: 0,
   bytesPerSecond: 0,
   total: 0,
-  transferred: 0
+  transferred: 0,
 };
 let diffDownHelper = {
   startTime: 0,
   lastTime: 0,
-  lastSize: 0
+  lastSize: 0,
 };
 
 logger.hooks.push((msg, transport) => {
@@ -306,12 +309,12 @@ logger.hooks.push((msg, transport) => {
       percent: 0,
       bytesPerSecond: 0,
       total: Number(match[3].split(',').join('')) * multiplier,
-      transferred: 0
+      transferred: 0,
     };
     diffDownHelper = {
       startTime: Date.now(),
       lastTime: Date.now(),
-      lastSize: 0
+      lastSize: 0,
     };
     return msg;
   }

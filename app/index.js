@@ -32,7 +32,6 @@ if (module.hot) {
 ipcRenderer.on('getSetupStatus', async () => {
   try {
     const setupCompleted = await localForage.getItem('setupCompleted');
-    console.log('getSetupStatus');
     ipcRenderer.send('setupStatus', setupCompleted ? 'complete' : 'incomplete');
   } catch (err) {
     ipcRenderer.send('setupStatus', 'incomplete');
