@@ -17,6 +17,6 @@
   "dependencies": {
     "google-proto-files": "^2.2.0",
     "grpc": "^1.24.4",
-    "shockapi": "https://github.com/shocknet/api#111c12e37e59191c7f76bd249f87bed9bf52d307"
+    "shockapi": "https://github.com/shocknet/api#dcf28ba3df8058c267f7ea3747a1e10c5b4f1cff"
   }
 }
