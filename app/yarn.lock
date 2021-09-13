@@ -2703,9 +2703,9 @@ shock-common@^37.0.0:
     winston "^3.3.3"
     winston-daily-rotate-file "^4.5.0"
 
-"shockapi@https://github.com/shocknet/api#38c42605133af7eed0964c7467544bbbed691038":
+"shockapi@https://github.com/shocknet/api#dcf28ba3df8058c267f7ea3747a1e10c5b4f1cff":
   version "2021.9.8"
-  resolved "https://github.com/shocknet/api#38c42605133af7eed0964c7467544bbbed691038"
+  resolved "https://github.com/shocknet/api#dcf28ba3df8058c267f7ea3747a1e10c5b4f1cff"
   dependencies:
     "@grpc/grpc-js" "^1.2.2"
     "@grpc/proto-loader" "^0.5.5"
@@ -2751,6 +2751,7 @@ shock-common@^37.0.0:
     socket.io-msgpack-parser "^3.0.1"
     text-encoding "^0.7.0"
     tingodb "^0.6.1"
+    uuid "3.x.x"
     winston "^3.3.3"
     winston-daily-rotate-file "^4.5.0"
 
