@@ -113,7 +113,7 @@ const downloadFile = ({ fileName, downloadUrl, extractedFolderName }, progressCa
 const extractFile = (filePath, destination, folderName, extractedFolderName, update) =>
   new Promise((resolve, reject) => {
     const os = getUserPlatform();
-    const archiveFormatIndex = os === 'linux' ? -2 : -1;
+    const archiveFormatIndex = ['darwin', 'linux'].includes(os) ? -2 : -1;
     const directoryIdentifier = os === 'windows' ? '\\' : '/';
     const sourceFolderPath = extractedFolderName
       ? [...filePath.split(directoryIdentifier).slice(0, -1), extractedFolderName].join('/')
