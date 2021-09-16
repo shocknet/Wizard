@@ -26,7 +26,9 @@ logger.transports.file.level = 'info';
 
 logger.info('Initializing ShockWizard v' + version);
 
-unhandled();
+unhandled({
+  showDialog: false,
+});
 
 let mainWindow = null;
 let tray = null;
