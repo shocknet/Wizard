@@ -2651,9 +2651,9 @@ shock-common@^37.0.0:
     redux-thunk "^2.3.0"
     uuid "3.x.x"
 
-"shockapi@https://github.com/shocknet/api#111c12e37e59191c7f76bd249f87bed9bf52d307":
+"shockapi@https://github.com/shocknet/api#4cd1092e29f563f4fb1d156794b1f255e9c55e90":
   version "2021.9.8"
-  resolved "https://github.com/shocknet/api#111c12e37e59191c7f76bd249f87bed9bf52d307"
+  resolved "https://github.com/shocknet/api#4cd1092e29f563f4fb1d156794b1f255e9c55e90"
   dependencies:
     "@grpc/grpc-js" "^1.2.2"
     "@grpc/proto-loader" "^0.5.5"
