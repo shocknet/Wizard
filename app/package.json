@@ -1,7 +1,7 @@
 {
   "name": "shockwizard",
   "productName": "ShockWizard",
-  "version": "0.1.329",
+  "version": "0.1.330",
   "description": "Setup a Lightning Node Automatically!",
   "main": "./main.prod.js",
   "author": {
@@ -17,6 +17,6 @@
   "dependencies": {
     "google-proto-files": "^2.2.0",
     "grpc": "^1.24.4",
-    "shockapi": "https://github.com/shocknet/api#f8dcc7fe4d3585abe0deb3673f6936cb4be060ee"
+    "shockapi": "https://github.com/shocknet/api#987e9440826e1e995cb33315570ab001697caaf5"
   }
 }
