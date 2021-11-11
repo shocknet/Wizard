@@ -806,7 +806,7 @@ core-util-is@1.0.2, core-util-is@~1.0.0:
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
   integrity sha1-tf1UIgqivFq1eqtxQMlAdUUDwac=
 
-cors@^2.8.4, cors@~2.8.5:
+cors@^2.8.4, cors@^2.8.5, cors@~2.8.5:
   version "2.8.5"
   resolved "https://registry.yarnpkg.com/cors/-/cors-2.8.5.tgz#eac11da51592dd86b9f06f6e7ac293b3df875d29"
   integrity sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g==
@@ -1376,6 +1376,15 @@ grpc@1.24.4, grpc@^1.24.4:
     nan "^2.13.2"
     node-pre-gyp "^0.16.0"
     protobufjs "^5.0.3"
+
+gun@amark/gun#50af2d52ad6677fd5b95e5ed64fca7491c7877b5:
+  version "0.2020.1235"
+  resolved "https://codeload.github.com/amark/gun/tar.gz/50af2d52ad6677fd5b95e5ed64fca7491c7877b5"
+  dependencies:
+    ws "^7.2.1"
+  optionalDependencies:
+    "@peculiar/webcrypto" "^1.1.1"
+    emailjs "^2.2.0"
 
 "gun@git://github.com/amark/gun#97aa976c97e6219a9f93095d32c220dcd371ca62":
   version "0.2020.520"
@@ -2703,9 +2712,9 @@ shock-common@^37.0.0:
     winston "^3.3.3"
     winston-daily-rotate-file "^4.5.0"
 
-"shockapi@https://github.com/shocknet/api#2f17102d8d8d8e61aac548658aaa795763579314":
+"shockapi@https://github.com/shocknet/api#85e88c4ecbba6f6db195bca0784e7d02b8109df3":
   version "2021.9.19"
-  resolved "https://github.com/shocknet/api#2f17102d8d8d8e61aac548658aaa795763579314"
+  resolved "https://github.com/shocknet/api#85e88c4ecbba6f6db195bca0784e7d02b8109df3"
   dependencies:
     "@grpc/grpc-js" "^1.2.2"
     "@grpc/proto-loader" "^0.5.5"
@@ -2720,7 +2729,7 @@ shock-common@^37.0.0:
     command-exists "^1.2.6"
     commander "^2.9.0"
     compression "^1.7.4"
-    cors "^2.8.4"
+    cors "^2.8.5"
     debug "^3.1.0"
     dotenv "^8.1.0"
     eccrypto "^1.1.6"
@@ -2729,7 +2738,7 @@ shock-common@^37.0.0:
     google-proto-files "^1.0.3"
     graphviz "0.0.8"
     grpc "1.24.4"
-    gun "git://github.com/amark/gun#97aa976c97e6219a9f93095d32c220dcd371ca62"
+    gun amark/gun#50af2d52ad6677fd5b95e5ed64fca7491c7877b5
     husky "^4.2.5"
     hybrid-relay-client "git://github.com/shocknet/hybridRelayClient#a99e57794cf7a62f0f5b6aef53a35d6b77d0a889"
     jsonfile "^4.0.0"
