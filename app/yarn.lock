@@ -1373,6 +1373,15 @@ gun@amark/gun#50af2d52ad6677fd5b95e5ed64fca7491c7877b5:
     "@peculiar/webcrypto" "^1.1.1"
     emailjs "^2.2.0"
 
+gun@amark/gun#77162fcb68eb61f24d980fa3f3653598f56ee593:
+  version "0.2020.1235"
+  resolved "https://codeload.github.com/amark/gun/tar.gz/77162fcb68eb61f24d980fa3f3653598f56ee593"
+  dependencies:
+    ws "^7.2.1"
+  optionalDependencies:
+    "@peculiar/webcrypto" "^1.1.1"
+    emailjs "^2.2.0"
+
 har-schema@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/har-schema/-/har-schema-2.0.0.tgz#a94c2224ebcac04782a0d9035521f24735b7ec92"
@@ -2631,9 +2640,9 @@ shock-common@^37.0.0:
     redux-thunk "^2.3.0"
     uuid "3.x.x"
 
-"shockapi@https://github.com/shocknet/api#897ec4e1ad0c92a83550671487ca79c563aa7b9c":
+"shockapi@https://github.com/shocknet/api#9e32ef889ed547d2f9aeac8730cf4176f898d372":
   version "2021.9.19"
-  resolved "https://github.com/shocknet/api#897ec4e1ad0c92a83550671487ca79c563aa7b9c"
+  resolved "https://github.com/shocknet/api#9e32ef889ed547d2f9aeac8730cf4176f898d372"
   dependencies:
     "@grpc/grpc-js" "^1.2.2"
     "@grpc/proto-loader" "^0.5.5"
@@ -2683,9 +2692,9 @@ shock-common@^37.0.0:
     winston "^3.3.3"
     winston-daily-rotate-file "^4.5.0"
 
-"shockapi@https://github.com/shocknet/api#9e32ef889ed547d2f9aeac8730cf4176f898d372":
+"shockapi@https://github.com/shocknet/api#b0bc017e5efa638febec625647a78b6a7e458b6e":
   version "2021.9.19"
-  resolved "https://github.com/shocknet/api#9e32ef889ed547d2f9aeac8730cf4176f898d372"
+  resolved "https://github.com/shocknet/api#b0bc017e5efa638febec625647a78b6a7e458b6e"
   dependencies:
     "@grpc/grpc-js" "^1.2.2"
     "@grpc/proto-loader" "^0.5.5"
@@ -2708,8 +2717,7 @@ shock-common@^37.0.0:
     express-session "^1.17.1"
     google-proto-files "^1.0.3"
     graphviz "0.0.8"
-    grpc "1.24.4"
-    gun amark/gun#50af2d52ad6677fd5b95e5ed64fca7491c7877b5
+    gun amark/gun#77162fcb68eb61f24d980fa3f3653598f56ee593
     husky "^4.2.5"
     hybrid-relay-client "git://github.com/shocknet/hybridRelayClient#a99e57794cf7a62f0f5b6aef53a35d6b77d0a889"
     jsonfile "^4.0.0"
