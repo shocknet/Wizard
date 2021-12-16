@@ -1352,7 +1352,7 @@ graphviz@0.0.8:
   dependencies:
     temp "~0.4.0"
 
-grpc@1.24.4, grpc@^1.24.4:
+grpc@^1.24.4:
   version "1.24.4"
   resolved "https://registry.yarnpkg.com/grpc/-/grpc-1.24.4.tgz#9240a3ea33cfaf04cd32ce8346798709bbd6782d"
   integrity sha512-mHRAwuitCMuSHo1tp1+Zc0sz3cYa7pkhVJ77pkIXD5gcVORtkRiyW6msXYqTDT+35jazg98lbO3XzuTo2+XrcA==
@@ -1363,15 +1363,6 @@ grpc@1.24.4, grpc@^1.24.4:
     nan "^2.13.2"
     node-pre-gyp "^0.16.0"
     protobufjs "^5.0.3"
-
-gun@amark/gun#50af2d52ad6677fd5b95e5ed64fca7491c7877b5:
-  version "0.2020.1235"
-  resolved "https://codeload.github.com/amark/gun/tar.gz/50af2d52ad6677fd5b95e5ed64fca7491c7877b5"
-  dependencies:
-    ws "^7.2.1"
-  optionalDependencies:
-    "@peculiar/webcrypto" "^1.1.1"
-    emailjs "^2.2.0"
 
 gun@amark/gun#77162fcb68eb61f24d980fa3f3653598f56ee593:
   version "0.2020.1235"
@@ -2640,9 +2631,9 @@ shock-common@^37.0.0:
     redux-thunk "^2.3.0"
     uuid "3.x.x"
 
-"shockapi@https://github.com/shocknet/api#9e32ef889ed547d2f9aeac8730cf4176f898d372":
+"shockapi@https://github.com/shocknet/api#b0bc017e5efa638febec625647a78b6a7e458b6e":
   version "2021.9.19"
-  resolved "https://github.com/shocknet/api#9e32ef889ed547d2f9aeac8730cf4176f898d372"
+  resolved "https://github.com/shocknet/api#b0bc017e5efa638febec625647a78b6a7e458b6e"
   dependencies:
     "@grpc/grpc-js" "^1.2.2"
     "@grpc/proto-loader" "^0.5.5"
@@ -2665,8 +2656,7 @@ shock-common@^37.0.0:
     express-session "^1.17.1"
     google-proto-files "^1.0.3"
     graphviz "0.0.8"
-    grpc "1.24.4"
-    gun amark/gun#50af2d52ad6677fd5b95e5ed64fca7491c7877b5
+    gun amark/gun#77162fcb68eb61f24d980fa3f3653598f56ee593
     husky "^4.2.5"
     hybrid-relay-client "git://github.com/shocknet/hybridRelayClient#a99e57794cf7a62f0f5b6aef53a35d6b77d0a889"
     jsonfile "^4.0.0"
@@ -2692,9 +2682,9 @@ shock-common@^37.0.0:
     winston "^3.3.3"
     winston-daily-rotate-file "^4.5.0"
 
-"shockapi@https://github.com/shocknet/api#b0bc017e5efa638febec625647a78b6a7e458b6e":
+"shockapi@https://github.com/shocknet/api#c0828ee87f50947f2a7127f17ce66ac180fd7bc1":
   version "2021.9.19"
-  resolved "https://github.com/shocknet/api#b0bc017e5efa638febec625647a78b6a7e458b6e"
+  resolved "https://github.com/shocknet/api#c0828ee87f50947f2a7127f17ce66ac180fd7bc1"
   dependencies:
     "@grpc/grpc-js" "^1.2.2"
     "@grpc/proto-loader" "^0.5.5"
