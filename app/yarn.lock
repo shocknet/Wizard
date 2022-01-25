@@ -1972,9 +1972,11 @@ negotiator@0.6.2:
   integrity sha512-hZXc7K2e+PgeI1eDBe/10Ard4ekbfrrqG8Ep+8Jmf4JID2bNg7NvCPOZN+kfF574pFQI7mum2AUqDidoKqcTOw==
 
 node-fetch@^2.6.1:
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
-  integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
+  version "2.6.7"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.7.tgz#24de9fba827e3b4ae44dc8b20256a379160052ad"
+  integrity sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==
+  dependencies:
+    whatwg-url "^5.0.0"
 
 node-persist@^3.1.0:
   version "3.1.0"
@@ -2682,57 +2684,6 @@ shock-common@^37.0.0:
     winston "^3.3.3"
     winston-daily-rotate-file "^4.5.0"
 
-"shockapi@https://github.com/shocknet/api#e8d756acc3d471c185116bada76a8b047c645464":
-  version "2021.9.19"
-  resolved "https://github.com/shocknet/api#e8d756acc3d471c185116bada76a8b047c645464"
-  dependencies:
-    "@grpc/grpc-js" "^1.2.2"
-    "@grpc/proto-loader" "^0.5.5"
-    assert-never "^1.2.1"
-    axios "^0.21.1"
-    basic-auth "^2.0.0"
-    big.js "^5.2.2"
-    bitcore-lib "^0.15.0"
-    bluebird "^3.7.2"
-    body-parser "^1.16.0"
-    colors "^1.4.0"
-    command-exists "^1.2.6"
-    commander "^2.9.0"
-    compression "^1.7.4"
-    cors "^2.8.5"
-    debug "^3.1.0"
-    dotenv "^8.1.0"
-    eccrypto "^1.1.6"
-    express "^4.14.1"
-    express-session "^1.17.1"
-    google-proto-files "^1.0.3"
-    graphviz "0.0.8"
-    gun amark/gun#77162fcb68eb61f24d980fa3f3653598f56ee593
-    husky "^4.2.5"
-    hybrid-relay-client "git://github.com/shocknet/hybridRelayClient#a99e57794cf7a62f0f5b6aef53a35d6b77d0a889"
-    jsonfile "^4.0.0"
-    jsonwebtoken "^8.3.0"
-    localtunnel "git://github.com/shocknet/localtunnel#40cc2c2a46b05da2217bf2e20da11a5343a5cce7"
-    lodash "^4.17.21"
-    method-override "^2.3.7"
-    node-fetch "^2.6.1"
-    node-persist "^3.1.0"
-    promise "^8.1.0"
-    qrcode-terminal "^0.12.0"
-    ramda "^0.27.1"
-    request "^2.88.2"
-    request-promise "^4.2.6"
-    response-time "^2.3.2"
-    shelljs "^0.8.2"
-    shock-common "^37.0.0"
-    socket.io "4.0.1"
-    socket.io-msgpack-parser "^3.0.1"
-    text-encoding "^0.7.0"
-    tingodb "^0.6.1"
-    uuid "3.x.x"
-    winston "^3.3.3"
-    winston-daily-rotate-file "^4.5.0"
-
 signal-exit@^3.0.0:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.3.tgz#a1410c2edd8f077b08b4e253c8eacfcaf057461c"
@@ -2967,6 +2918,11 @@ tough-cookie@^2.3.3, tough-cookie@~2.5.0:
     psl "^1.1.28"
     punycode "^2.1.1"
 
+tr46@~0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/tr46/-/tr46-0.0.3.tgz#8184fd347dac9cdc185992f3a6622e14b9d9ab6a"
+  integrity sha1-gYT9NH2snNwYWZLzpmIuFLnZq2o=
+
 triple-beam@^1.2.0, triple-beam@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/triple-beam/-/triple-beam-1.3.0.tgz#a595214c7298db8339eeeee083e4d10bd8cb8dd9"
@@ -3079,6 +3035,19 @@ webcrypto-core@^1.1.6:
     asn1js "^2.0.26"
     pvtsutils "^1.0.11"
     tslib "^2.0.1"
+
+webidl-conversions@^3.0.0:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-3.0.1.tgz#24534275e2a7bc6be7bc86611cc16ae0a5654871"
+  integrity sha1-JFNCdeKnvGvnvIZhHMFq4KVlSHE=
+
+whatwg-url@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/whatwg-url/-/whatwg-url-5.0.0.tgz#966454e8765462e37644d3626f6742ce8b70965d"
+  integrity sha1-lmRU6HZUYuN2RNNib2dCzotwll0=
+  dependencies:
+    tr46 "~0.0.3"
+    webidl-conversions "^3.0.0"
 
 which-module@^2.0.0:
   version "2.0.0"
